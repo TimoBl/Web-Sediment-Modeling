@@ -22,6 +22,6 @@ def index():
 @app.route('/model')
 def model():
     m = GeoModel()
-    print(m.arch_table)
+    m.compute_surf(1)
 
     return "Tesssst"
