@@ -22,6 +22,10 @@ def index():
 @app.route('/model')
 def model():
     m = GeoModel()
-    m.compute_surf(1)
+    
+    # with three levels of simulation
+    m.compute_surf(2)
+    m.compute_facies(2)
+    m.compute_prop(1)
 
-    return "Tesssst"
+    return str(m.get_units_domains_realizations())
