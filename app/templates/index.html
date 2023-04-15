@@ -5,4 +5,8 @@
     {% for post in posts %}
     <div><p>{{ post.author.username }} says: <b>{{ post.body }}</b></p></div>
     {% endfor %}
+
+    <div>
+        <a href="{{ url_for('model') }}">Request Model</a>
+    </div>
 {% endblock %}
