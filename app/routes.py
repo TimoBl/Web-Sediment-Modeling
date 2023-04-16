@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, url_for
 from app import app, db
 from app.model import GeoModel
 from app.models import User
-from app.forms import LoginForm, RegistrationForm
+from app.forms import LoginForm, RegistrationForm, JobSubmissionForm
 from flask import request
 from werkzeug.urls import url_parse
 from flask_login import current_user, login_user, logout_user, login_required
@@ -82,14 +82,27 @@ def register():
 
 
 # run our computational model
-@app.route('/model')
+@app.route('/model', methods=['GET', 'POST'])
 @login_required # user needs to be logged in
 def model():
-    m = GeoModel()
-    
-    # with three levels of simulation
-    m.compute_surf(2)
-    m.compute_facies(2)
-    m.compute_prop(1)
 
-    return str(m.get_units_domains_realizations())
+    # get form
+    form = JobSubmissionForm()
+
+    # check if submission is valid
+    if form.validate_on_submit():
+        
+        # get model
+        dim = (form.width.data, form.height.data, form.depth.data)
+        m = GeoModel(form.name.data, dim)
+        
+        # with three levels of simulation
+        m.compute_surf(2)
+        m.compute_facies(2)
+        m.compute_prop(1)
+
+        return str(m.get_units_domains_realizations())
+
+
+    # otherwise send model form
+    return render_template('model.html', title='Model', form=form)#, user=user)

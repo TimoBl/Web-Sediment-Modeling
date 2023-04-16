@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, DecimalField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
 from app.models import User
 
@@ -32,3 +32,12 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Please use a different email address')
+
+
+# for simulation submission 
+class JobSubmissionForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()], default="Demo")
+    width =  IntegerField("Width", validators=[DataRequired()], default=50)
+    height =  IntegerField("Height", validators=[DataRequired()], default=50)
+    depth =  IntegerField("Depth", validators=[DataRequired()], default=50)
+    submit = SubmitField('run')

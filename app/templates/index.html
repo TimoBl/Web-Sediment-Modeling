@@ -3,10 +3,10 @@
 {% block content %}
     {% if not current_user.is_anonymous %}
         <h1>Hi, {{ current_user.username }}!</h1>
+        <p>
+            You can submit jobs <a href="{{ url_for('model') }}">here</a>
+        </p>
     {% else %}
         <h1>Hello stranger</h1>
     {% endif %}
-    <div>
-        <a href="{{ url_for('model') }}">Request Model</a>
-    </div>
 {% endblock %}
