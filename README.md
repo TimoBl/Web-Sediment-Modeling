@@ -7,12 +7,13 @@ We first have to install the dependencies with the command
 '''
 conda env create -f env_linux.yml
 '''
-Then we also have to install Geone and ArchPy separatly
+Then we also have to install Geone and ArchPy separately
 
 # Runining the project
 
 '''
-export FLASK_APP=microblog.py
+conda activate archpy_env
+export FLASK_APP=main.py
 flask run
 '''
 
