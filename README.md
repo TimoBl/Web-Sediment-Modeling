@@ -23,12 +23,12 @@ pip install .
 # Runining the project
 
 To run the application, we simply need to go in the app directory, activate the environment and then run.
-'''
+```
 cd app
 conda activate archpy_env
 export FLASK_APP=main.py
 flask run
-'''
+```
 
 # Ressources
 
