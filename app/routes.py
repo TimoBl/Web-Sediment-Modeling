@@ -94,7 +94,8 @@ def model():
         
         # get model
         dim = (form.width.data, form.height.data, form.depth.data)
-        m = GeoModel(form.name.data, dim)
+        spacing = (form.sw.data, form.sh.data, form.sd.data)
+        m = GeoModel(form.name.data, dim, spacing)
         
         # with three levels of simulation
         m.compute_surf(2)

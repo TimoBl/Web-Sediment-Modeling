@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, DecimalField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, DecimalField, FloatField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
 from app.models import User
 
@@ -37,7 +37,13 @@ class RegistrationForm(FlaskForm):
 # for simulation submission 
 class JobSubmissionForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()], default="Demo")
+
     width =  IntegerField("Width", validators=[DataRequired()], default=50)
     height =  IntegerField("Height", validators=[DataRequired()], default=50)
     depth =  IntegerField("Depth", validators=[DataRequired()], default=50)
+
+    sw =  FloatField("Spacing x", validators=[DataRequired()], default=1)
+    sh =  FloatField("Spacing y", validators=[DataRequired()], default=1)
+    sd =  FloatField("Spacing z", validators=[DataRequired()], default=0.1)
+
     submit = SubmitField('run')

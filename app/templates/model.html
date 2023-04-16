@@ -6,16 +6,33 @@
         {{ form.hidden_tag() }}
         <p>
             {{ form.name.label }}
-            {{ form.name(size=12) }}<br><br>
+            {{ form.name(size=12) }}<br>
 
+            <br>
+
+            Specify the grid dimensions<br>
             {{ form.width.label }}
-            {{ form.width(size=6) }}<br>
+            {{ form.width(size=4) }}<br>
 
             {{ form.height.label }}
-            {{ form.height(size=6) }}<br>
+            {{ form.height(size=4) }}<br>
 
             {{ form.depth.label }}
-            {{ form.depth(size=6) }}<br>
+            {{ form.depth(size=4) }}<br>
+
+            <br>
+
+            Specify the grid spacing<br>
+            {{ form.sw.label }}
+            {{ form.sw(size=4) }}<br>
+
+            {{ form.sh.label }}
+            {{ form.sh(size=4) }}<br>
+
+            {{ form.sd.label }}
+            {{ form.sd(size=4) }}<br>
+
+            <br>
 
             <p>{{ form.submit() }}</p>
         </p>

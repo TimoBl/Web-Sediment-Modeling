@@ -1,12 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <h1>ArchPy Geoportal</h1>
+
+    This is an online geoportal for geological simulation. 
+
     {% if not current_user.is_anonymous %}
-        <h1>Hi, {{ current_user.username }}!</h1>
         <p>
-            You can submit jobs <a href="{{ url_for('model') }}">here</a>
+            You can submit jobs <a href="{{ url_for('model') }}">here</a>.
         </p>
     {% else %}
-        <h1>Hello stranger</h1>
+        <p>
+            Please <a href="{{ url_for('login') }}">login</a> or <a href="{{ url_for('register') }}">register</a> to be able to submit models.
+        </p>
     {% endif %}
 {% endblock %}
