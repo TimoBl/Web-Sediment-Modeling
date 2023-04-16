@@ -1,38 +1,89 @@
 from flask import render_template, flash, redirect, url_for
-from app import app
+from app import app, db
 from app.model import GeoModel
-from app.forms import LoginForm
+from app.models import User
+from app.forms import LoginForm, RegistrationForm
+from flask import request
+from werkzeug.urls import url_parse
+from flask_login import current_user, login_user, logout_user, login_required
 
 
 @app.route('/')
 @app.route('/index')
 def index():
-    user = {'username': 'Timo'}
-    posts = [
-        {
-            'author': {'username': 'John'},
-            'body': 'Beautiful day in Portland!'
-        },
-        {
-            'author': {'username': 'Susan'},
-            'body': 'The Avengers movie was so cool!'
-        }
-    ]
-    return render_template('index.html', title='Home', user=user, posts=posts)
+    #user = {'username': 'Timo'}
+
+    return render_template('index.html', title='Home')#, user=user)
 
 
 @app.route('/login', methods=['GET', 'POST']) 
 def login():
+
+    # check if user is already authentificated
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+
+    # otherwise we submit a login form
     form = LoginForm()
 
-    if form.validate_on_submit(): # checks if all the submission is valid
-        flash('Login request for user {}, remember_me={}'.format(form.username.data, form.remember_me.data))
-        return redirect(url_for('index')) # redirect the user to the main page
+    # checks if all the submission is valid
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first() # find user
+
+        # check if username and password is correct
+        if user is None or not user.check_password(form.password.data):
+            flash('Invalid username or password')
+            return redirect(url_for('login'))
+
+        # we can log the user in
+        login_user(user, remember=form.remember_me.data)
+
+        # check if we need to redirect the user to a defined page
+        next_page = request.args.get('next')
+        if not next_page or url_parse(next_page).netloc != '':
+            next_page = url_for('index') # default
+
+        return redirect(next_page)
 
     return render_template('login.html', title='Sign in', form=form)
 
 
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+
+    # check if user is already authenticated
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+
+    # submit registration form 
+    form = RegistrationForm()
+
+    # check if all the submission is valid
+    if form.validate_on_submit():
+
+        # add user to database
+        user = User(username=form.username.data, email=form.email.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+
+        # we can log the user in
+        login_user(user, remember=False)
+        return redirect(url_for('index')) # we should log him 
+
+    # otherwise send registration form
+    return render_template('register.html', title='Register', form=form)
+
+
+# run our computational model
 @app.route('/model')
+@login_required # user needs to be logged in
 def model():
     m = GeoModel()
     
