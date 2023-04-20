@@ -1,0 +1,74 @@
+2023-04-20 20:00:33,312 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 748, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.InterfaceError: Error binding parameter 0 - probably unsupported type.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/home/timo/Documents/Prototype/app/routes.py", line 99, in model
+    db.session.commit()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/scoping.py", line 553, in commit
+    return self._proxied.commit()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 1903, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 1218, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 1193, in _prepare_impl
+    self.session.flush()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 4155, in flush
+    self._flush(objects)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 4291, in _flush
+    with util.safe_reraise():
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/util/langhelpers.py", line 147, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 4252, in _flush
+    flush_context.execute()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/unitofwork.py", line 467, in execute
+    rec.execute(self)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/unitofwork.py", line 644, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/persistence.py", line 1184, in _emit_insert_statements
+    result = connection.execute(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1414, in execute
+    return meth(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 486, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1638, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1842, in _execute_context
+    return self._exec_single_context(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1983, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2326, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 748, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.InterfaceError: (sqlite3.InterfaceError) Error binding parameter 0 - probably unsupported type.
+[SQL: INSERT INTO submission (name, timestamp, user_id) VALUES (?, ?, ?)]
+[parameters: (<wtforms.fields.simple.StringField object at 0x7f89b0d03b20>, '2023-04-20 18:00:33.312030', 1)]
+(Background on this error at: https://sqlalche.me/e/20/rvf5)
+2023-04-20 20:01:22,108 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]

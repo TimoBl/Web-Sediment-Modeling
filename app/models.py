@@ -1,9 +1,11 @@
 from app import db, login
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-
-
+from datetime import datetime
 # here we define the schema of the database
+
+
+# User class
 class User(UserMixin, db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	username = db.Column(db.String(64), index=True, unique=True)
@@ -18,12 +20,27 @@ class User(UserMixin, db.Model):
 		# here we compare the password to the hash
 		return check_password_hash(self.password_hash, password)
 
+	def get_submissions(self):
+		# returns user's submissions
+		own = Submission.query.filter_by(user_id=self.id) # we search for submissions with our id
+		return own.order_by(Submission.timestamp.desc()) # and return the newest first
+
 	def __repr__(self):
 		return '<User {}>'.format(self.username)
-
-
 
 @login.user_loader
 def load_user(id):
 	# loads a user given the id
 	return User.query.get(int(id))
+
+
+
+# Job Submission for calculations
+class Submission(db.Model):
+	id = db.Column(db.Integer, primary_key=True) # index of the submission
+	name = db.Column(db.String(20)) # same as project name 
+	timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # time of submission
+	user_id = db.Column(db.Integer, db.ForeignKey('user.id')) # id of user who submitted the job
+
+	def __repr__(self):
+		return 'Job {} from user {} submitted at {}'.format(self.name, self.user_id, self.timestamp.strftime("%m/%d/%Y, %H:%M"))

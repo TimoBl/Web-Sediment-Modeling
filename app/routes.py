@@ -1,19 +1,21 @@
 from flask import render_template, flash, redirect, url_for
 from app import app, db
 from app.model import GeoModel
-from app.models import User
+from app.models import User, Submission
 from app.forms import LoginForm, RegistrationForm, JobSubmissionForm
 from flask import request
 from werkzeug.urls import url_parse
 from flask_login import current_user, login_user, logout_user, login_required
 
 
+
 @app.route('/')
 @app.route('/index')
 def index():
     #user = {'username': 'Timo'}
+    submissions = current_user.get_submissions().all()
 
-    return render_template('index.html', title='Home')#, user=user)
+    return render_template('index.html', title='Home', submissions=submissions)
 
 
 @app.route('/login', methods=['GET', 'POST']) 
@@ -91,18 +93,24 @@ def model():
 
     # check if submission is valid
     if form.validate_on_submit():
+
+        submission = Submission(name=form.name.data, user_id=current_user.id)
+        # we disabled this for testing
+        #db.session.add(submission)
+        #db.session.commit()
+
         
         # get model
         dim = (form.width.data, form.height.data, form.depth.data)
         spacing = (form.sw.data, form.sh.data, form.sd.data)
-        m = GeoModel(form.name.data, dim, spacing)
+        #m = GeoModel(form.name.data, dim, spacing)
         
         # with three levels of simulation
-        m.compute_surf(2)
-        m.compute_facies(2)
-        m.compute_prop(1)
+        #m.compute_surf(2)
+        #m.compute_facies(2)
+        #m.compute_prop(1)
 
-        return str(m.get_units_domains_realizations())
+        return redirect(url_for('index')) #str(m.get_units_domains_realizations())
 
 
     # otherwise send model form

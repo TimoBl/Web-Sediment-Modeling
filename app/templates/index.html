@@ -7,6 +7,18 @@
 
     {% if not current_user.is_anonymous %}
         <p>
+            {% if submissions|length > 0 %}
+                <ul>
+                    {% for submission in submissions %}
+                        <li> {{ submission }} </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <i> No jobs were submitted </i>
+            {% endif %}
+        </p>
+
+        <p>
             You can submit jobs <a href="{{ url_for('model') }}">here</a>.
         </p>
     {% else %}

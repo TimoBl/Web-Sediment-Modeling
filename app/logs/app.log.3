@@ -1,0 +1,64 @@
+2023-04-20 19:52:33,983 ERROR: Exception on / [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/timo/Documents/Prototype/app/routes.py", line 15, in index
+    submissions = current_user.get_submissions().all()
+  File "/home/timo/Documents/Prototype/app/models.py", line 25, in get_submissions
+    own = Submission.query.filter_by(user_id==self.id) # we search for submissions with our id
+NameError: name 'user_id' is not defined
+2023-04-20 19:53:47,130 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]
+2023-04-20 19:53:53,166 ERROR: Exception on / [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/timo/Documents/Prototype/app/routes.py", line 15, in index
+    submissions = current_user.get_submissions().all()
+  File "/home/timo/Documents/Prototype/app/models.py", line 26, in get_submissions
+    return own.order_by(Post.timestamp.desc()) # and return the newest first
+NameError: name 'Post' is not defined
+2023-04-20 19:54:07,749 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]
+2023-04-20 19:54:11,611 ERROR: Exception on / [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/timo/Documents/Prototype/app/routes.py", line 15, in index
+    submissions = current_user.get_submissions().all()
+  File "/home/timo/Documents/Prototype/app/models.py", line 26, in get_submissions
+    return own.order_by(own.timestamp.desc()) # and return the newest first
+AttributeError: 'Query' object has no attribute 'timestamp'
+2023-04-20 19:54:13,295 ERROR: Exception on / [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/timo/Documents/Prototype/app/routes.py", line 15, in index
+    submissions = current_user.get_submissions().all()
+  File "/home/timo/Documents/Prototype/app/models.py", line 26, in get_submissions
+    return own.order_by(own.timestamp.desc()) # and return the newest first
+AttributeError: 'Query' object has no attribute 'timestamp'
+2023-04-20 19:54:44,152 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]
+2023-04-20 19:59:12,050 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]
