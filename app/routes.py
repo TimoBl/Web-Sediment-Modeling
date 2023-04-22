@@ -12,10 +12,14 @@ from flask_login import current_user, login_user, logout_user, login_required
 @app.route('/')
 @app.route('/index')
 def index():
-    #user = {'username': 'Timo'}
-    submissions = current_user.get_submissions().all()
+    # check if user is authenticated
+    if current_user.is_authenticated:
 
-    return render_template('index.html', title='Home', submissions=submissions)
+        # if yes can show submissons
+        submissions = current_user.get_submissions().all()
+        return render_template('index.html', title='Home', submissions=submissions)
+    
+    return render_template('index.html', title='Home')
 
 
 @app.route('/login', methods=['GET', 'POST']) 
@@ -50,12 +54,14 @@ def login():
     return render_template('login.html', title='Sign in', form=form)
 
 
+# logs the user our
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
 
 
+# registers a user
 @app.route('/register', methods=['GET', 'POST'])
 def register():
 
@@ -83,7 +89,7 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 
-# run our computational model
+# submit job
 @app.route('/model', methods=['GET', 'POST'])
 @login_required # user needs to be logged in
 def model():
@@ -93,11 +99,12 @@ def model():
 
     # check if submission is valid
     if form.validate_on_submit():
+        # maybe add a seperate submission page
 
+        # submit job
         submission = Submission(name=form.name.data, user_id=current_user.id)
-        # we disabled this for testing
-        #db.session.add(submission)
-        #db.session.commit()
+        db.session.add(submission)
+        db.session.commit()
 
         
         # get model
@@ -109,9 +116,28 @@ def model():
         #m.compute_surf(2)
         #m.compute_facies(2)
         #m.compute_prop(1)
+        return redirect(url_for('index'))
 
-        return redirect(url_for('index')) #str(m.get_units_domains_realizations())
+    return render_template('model.html', title='Model', form=form)#, user=user) #str(m.get_units_domains_realizations())
 
 
-    # otherwise send model form
-    return render_template('model.html', title='Model', form=form)#, user=user)
+# deletes a submission
+@app.route('/delete', methods=['GET', 'POST'])
+@login_required # user needs to be logged in
+def delete():
+
+    # get the submission id
+    submission_id = request.args.get('id', None)
+
+    # find submission
+    submission = Submission.query.filter_by(id=submission_id).first() # find user
+
+    # check if submission is valid and from the same user
+    if submission is not None and submission.user_id==current_user.id:
+        db.session.delete(submission)
+        db.session.commit()
+        flash('Submission {} was deleted'.format(submission_id))
+    else:
+        flash('Submission {} could not be deleted'.format(submission_id))
+
+    return redirect(url_for('index'))

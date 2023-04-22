@@ -1,4 +1,4 @@
-2023-04-20 20:00:33,312 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+2023-04-20 20:01:28,874 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1964, in _exec_single_context
     self.dialect.do_execute(
@@ -19,7 +19,7 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 99, in model
+  File "/home/timo/Documents/Prototype/app/routes.py", line 101, in model
     db.session.commit()
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/scoping.py", line 553, in commit
     return self._proxied.commit()
@@ -69,6 +69,58 @@ Traceback (most recent call last):
     cursor.execute(statement, parameters)
 sqlalchemy.exc.InterfaceError: (sqlite3.InterfaceError) Error binding parameter 0 - probably unsupported type.
 [SQL: INSERT INTO submission (name, timestamp, user_id) VALUES (?, ?, ?)]
-[parameters: (<wtforms.fields.simple.StringField object at 0x7f89b0d03b20>, '2023-04-20 18:00:33.312030', 1)]
+[parameters: (<wtforms.fields.simple.StringField object at 0x7f1f89f2fb20>, '2023-04-20 18:01:28.874147', 1)]
 (Background on this error at: https://sqlalche.me/e/20/rvf5)
-2023-04-20 20:01:22,108 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]
+2023-04-20 20:02:04,902 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]
+2023-04-20 20:03:39,259 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]
+2023-04-20 20:04:56,783 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]
+2023-04-20 20:05:01,165 ERROR: Exception on /index [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/timo/Documents/Prototype/app/routes.py", line 17, in index
+    return render_template('index.html', title='Home', submissions=submissions)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/templating.py", line 147, in render_template
+    return _render(app, template, context)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/templating.py", line 130, in _render
+    rv = template.render(context)
+  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/home/timo/Documents/Prototype/app/templates/index.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "/home/timo/Documents/Prototype/app/templates/base.html", line 37, in top-level template code
+    {% block content %}
+  File "/home/timo/Documents/Prototype/app/templates/index.html", line 13, in block 'content'
+    <li> {{ submission }} </li>
+  File "/home/timo/Documents/Prototype/app/models.py", line 46, in __repr__
+    return '<Job {} from user {} submitted at {"%m/%d/%Y, %H:%M"}>'.format(self.name, self.user_id, self.timestamp)
+KeyError: '"%m/%d/%Y, %H'
+2023-04-20 20:05:46,519 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]
+2023-04-22 17:11:08,690 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]
+2023-04-22 17:11:19,536 ERROR: Exception on /delete [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1826, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1845, in finalize_request
+    response = self.make_response(rv)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2137, in make_response
+    raise TypeError(
+TypeError: The view function for 'delete' did not return a valid response. The function either returned None or ended without a return statement.
+2023-04-22 17:15:08,071 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]
+2023-04-22 17:15:41,079 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]
+2023-04-22 17:20:01,771 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]
+2023-04-22 17:27:19,353 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]
+2023-04-22 17:27:56,089 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]
+2023-04-22 17:29:06,137 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]
+2023-04-22 17:29:25,403 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]
+2023-04-22 17:34:32,609 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]

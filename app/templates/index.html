@@ -10,7 +10,7 @@
             {% if submissions|length > 0 %}
                 <ul>
                     {% for submission in submissions %}
-                        <li> {{ submission }} </li>
+                        <li> {{ submission }} <a href="{{ url_for('delete', id=submission.id) }}">delete</a></li>
                     {% endfor %}
                 </ul>
             {% else %}
@@ -26,4 +26,4 @@
             Please <a href="{{ url_for('login') }}">login</a> or <a href="{{ url_for('register') }}">register</a> to be able to submit models.
         </p>
     {% endif %}
-{% endblock %}
+{% endblock %} 
