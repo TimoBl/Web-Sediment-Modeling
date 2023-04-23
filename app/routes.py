@@ -1,5 +1,6 @@
 from flask import render_template, flash, redirect, url_for
 from app import app, db
+from app import celery_handler as celery
 from app.model import GeoModel
 from app.models import User, Submission
 from app.forms import LoginForm, RegistrationForm, JobSubmissionForm
@@ -99,26 +100,41 @@ def model():
 
     # check if submission is valid
     if form.validate_on_submit():
-        # maybe add a seperate submission page
 
-        # submit job
+        # show job submission
         submission = Submission(name=form.name.data, user_id=current_user.id)
         db.session.add(submission)
         db.session.commit()
 
-        
-        # get model
+        # get variables
+        name = form.name.data
         dim = (form.width.data, form.height.data, form.depth.data)
         spacing = (form.sw.data, form.sh.data, form.sd.data)
-        #m = GeoModel(form.name.data, dim, spacing)
+
+        # perform async caclulation
+        run_job.apply_async(args=[name, dim, spacing])
         
-        # with three levels of simulation
-        #m.compute_surf(2)
-        #m.compute_facies(2)
-        #m.compute_prop(1)
         return redirect(url_for('index'))
 
     return render_template('model.html', title='Model', form=form)#, user=user) #str(m.get_units_domains_realizations())
+
+
+
+# run job asynchronously
+@celery.task(bind=True)
+def run_job(self, name, dim, spacing):
+    print(name)
+
+    m = GeoModel(name, dim, spacing)
+    
+    # with three levels of simulation
+    #m.compute_surf(2)
+    #m.compute_facies(1)
+    #m.compute_prop(1)
+    print(m)
+
+    return "finished"
+
 
 
 # deletes a submission

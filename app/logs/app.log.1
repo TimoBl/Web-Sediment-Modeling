@@ -1,10 +1,84 @@
-2023-04-20 20:01:28,874 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+2023-04-23 15:13:45,754 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+2023-04-23 15:14:14,194 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1964, in _exec_single_context
-    self.dialect.do_execute(
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 748, in do_execute
-    cursor.execute(statement, parameters)
-sqlite3.InterfaceError: Error binding parameter 0 - probably unsupported type.
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 698, in connect
+    sock = self.retry.call_with_retry(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/retry.py", line 46, in call_with_retry
+    return do()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 699, in <lambda>
+    lambda: self._connect(), lambda error: self.disconnect(error)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 987, in _connect
+    raise err
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 975, in _connect
+    sock.connect(socket_address)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/backends/redis.py", line 119, in reconnect_on_error
+    yield
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/backends/redis.py", line 169, in _consume_from
+    self._pubsub.subscribe(key)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/client.py", line 1623, in subscribe
+    ret_val = self.execute_command("SUBSCRIBE", *new_channels.keys())
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/client.py", line 1458, in execute_command
+    self.connection = self.connection_pool.get_connection(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 1442, in get_connection
+    connection.connect()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 704, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 111 connecting to localhost:6379. Connection refused.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 698, in connect
+    sock = self.retry.call_with_retry(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/retry.py", line 46, in call_with_retry
+    return do()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 699, in <lambda>
+    lambda: self._connect(), lambda error: self.disconnect(error)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 987, in _connect
+    raise err
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 975, in _connect
+    sock.connect(socket_address)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/kombu/connection.py", line 446, in _reraise_as_library_errors
+    yield
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/app/base.py", line 787, in send_task
+    self.backend.on_task_call(P, task_id)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/backends/redis.py", line 365, in on_task_call
+    self.result_consumer.consume_from(task_id)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/backends/redis.py", line 161, in consume_from
+    return self.start(task_id)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/backends/redis.py", line 139, in start
+    self._consume_from(initial_task_id)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/backends/redis.py", line 168, in _consume_from
+    with self.reconnect_on_error():
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/backends/redis.py", line 122, in reconnect_on_error
+    self._ensure(self._reconnect_pubsub, ())
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/backends/redis.py", line 376, in ensure
+    return retry_over_time(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/kombu/utils/functional.py", line 312, in retry_over_time
+    return fun(*args, **kwargs)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/backends/redis.py", line 106, in _reconnect_pubsub
+    metas = self.backend.client.mget(self.subscribed_to)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/commands/core.py", line 1976, in mget
+    return self.execute_command("MGET", *args, **options)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/client.py", line 1255, in execute_command
+    conn = self.connection or pool.get_connection(command_name, **options)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 1442, in get_connection
+    connection.connect()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 704, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 111 connecting to localhost:6379. Connection refused.
 
 The above exception was the direct cause of the following exception:
 
@@ -19,108 +93,20 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 101, in model
-    db.session.commit()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/scoping.py", line 553, in commit
-    return self._proxied.commit()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 1903, in commit
-    trans.commit(_to_root=True)
-  File "<string>", line 2, in commit
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/state_changes.py", line 137, in _go
-    ret_value = fn(self, *arg, **kw)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 1218, in commit
-    self._prepare_impl()
-  File "<string>", line 2, in _prepare_impl
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/state_changes.py", line 137, in _go
-    ret_value = fn(self, *arg, **kw)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 1193, in _prepare_impl
-    self.session.flush()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 4155, in flush
-    self._flush(objects)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 4291, in _flush
-    with util.safe_reraise():
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/util/langhelpers.py", line 147, in __exit__
-    raise exc_value.with_traceback(exc_tb)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 4252, in _flush
-    flush_context.execute()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/unitofwork.py", line 467, in execute
-    rec.execute(self)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/unitofwork.py", line 644, in execute
-    util.preloaded.orm_persistence.save_obj(
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
-    _emit_insert_statements(
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/persistence.py", line 1184, in _emit_insert_statements
-    result = connection.execute(
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1414, in execute
-    return meth(
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 486, in _execute_on_connection
-    return connection._execute_clauseelement(
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1638, in _execute_clauseelement
-    ret = self._execute_context(
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1842, in _execute_context
-    return self._exec_single_context(
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1983, in _exec_single_context
-    self._handle_dbapi_exception(
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2326, in _handle_dbapi_exception
-    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1964, in _exec_single_context
-    self.dialect.do_execute(
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 748, in do_execute
-    cursor.execute(statement, parameters)
-sqlalchemy.exc.InterfaceError: (sqlite3.InterfaceError) Error binding parameter 0 - probably unsupported type.
-[SQL: INSERT INTO submission (name, timestamp, user_id) VALUES (?, ?, ?)]
-[parameters: (<wtforms.fields.simple.StringField object at 0x7f1f89f2fb20>, '2023-04-20 18:01:28.874147', 1)]
-(Background on this error at: https://sqlalche.me/e/20/rvf5)
-2023-04-20 20:02:04,902 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]
-2023-04-20 20:03:39,259 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]
-2023-04-20 20:04:56,783 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]
-2023-04-20 20:05:01,165 ERROR: Exception on /index [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
-Traceback (most recent call last):
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 17, in index
-    return render_template('index.html', title='Home', submissions=submissions)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/templating.py", line 147, in render_template
-    return _render(app, template, context)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/templating.py", line 130, in _render
-    rv = template.render(context)
-  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 1301, in render
-    self.environment.handle_exception()
-  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 936, in handle_exception
-    raise rewrite_traceback_stack(source=source)
-  File "/home/timo/Documents/Prototype/app/templates/index.html", line 1, in top-level template code
-    {% extends "base.html" %}
-  File "/home/timo/Documents/Prototype/app/templates/base.html", line 37, in top-level template code
-    {% block content %}
-  File "/home/timo/Documents/Prototype/app/templates/index.html", line 13, in block 'content'
-    <li> {{ submission }} </li>
-  File "/home/timo/Documents/Prototype/app/models.py", line 46, in __repr__
-    return '<Job {} from user {} submitted at {"%m/%d/%Y, %H:%M"}>'.format(self.name, self.user_id, self.timestamp)
-KeyError: '"%m/%d/%Y, %H'
-2023-04-20 20:05:46,519 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]
-2023-04-22 17:11:08,690 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]
-2023-04-22 17:11:19,536 ERROR: Exception on /delete [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
-Traceback (most recent call last):
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1826, in full_dispatch_request
-    return self.finalize_request(rv)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1845, in finalize_request
-    response = self.make_response(rv)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2137, in make_response
-    raise TypeError(
-TypeError: The view function for 'delete' did not return a valid response. The function either returned None or ended without a return statement.
-2023-04-22 17:15:08,071 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]
-2023-04-22 17:15:41,079 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]
-2023-04-22 17:20:01,771 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]
-2023-04-22 17:27:19,353 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]
-2023-04-22 17:27:56,089 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]
-2023-04-22 17:29:06,137 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]
-2023-04-22 17:29:25,403 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]
-2023-04-22 17:34:32,609 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:32]
+  File "/home/timo/Documents/Prototype/app/routes.py", line 115, in model
+    run_job.apply_async(args=[name, dim, spacing])
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/app/task.py", line 575, in apply_async
+    return app.send_task(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/app/base.py", line 785, in send_task
+    with P.connection._reraise_as_library_errors():
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/kombu/connection.py", line 450, in _reraise_as_library_errors
+    raise ConnectionError(str(exc)) from exc
+kombu.exceptions.OperationalError: Error 111 connecting to localhost:6379. Connection refused.
+2023-04-23 15:22:28,016 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+2023-04-23 15:28:52,406 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+2023-04-23 15:30:53,803 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+2023-04-23 15:32:24,329 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+2023-04-23 15:34:03,181 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+2023-04-23 15:37:06,475 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]

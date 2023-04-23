@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 import logging
 from logging.handlers import RotatingFileHandler
+from celery import Celery
 
 
 # app
@@ -32,6 +33,12 @@ if not app.debug:
     app.logger.info('Application')
 
 
+# asynchronous jobs through celerey
+app.config['CELERY_BROKER_URL'] = 'redis://127.0.0.1:6379/0' # if we want a broker on a different machine
+app.config['CELERY_RESULT_BACKEND'] = 'redis://127.0.0.1:6379/0'
+
+celery_handler = Celery(app.name, broker=app.config['CELERY_BROKER_URL'], backend=app.config['CELERY_RESULT_BACKEND'])
+celery_handler.conf.update(app.config)
+
+
 from app import routes, models, errors
-
-
