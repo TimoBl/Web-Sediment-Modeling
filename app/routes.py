@@ -5,6 +5,8 @@ from app.forms import LoginForm, RegistrationForm, JobSubmissionForm
 from flask import request
 from werkzeug.urls import url_parse
 from flask_login import current_user, login_user, logout_user, login_required
+import os
+from rq.job import Job
 
 
 @app.route('/')
@@ -79,6 +81,13 @@ def register():
         db.session.add(user)
         db.session.commit()
 
+        # create output directory for user (this)
+        try:
+            os.mkdir(os.path.join("output", str(user.id))) 
+        except Exception as e:
+            print("Could not create directory for user {}!".format(d))
+            print(e)
+
         # we can log the user in
         login_user(user, remember=False)
         return redirect(url_for('index')) # we should log him 
@@ -104,16 +113,19 @@ def model():
         spacing = (form.sw.data, form.sh.data, form.sd.data)
                            
         # get the job into queue
-        rq_job = app.task_queue.enqueue('app.tasks.run_geo_model', name, dim, spacing)
+        job = Job.create('tasks.run_geo_model', args=(name, dim, spacing), connection=app.redis)
+        rq_job = app.task_queue.enqueue_job(job)
 
-        print(rq_job)
+        # here implement callback from job to create application dictionary and so on....
+        
 
         # show job submission
         submission = Submission(id=rq_job.get_id(), name=form.name.data, user_id=current_user.id)
         db.session.add(submission)
         db.session.commit()
 
-        print(submission.get_rq_job())
+        sub = submission.get_rq_job()
+        print(sub)
         
         return redirect(url_for('index'))
 

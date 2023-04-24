@@ -1,4 +1,49 @@
-2023-04-24 14:33:20,967 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+2023-04-24 10:33:34,405 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/home/timo/Documents/Prototype/app/routes.py", line 113, in model
+    run_geo_model.apply_async(args=[name, dim, spacing])
+NameError: name 'run_geo_model' is not defined
+2023-04-24 11:12:38,651 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+2023-04-24 11:12:47,477 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+2023-04-24 11:14:48,576 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+2023-04-24 12:18:21,124 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+2023-04-24 14:01:57,166 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+2023-04-24 14:02:29,803 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+2023-04-24 14:11:28,056 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+2023-04-24 14:12:59,976 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+2023-04-24 14:13:54,879 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+2023-04-24 14:17:16,433 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+2023-04-24 14:20:50,055 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+2023-04-24 14:20:53,942 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/home/timo/Documents/Prototype/app/routes.py", line 108, in model
+    print(current_app.task_queue)
+NameError: name 'current_app' is not defined
+2023-04-24 14:21:20,411 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+2023-04-24 14:23:20,011 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+2023-04-24 14:24:54,430 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+2023-04-24 14:27:49,721 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+2023-04-24 14:27:54,955 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -15,33 +60,8 @@ Traceback (most recent call last):
   File "/home/timo/Documents/Prototype/app/models.py", line 50, in get_rq_job
     rq_job = rq.job.Job.fetch(self.id, connection=app.redis)
 NameError: name 'app' is not defined
-2023-04-24 14:34:31,000 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:34:41,642 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
-Traceback (most recent call last):
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 114, in model
-    print(submission.get_rq_job())
-  File "/home/timo/Documents/Prototype/app/models.py", line 50, in get_rq_job
-    rq_job = rq.job.Job.fetch(self.id, connection=app.redis)
-NameError: name 'app' is not defined
-2023-04-24 14:35:23,856 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:35:27,022 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
-Traceback (most recent call last):
-  File "/home/timo/Documents/Prototype/app/models.py", line 50, in get_rq_job
-    rq_job = rq.job.Job.fetch(self.id, connection=app.redis)
-NameError: name 'rq' is not defined
-
-During handling of the above exception, another exception occurred:
-
+2023-04-24 14:29:15,794 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+2023-04-24 14:29:18,607 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -56,10 +76,32 @@ Traceback (most recent call last):
   File "/home/timo/Documents/Prototype/app/routes.py", line 114, in model
     print(submission.get_rq_job())
   File "/home/timo/Documents/Prototype/app/models.py", line 51, in get_rq_job
-    except (redis.exceptions.RedisError, rq.exceptions.NoSuchJobError):
-NameError: name 'redis' is not defined
-2023-04-24 14:35:47,532 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:35:50,113 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+    rq_job = rq.job.Job.fetch(self.id, connection=app.redis)
+AttributeError: module 'app' has no attribute 'redis'
+2023-04-24 14:30:56,663 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+2023-04-24 14:30:59,117 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/home/timo/Documents/Prototype/app/routes.py", line 114, in model
+    print(submission.get_rq_job())
+  File "/home/timo/Documents/Prototype/app/models.py", line 50, in get_rq_job
+    rq_job = rq.job.Job.fetch(self.id, connection=redis)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 521, in fetch
+    job.refresh()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 896, in refresh
+    data = self.connection.hgetall(self.key)
+AttributeError: module 'redis' has no attribute 'hgetall'
+2023-04-24 14:33:05,125 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+2023-04-24 14:33:11,840 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -76,56 +118,3 @@ Traceback (most recent call last):
   File "/home/timo/Documents/Prototype/app/models.py", line 50, in get_rq_job
     rq_job = rq.job.Job.fetch(self.id, connection=app.redis)
 NameError: name 'app' is not defined
-2023-04-24 14:37:36,223 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:37:41,003 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
-Traceback (most recent call last):
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 114, in model
-    print(submission.get_rq_job())
-  File "/home/timo/Documents/Prototype/app/models.py", line 49, in get_rq_job
-    rq_job = rq.job.Job.fetch(self.id, connection=app.redis)
-NameError: name 'app' is not defined
-2023-04-24 14:38:17,599 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:38:58,491 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:39:03,235 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
-Traceback (most recent call last):
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 114, in model
-    print(submission.get_rq_job())
-  File "/home/timo/Documents/Prototype/app/models.py", line 49, in get_rq_job
-    rq_job = rq.job.Job.fetch(self.id, connection=app.redis)
-NameError: name 'app' is not defined
-2023-04-24 14:40:20,551 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:40:23,258 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
-Traceback (most recent call last):
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 113, in model
-    print(rq.job.Job.fetch(submission.id, connection=app.redis))
-NameError: name 'rq' is not defined

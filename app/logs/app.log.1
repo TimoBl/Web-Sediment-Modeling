@@ -1,4 +1,4 @@
-2023-04-24 14:33:20,967 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+2023-04-24 16:42:04,003 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -10,13 +10,16 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 114, in model
-    print(submission.get_rq_job())
-  File "/home/timo/Documents/Prototype/app/models.py", line 50, in get_rq_job
-    rq_job = rq.job.Job.fetch(self.id, connection=app.redis)
-NameError: name 'app' is not defined
-2023-04-24 14:34:31,000 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:34:41,642 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+  File "/home/timo/Documents/Prototype/app/routes.py", line 115, in model
+    job = Job.create('tasks.run_geo_model', args=(name, dim, spacing))
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 212, in create
+    job = cls(connection=connection, serializer=serializer)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 558, in __init__
+    self.connection = resolve_connection(connection)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/connections.py", line 115, in resolve_connection
+    raise NoRedisConnectionException('Could not resolve a Redis connection')
+rq.connections.NoRedisConnectionException: Could not resolve a Redis connection
+2023-04-24 16:42:08,722 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -28,20 +31,17 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 114, in model
-    print(submission.get_rq_job())
-  File "/home/timo/Documents/Prototype/app/models.py", line 50, in get_rq_job
-    rq_job = rq.job.Job.fetch(self.id, connection=app.redis)
-NameError: name 'app' is not defined
-2023-04-24 14:35:23,856 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:35:27,022 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
-Traceback (most recent call last):
-  File "/home/timo/Documents/Prototype/app/models.py", line 50, in get_rq_job
-    rq_job = rq.job.Job.fetch(self.id, connection=app.redis)
-NameError: name 'rq' is not defined
-
-During handling of the above exception, another exception occurred:
-
+  File "/home/timo/Documents/Prototype/app/routes.py", line 115, in model
+    job = Job.create('tasks.run_geo_model', args=(name, dim, spacing))
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 212, in create
+    job = cls(connection=connection, serializer=serializer)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 558, in __init__
+    self.connection = resolve_connection(connection)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/connections.py", line 115, in resolve_connection
+    raise NoRedisConnectionException('Could not resolve a Redis connection')
+rq.connections.NoRedisConnectionException: Could not resolve a Redis connection
+2023-04-24 16:45:02,998 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 16:45:06,450 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -53,13 +53,11 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 114, in model
-    print(submission.get_rq_job())
-  File "/home/timo/Documents/Prototype/app/models.py", line 51, in get_rq_job
-    except (redis.exceptions.RedisError, rq.exceptions.NoSuchJobError):
-NameError: name 'redis' is not defined
-2023-04-24 14:35:47,532 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:35:50,113 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+  File "/home/timo/Documents/Prototype/app/routes.py", line 115, in model
+    job = Job('tasks.run_geo_model', name, dim, spacing)
+TypeError: Job.__init__() takes from 1 to 4 positional arguments but 5 were given
+2023-04-24 16:45:26,120 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 16:45:29,116 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -71,13 +69,11 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 114, in model
-    print(submission.get_rq_job())
-  File "/home/timo/Documents/Prototype/app/models.py", line 50, in get_rq_job
-    rq_job = rq.job.Job.fetch(self.id, connection=app.redis)
-NameError: name 'app' is not defined
-2023-04-24 14:37:36,223 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:37:41,003 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+  File "/home/timo/Documents/Prototype/app/routes.py", line 115, in model
+    job = Job('tasks.run_geo_model', args=(name, dim, spacing))
+TypeError: Job.__init__() got an unexpected keyword argument 'args'
+2023-04-24 16:47:01,613 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 16:47:04,481 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -89,14 +85,17 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 114, in model
-    print(submission.get_rq_job())
-  File "/home/timo/Documents/Prototype/app/models.py", line 49, in get_rq_job
-    rq_job = rq.job.Job.fetch(self.id, connection=app.redis)
-NameError: name 'app' is not defined
-2023-04-24 14:38:17,599 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:38:58,491 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:39:03,235 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+  File "/home/timo/Documents/Prototype/app/routes.py", line 115, in model
+    job = Job.create('tasks.run_geo_model', args=(name, dim, spacing))
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 212, in create
+    job = cls(connection=connection, serializer=serializer)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 558, in __init__
+    self.connection = resolve_connection(connection)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/connections.py", line 115, in resolve_connection
+    raise NoRedisConnectionException('Could not resolve a Redis connection')
+rq.connections.NoRedisConnectionException: Could not resolve a Redis connection
+2023-04-24 16:47:35,730 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 16:47:40,885 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -108,24 +107,13 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 114, in model
-    print(submission.get_rq_job())
-  File "/home/timo/Documents/Prototype/app/models.py", line 49, in get_rq_job
-    rq_job = rq.job.Job.fetch(self.id, connection=app.redis)
-NameError: name 'app' is not defined
-2023-04-24 14:40:20,551 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:40:23,258 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
-Traceback (most recent call last):
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 113, in model
-    print(rq.job.Job.fetch(submission.id, connection=app.redis))
-NameError: name 'rq' is not defined
+  File "/home/timo/Documents/Prototype/app/routes.py", line 115, in model
+    job = Job.create('tasks.run_geo_model', args=(name, dim, spacing))
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 212, in create
+    job = cls(connection=connection, serializer=serializer)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 558, in __init__
+    self.connection = resolve_connection(connection)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/connections.py", line 115, in resolve_connection
+    raise NoRedisConnectionException('Could not resolve a Redis connection')
+rq.connections.NoRedisConnectionException: Could not resolve a Redis connection
+2023-04-24 16:53:26,969 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]

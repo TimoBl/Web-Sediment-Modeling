@@ -30,6 +30,16 @@ export FLASK_APP=main.py
 flask run
 ```
 
+```
+cd app
+conda activate archpy_env
+rq worker submission-tasks
+```
+
+```
+redis-server
+``
+
 # Ressources
 
 * https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iii-web-forms

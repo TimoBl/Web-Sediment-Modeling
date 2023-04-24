@@ -1,6 +1,4 @@
-2023-04-24 14:41:57,926 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:42:23,745 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:42:31,973 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+2023-04-24 16:53:32,741 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -12,22 +10,19 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 113, in model
-    print(submission.get_rq_job())
-  File "/home/timo/Documents/Prototype/app/models.py", line 49, in get_rq_job
-    rq_job = rq.job.Job.fetch(self.id, connection=app.redis)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 521, in fetch
-    job.refresh()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 896, in refresh
-    data = self.connection.hgetall(self.key)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 676, in key
-    return self.key_for(self.id)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 659, in key_for
-    return (cls.redis_job_namespace_prefix + job_id).encode('utf-8')
-TypeError: can only concatenate str (not "int") to str
-2023-04-24 14:45:39,554 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:45:56,745 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:45:59,827 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+  File "/home/timo/Documents/Prototype/app/routes.py", line 118, in model
+    rq_job = app.task_queue.enqueue(job)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/queue.py", line 877, in enqueue
+    return self.enqueue_call(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/queue.py", line 649, in enqueue_call
+    job = self.create_job(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/queue.py", line 519, in create_job
+    job = self.job_class.create(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 232, in create
+    raise TypeError('Expected a callable or a string, but got: {0}'.format(func))
+TypeError: Expected a callable or a string, but got: <Job a8e2c0b4-6a2e-4699-aebf-a6d64e0dce05: tasks.run_geo_model('Demo', (50, 50, 50), (1.0, 1.0, 0.1))>
+2023-04-24 16:54:07,994 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 16:54:13,272 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -39,72 +34,15 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 113, in model
-    print(submission.get_rq_job())
-  File "/home/timo/Documents/Prototype/app/models.py", line 49, in get_rq_job
-    rq_job = rq.job.Job.fetch(self.id, connection=app.redis)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 521, in fetch
-    job.refresh()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 896, in refresh
-    data = self.connection.hgetall(self.key)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 676, in key
-    return self.key_for(self.id)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 659, in key_for
-    return (cls.redis_job_namespace_prefix + job_id).encode('utf-8')
-TypeError: can only concatenate str (not "int") to str
-2023-04-24 14:46:40,046 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:46:42,459 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
-Traceback (most recent call last):
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 113, in model
-    print(submission.get_rq_job().meta.get('status', 0))
-  File "/home/timo/Documents/Prototype/app/models.py", line 49, in get_rq_job
-    rq_job = rq.job.Job.fetch(self.id, connection=app.redis)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 521, in fetch
-    job.refresh()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 896, in refresh
-    data = self.connection.hgetall(self.key)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 676, in key
-    return self.key_for(self.id)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 659, in key_for
-    return (cls.redis_job_namespace_prefix + job_id).encode('utf-8')
-TypeError: can only concatenate str (not "int") to str
-2023-04-24 14:47:53,962 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:47:56,474 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
-Traceback (most recent call last):
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 115, in model
-    print(submission.get_rq_job().meta.get('status', 0))
-  File "/home/timo/Documents/Prototype/app/models.py", line 49, in get_rq_job
-    rq_job = rq.job.Job.fetch(self.id, connection=app.redis)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 521, in fetch
-    job.refresh()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 896, in refresh
-    data = self.connection.hgetall(self.key)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 676, in key
-    return self.key_for(self.id)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 659, in key_for
-    return (cls.redis_job_namespace_prefix + job_id).encode('utf-8')
-TypeError: can only concatenate str (not "int") to str
-2023-04-24 14:52:23,960 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:52:33,695 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:52:40,235 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:53:14,234 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+  File "/home/timo/Documents/Prototype/app/routes.py", line 118, in model
+    rq_job = app.task_queue.enqueue(job)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/queue.py", line 877, in enqueue
+    return self.enqueue_call(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/queue.py", line 649, in enqueue_call
+    job = self.create_job(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/queue.py", line 519, in create_job
+    job = self.job_class.create(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 232, in create
+    raise TypeError('Expected a callable or a string, but got: {0}'.format(func))
+TypeError: Expected a callable or a string, but got: <Job fee4e2c5-8d39-4c5d-a63c-c7390f94feb6: tasks.run_geo_model('Demo', (50, 50, 50), (1.0, 1.0, 0.1))>
+2023-04-24 16:54:48,910 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
