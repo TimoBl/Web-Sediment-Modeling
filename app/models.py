@@ -51,5 +51,11 @@ class Submission(db.Model):
 			return None
 		return rq_job
 
+	def get_status(self):
+		job = self.get_rq_job()
+		status = job.meta.get('status', 0) if job is not None else -1
+		self.status = status
+		return status
+
 	def __repr__(self):
-		return 'Job {} from user {} submitted at {}'.format(self.name, self.user_id, self.timestamp.strftime("%m/%d/%Y, %H:%M"))
+		return '{}, user: {}, {}, Stat {}'.format(self.name, self.user_id, self.timestamp.strftime("%m/%d/%Y, %H:%M"), self.status)

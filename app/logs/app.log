@@ -46,3 +46,11 @@ Traceback (most recent call last):
     raise TypeError('Expected a callable or a string, but got: {0}'.format(func))
 TypeError: Expected a callable or a string, but got: <Job fee4e2c5-8d39-4c5d-a63c-c7390f94feb6: tasks.run_geo_model('Demo', (50, 50, 50), (1.0, 1.0, 0.1))>
 2023-04-24 16:54:48,910 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 20:03:02,244 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 20:06:50,376 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 20:13:13,552 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 20:28:32,714 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 20:30:09,903 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 20:32:35,451 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 20:37:39,290 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 20:38:09,151 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]

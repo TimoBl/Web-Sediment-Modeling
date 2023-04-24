@@ -111,13 +111,20 @@ def model():
         name = form.name.data
         dim = (form.width.data, form.height.data, form.depth.data)
         spacing = (form.sw.data, form.sh.data, form.sd.data)
+
+
+        def success_job():
+            pass
+
+        def failure_job():
+            pass
+
                            
         # get the job into queue
         job = Job.create('tasks.run_geo_model', args=(name, dim, spacing), connection=app.redis)
-        rq_job = app.task_queue.enqueue_job(job)
+        rq_job = app.task_queue.enqueue_job(job, on_success=Callback(success_job), on_failure=Callback(failure_job))
 
-        # here implement callback from job to create application dictionary and so on....
-        
+        # here implement callback from job to create application dictionary and so on.... 
 
         # show job submission
         submission = Submission(id=rq_job.get_id(), name=form.name.data, user_id=current_user.id)
@@ -125,6 +132,9 @@ def model():
         db.session.commit()
 
         sub = submission.get_rq_job()
+        print(sub)
+
+        sub = submission.get_status()
         print(sub)
         
         return redirect(url_for('index'))
