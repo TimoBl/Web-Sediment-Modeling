@@ -1,8 +1,10 @@
-from app import db, login
+# here we define the schema of the database
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from datetime import datetime
-# here we define the schema of the database
+import redis
+import rq
+from app import app, db, login
 
 
 # User class
@@ -34,10 +36,9 @@ def load_user(id):
 	return User.query.get(int(id))
 
 
-
 # Job Submission for calculations
 class Submission(db.Model):
-	id = db.Column(db.Integer, primary_key=True) # index of the submission
+	id = db.Column(db.String(36), primary_key=True)
 	name = db.Column(db.String(20)) # same as project name 
 	timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # time of submission
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id')) # id of user who submitted the job
@@ -45,7 +46,7 @@ class Submission(db.Model):
 
 	def get_rq_job(self):
 		try:
-			rq_job = rq.job.Job.fetch(self.id, connection=current_app.redis)
+			rq_job = rq.job.Job.fetch(self.id, connection=app.redis)
 		except (redis.exceptions.RedisError, rq.exceptions.NoSuchJobError):
 			return None
 		return rq_job

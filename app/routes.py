@@ -98,18 +98,22 @@ def model():
     # check if submission is valid
     if form.validate_on_submit():
 
-        # show job submission
-        submission = Submission(name=form.name.data, user_id=current_user.id)
-        db.session.add(submission)
-        db.session.commit()
-
         # get variables
         name = form.name.data
         dim = (form.width.data, form.height.data, form.depth.data)
         spacing = (form.sw.data, form.sh.data, form.sd.data)
                            
-        # perform async caclulation
-        #run_geo_model.apply_async(args=[name, dim, spacing])
+        # get the job into queue
+        rq_job = app.task_queue.enqueue('app.tasks.run_geo_model', name, dim, spacing)
+
+        print(rq_job)
+
+        # show job submission
+        submission = Submission(id=rq_job.get_id(), name=form.name.data, user_id=current_user.id)
+        db.session.add(submission)
+        db.session.commit()
+
+        print(submission.get_rq_job())
         
         return redirect(url_for('index'))
 

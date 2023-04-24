@@ -20,6 +20,10 @@ migrate = Migrate(app, db)
 login = LoginManager(app)
 login.login_view = 'login' # to protect user from unauthorized pages
 
+# redis
+app.redis = Redis.from_url(app.config['REDIS_URL'])
+app.task_queue = rq.Queue('submission-tasks', connection=app.redis) # queue for submitting tasks
+
 # logging system
 if not app.debug:
 
@@ -32,8 +36,5 @@ if not app.debug:
     app.logger.setLevel(logging.INFO)
     app.logger.info('Application')
 
-# redis
-app.redis = Redis.from_url(app.config['REDIS_URL'])
-app.task_queue = rq.Queue('submission-tasks', connection=app.redis) # queue for submitting tasks
 
 from app import models, errors, routes
