@@ -5,8 +5,8 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 import logging
 from logging.handlers import RotatingFileHandler
-from celery import Celery
-
+from redis import Redis
+import rq
 
 # app
 app = Flask(__name__) 
@@ -32,13 +32,8 @@ if not app.debug:
     app.logger.setLevel(logging.INFO)
     app.logger.info('Application')
 
+# redis
+app.redis = Redis.from_url(app.config['REDIS_URL'])
+app.task_queue = rq.Queue('submission-tasks', connection=app.redis) # queue for submitting tasks
 
-# asynchronous jobs through celerey
-app.config['CELERY_BROKER_URL'] = 'redis://127.0.0.1:6379/0' # if we want a broker on a different machine
-app.config['CELERY_RESULT_BACKEND'] = 'redis://127.0.0.1:6379/0'
-
-celery_handler = Celery(app.name, broker=app.config['CELERY_BROKER_URL'], backend=app.config['CELERY_RESULT_BACKEND'])
-celery_handler.conf.update(app.config)
-
-
-from app import routes, models, errors
+from app import models, errors, routes

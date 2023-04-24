@@ -95,6 +95,7 @@ db, l_bhs = ArchPy.inputs.load_bh_files(list_bhs=pd.read_csv(os.path.join(data_f
 										altitude=True)
 
 
+
 # much more efficient instead of creating a class which has as an attribute an Arch_table
 # we can instead define a child as a table
 class GeoModel(ArchPy.base.Arch_table):

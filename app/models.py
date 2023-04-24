@@ -41,6 +41,14 @@ class Submission(db.Model):
 	name = db.Column(db.String(20)) # same as project name 
 	timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # time of submission
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id')) # id of user who submitted the job
+	status = db.Column(db.Integer, default=-1) # status of the job {-1:submitted, 0:running, 1:finished}
+
+	def get_rq_job(self):
+		try:
+			rq_job = rq.job.Job.fetch(self.id, connection=current_app.redis)
+		except (redis.exceptions.RedisError, rq.exceptions.NoSuchJobError):
+			return None
+		return rq_job
 
 	def __repr__(self):
 		return 'Job {} from user {} submitted at {}'.format(self.name, self.user_id, self.timestamp.strftime("%m/%d/%Y, %H:%M"))

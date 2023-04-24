@@ -1,4 +1,5 @@
-2023-04-23 15:37:32,644 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+2023-04-23 15:13:45,754 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+2023-04-23 15:14:14,194 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 698, in connect
     sock = self.retry.call_with_retry(
@@ -27,7 +28,7 @@ Traceback (most recent call last):
     connection.connect()
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 704, in connect
     raise ConnectionError(self._error_message(e))
-redis.exceptions.ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+redis.exceptions.ConnectionError: Error 111 connecting to localhost:6379. Connection refused.
 
 During handling of the above exception, another exception occurred:
 
@@ -77,7 +78,7 @@ Traceback (most recent call last):
     connection.connect()
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 704, in connect
     raise ConnectionError(self._error_message(e))
-redis.exceptions.ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+redis.exceptions.ConnectionError: Error 111 connecting to localhost:6379. Connection refused.
 
 The above exception was the direct cause of the following exception:
 
@@ -102,21 +103,10 @@ Traceback (most recent call last):
     self.gen.throw(typ, value, traceback)
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/kombu/connection.py", line 450, in _reraise_as_library_errors
     raise ConnectionError(str(exc)) from exc
-kombu.exceptions.OperationalError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
-2023-04-23 15:38:09,785 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-23 15:51:47,191 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-23 15:53:20,534 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-23 15:53:45,745 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-23 15:54:13,416 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-24 09:42:09,925 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-24 09:45:37,296 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-24 10:00:25,268 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-24 10:15:33,943 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-24 10:17:59,760 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-24 10:27:32,419 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:35]
-2023-04-24 10:28:34,463 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-24 10:29:19,251 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-24 10:30:47,186 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-24 10:31:13,815 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-24 10:32:30,398 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:34]
-2023-04-24 10:33:25,322 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:34]
+kombu.exceptions.OperationalError: Error 111 connecting to localhost:6379. Connection refused.
+2023-04-23 15:22:28,016 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+2023-04-23 15:28:52,406 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+2023-04-23 15:30:53,803 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+2023-04-23 15:32:24,329 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+2023-04-23 15:34:03,181 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+2023-04-23 15:37:06,475 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]

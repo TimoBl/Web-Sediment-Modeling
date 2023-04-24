@@ -1,13 +1,10 @@
 from flask import render_template, flash, redirect, url_for
 from app import app, db
-from app import celery_handler as celery
-from app.model import GeoModel
 from app.models import User, Submission
 from app.forms import LoginForm, RegistrationForm, JobSubmissionForm
 from flask import request
 from werkzeug.urls import url_parse
 from flask_login import current_user, login_user, logout_user, login_required
-
 
 
 @app.route('/')
@@ -110,30 +107,13 @@ def model():
         name = form.name.data
         dim = (form.width.data, form.height.data, form.depth.data)
         spacing = (form.sw.data, form.sh.data, form.sd.data)
-
+                           
         # perform async caclulation
-        run_job.apply_async(args=[name, dim, spacing])
+        #run_geo_model.apply_async(args=[name, dim, spacing])
         
         return redirect(url_for('index'))
 
     return render_template('model.html', title='Model', form=form)#, user=user) #str(m.get_units_domains_realizations())
-
-
-
-# run job asynchronously
-@celery.task(bind=True)
-def run_job(self, name, dim, spacing):
-    print(name)
-
-    m = GeoModel(name, dim, spacing)
-    
-    # with three levels of simulation
-    #m.compute_surf(2)
-    #m.compute_facies(1)
-    #m.compute_prop(1)
-    print(m)
-
-    return "finished"
 
 
 
@@ -146,7 +126,7 @@ def delete():
     submission_id = request.args.get('id', None)
 
     # find submission
-    submission = Submission.query.filter_by(id=submission_id).first() # find user
+    submission = Submission.query.filter_by(id=submission_id).first()
 
     # check if submission is valid and from the same user
     if submission is not None and submission.user_id==current_user.id:
