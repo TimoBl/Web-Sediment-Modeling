@@ -17,6 +17,7 @@ class User(UserMixin, db.Model):
 	def set_password(self, password):
 		# for added security we hash our password
 		self.password_hash = generate_password_hash(password)
+		db.session.commit()
 
 	def check_password(self, password):
 		# here we compare the password to the hash
@@ -43,6 +44,7 @@ class Submission(db.Model):
 	timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # time of submission
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id')) # id of user who submitted the job
 	status = db.Column(db.Integer, default=-1) # status of the job {-1:submitted, 0:running, 1:finished}
+	complete = db.Column(db.Boolean, default=False) # if job is finished
 
 	def get_rq_job(self):
 		try:
@@ -52,10 +54,26 @@ class Submission(db.Model):
 		return rq_job
 
 	def get_status(self):
-		job = self.get_rq_job()
-		status = job.meta.get('status', 0) if job is not None else -1
-		self.status = status
-		return status
+
+		# the job is still in progress
+		if not self.complete:
+			
+			# so we want to get an update
+			job = self.get_rq_job()
+			self.status = job.meta.get('status', 0) if job is not None else -1
+			self.complete = bool(job.meta.get('complete', False) if job is not None else False)
+	
+			# check if job was completed
+			if self.complete:
+				# we could notify the user
+				pass
+
+			# update session
+			db.session.commit()
+		
+		return self.status, self.complete
+
 
 	def __repr__(self):
-		return '{}, user: {}, {}, Stat {}'.format(self.name, self.user_id, self.timestamp.strftime("%m/%d/%Y, %H:%M"), self.status)
+		self.get_status()
+		return '{}, user: {}, {}, Stat {}, {}'.format(self.name, self.user_id, self.timestamp.strftime("%m/%d/%Y, %H:%M"), self.status, self.complete)

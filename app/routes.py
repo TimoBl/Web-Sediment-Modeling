@@ -7,6 +7,7 @@ from werkzeug.urls import url_parse
 from flask_login import current_user, login_user, logout_user, login_required
 import os
 from rq.job import Job
+#from rq import Callback
 
 
 @app.route('/')
@@ -111,20 +112,10 @@ def model():
         name = form.name.data
         dim = (form.width.data, form.height.data, form.depth.data)
         spacing = (form.sw.data, form.sh.data, form.sd.data)
-
-
-        def success_job():
-            pass
-
-        def failure_job():
-            pass
-
                            
         # get the job into queue
         job = Job.create('tasks.run_geo_model', args=(name, dim, spacing), connection=app.redis)
-        rq_job = app.task_queue.enqueue_job(job, on_success=Callback(success_job), on_failure=Callback(failure_job))
-
-        # here implement callback from job to create application dictionary and so on.... 
+        rq_job = app.task_queue.enqueue_job(job)
 
         # show job submission
         submission = Submission(id=rq_job.get_id(), name=form.name.data, user_id=current_user.id)
@@ -141,6 +132,30 @@ def model():
 
     return render_template('model.html', title='Model', form=form)#, user=user) #str(m.get_units_domains_realizations())
 
+
+# views the result of a job
+@app.route('/view', methods=['GET', 'POST'])
+@login_required # user needs to be logged in
+def view():
+
+    # get the submission id
+    submission_id = request.args.get('id', None)
+
+    # find submission
+    submission = Submission.query.filter_by(id=submission_id).first()
+
+    # check if submission is valid and from the same user
+    if submission is not None and submission.user_id==current_user.id and submission.complete:
+
+        # we can return results
+        return "complete"
+
+    else:
+        # we could add an error for each error type
+        flash('Submission {} cannot be viewed'.format(submission_id))
+
+
+    return redirect(url_for('index'))
 
 
 # deletes a submission
