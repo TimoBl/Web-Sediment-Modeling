@@ -2,29 +2,48 @@
 from model import GeoModel
 from rq import get_current_job
 import os
+import ArchPy 
+import numpy as np
 
 # this is the function we will call with redis
-def run_geo_model(name, dim, spacing):
+def run_geo_model(user_id, name, dim, spacing):
 
     try:
-        m = GeoModel(name, dim, spacing)
+
+
+        # beginning computation
+        job =_set_progress_status("0%", False)
+
+        # create output dir
+        out_dir = os.path.join("output", str(user_id), str(job.id)) # maybe add output directory as global function
+        #if not os.path.exists(out_dir):
+        #    os.mkdir(out_dir) # somehow archpy overwrite this when we give directory
+
+        # create geological model
+        model = GeoModel(name, dim, spacing, working_directory=out_dir)
         
-        _set_progress_status("0%", False) # beginning
-
         # with three levels of simulation
-        m.compute_surf(2)
-        #m.compute_facies(1)
-        #m.compute_prop(1)
+        model.compute_surf(1)
+        model.compute_facies(1)
+        model.compute_prop(1)
 
-        _set_progress_status("100%", True) # finished executing
+        # save output
+        realizations = model.get_units_domains_realizations()
+        np.save(os.path.join(out_dir, "realizations.npy"), realizations)
 
-    except:
+
+    except Exception as e:
         # we should implement verfication status
-        print("error")
+        print("Error: ", e)
 
     finally:
         # is always excuted regardless of execution
         print("end")
+
+
+    
+    # job completed successfully
+    _set_progress_status("100%", True)
 
 
 # we set the status
@@ -36,3 +55,5 @@ def _set_progress_status(status, complete):
         job.meta['status'] = status
         job.meta['complete'] = complete
         job.save_meta()
+
+    return job

@@ -9,6 +9,10 @@ import os
 from rq.job import Job
 #from rq import Callback
 
+# for developpemnt only
+import numpy as np
+import shutil
+
 
 @app.route('/')
 @app.route('/index')
@@ -114,19 +118,13 @@ def model():
         spacing = (form.sw.data, form.sh.data, form.sd.data)
                            
         # get the job into queue
-        job = Job.create('tasks.run_geo_model', args=(name, dim, spacing), connection=app.redis)
+        job = Job.create('tasks.run_geo_model', args=(current_user.id, name, dim, spacing), connection=app.redis)
         rq_job = app.task_queue.enqueue_job(job)
 
         # show job submission
         submission = Submission(id=rq_job.get_id(), name=form.name.data, user_id=current_user.id)
         db.session.add(submission)
         db.session.commit()
-
-        sub = submission.get_rq_job()
-        print(sub)
-
-        sub = submission.get_status()
-        print(sub)
         
         return redirect(url_for('index'))
 
@@ -147,8 +145,11 @@ def view():
     # check if submission is valid and from the same user
     if submission is not None and submission.user_id==current_user.id and submission.complete:
 
-        # we can return results
-        return "complete"
+        # we can view the results
+        out_dir = os.path.join("output", str(current_user.id), str(submission.id), "realizations.npy") 
+        realizations = np.load(out_dir)
+
+        return str(realizations)
 
     else:
         # we could add an error for each error type
@@ -171,8 +172,16 @@ def delete():
 
     # check if submission is valid and from the same user
     if submission is not None and submission.user_id==current_user.id:
+
+        # delete from databse
         db.session.delete(submission)
         db.session.commit()
+
+        # delete output directory
+        out_dir = os.path.join("output", str(current_user.id), str(submission.id))
+        if os.path.exists(out_dir):
+            shutil.rmtree(out_dir)
+
         flash('Submission {} was deleted'.format(submission_id))
     else:
         flash('Submission {} could not be deleted'.format(submission_id))

@@ -99,8 +99,8 @@ db, l_bhs = ArchPy.inputs.load_bh_files(list_bhs=pd.read_csv(os.path.join(data_f
 # much more efficient instead of creating a class which has as an attribute an Arch_table
 # we can instead define a child as a table
 class GeoModel(ArchPy.base.Arch_table):
-	def __init__(self, name, dimensions, spacing):
-		super().__init__(name=name, working_directory="working_dir", seed=100, verbose=1)
+	def __init__(self, name, dimensions, spacing, working_directory="working_directory"):
+		super().__init__(name=name, working_directory=working_directory, seed=100, verbose=1)
 
 		# define our simulation grid (this would be our parameters we use)
 		#dimensions = (50, 50, 50) # number of cells
