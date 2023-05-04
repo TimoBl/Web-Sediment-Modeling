@@ -1,6 +1,4 @@
-2023-04-24 14:41:57,926 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:42:23,745 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:42:31,973 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+2023-05-04 14:41:11,707 ERROR: Exception on /view [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -12,22 +10,17 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 113, in model
-    print(submission.get_rq_job())
-  File "/home/timo/Documents/Prototype/app/models.py", line 49, in get_rq_job
-    rq_job = rq.job.Job.fetch(self.id, connection=app.redis)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 521, in fetch
-    job.refresh()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 896, in refresh
-    data = self.connection.hgetall(self.key)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 676, in key
-    return self.key_for(self.id)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 659, in key_for
-    return (cls.redis_job_namespace_prefix + job_id).encode('utf-8')
-TypeError: can only concatenate str (not "int") to str
-2023-04-24 14:45:39,554 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:45:56,745 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:45:59,827 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+  File "/home/timo/Documents/Prototype/app/routes.py", line 170, in view
+    return render_template(fig.write_html("dataVisualization.html"))
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/templating.py", line 146, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 1084, in get_or_select_template
+    return self.select_template(template_name_or_list, parent, globals)
+  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 1051, in select_template
+    raise TemplatesNotFound(
+jinja2.exceptions.TemplatesNotFound: Tried to select from an empty list of templates.
+2023-05-04 14:41:32,994 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 14:41:37,218 ERROR: Exception on /view [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -39,21 +32,28 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 113, in model
-    print(submission.get_rq_job())
-  File "/home/timo/Documents/Prototype/app/models.py", line 49, in get_rq_job
-    rq_job = rq.job.Job.fetch(self.id, connection=app.redis)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 521, in fetch
-    job.refresh()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 896, in refresh
-    data = self.connection.hgetall(self.key)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 676, in key
-    return self.key_for(self.id)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 659, in key_for
-    return (cls.redis_job_namespace_prefix + job_id).encode('utf-8')
-TypeError: can only concatenate str (not "int") to str
-2023-04-24 14:46:40,046 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:46:42,459 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+  File "/home/timo/Documents/Prototype/app/routes.py", line 170, in view
+    return render_template("dataVisualization.html")
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/templating.py", line 146, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/templating.py", line 62, in get_source
+    return self._get_source_fast(environment, template)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/templating.py", line 98, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: dataVisualization.html
+2023-05-04 14:42:10,232 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 14:43:37,097 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 14:52:21,023 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 14:56:14,268 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 14:56:18,910 ERROR: Exception on /view [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -65,21 +65,29 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 113, in model
-    print(submission.get_rq_job().meta.get('status', 0))
-  File "/home/timo/Documents/Prototype/app/models.py", line 49, in get_rq_job
-    rq_job = rq.job.Job.fetch(self.id, connection=app.redis)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 521, in fetch
-    job.refresh()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 896, in refresh
-    data = self.connection.hgetall(self.key)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 676, in key
-    return self.key_for(self.id)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 659, in key_for
-    return (cls.redis_job_namespace_prefix + job_id).encode('utf-8')
-TypeError: can only concatenate str (not "int") to str
-2023-04-24 14:47:53,962 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:47:56,474 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+  File "/home/timo/Documents/Prototype/app/routes.py", line 170, in view
+    return plotly.io.to_html(fig)
+NameError: name 'plotly' is not defined
+2023-05-04 14:56:35,253 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 14:57:21,504 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:00:22,924 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:01:06,609 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:01:42,932 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:02:16,014 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:02:36,806 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:05:18,089 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:06:40,316 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:07:15,781 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:08:07,702 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:16:31,081 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:17:25,963 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:18:54,016 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:20:41,305 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:22:25,905 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:24:21,316 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:24:25,337 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:28:18,541 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:28:41,369 ERROR: Exception on /view [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -91,23 +99,12 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 115, in model
-    print(submission.get_rq_job().meta.get('status', 0))
-  File "/home/timo/Documents/Prototype/app/models.py", line 49, in get_rq_job
-    rq_job = rq.job.Job.fetch(self.id, connection=app.redis)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 521, in fetch
-    job.refresh()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 896, in refresh
-    data = self.connection.hgetall(self.key)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 676, in key
-    return self.key_for(self.id)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 659, in key_for
-    return (cls.redis_job_namespace_prefix + job_id).encode('utf-8')
-TypeError: can only concatenate str (not "int") to str
-2023-04-24 14:52:23,960 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:52:33,695 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:52:40,235 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 14:53:14,234 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 15:01:21,461 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 15:02:27,900 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 15:04:26,339 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+  File "/home/timo/Documents/Prototype/app/routes.py", line 173, in view
+    graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+NameError: name 'json' is not defined
+2023-05-04 15:28:58,030 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:31:57,470 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:32:45,192 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:32:53,387 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:33:18,500 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:34:01,314 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]

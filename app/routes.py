@@ -12,6 +12,9 @@ from flask_bootstrap import Bootstrap
 # for developpemnt only
 import numpy as np
 import shutil
+import plotly
+import plotly.graph_objects as go
+import plotly.express as px
 
 
 @app.route('/')
@@ -150,8 +153,23 @@ def view():
         realizations = np.load(out_dir)
 
         #return str(realizations)
-        return render_template('view.html', data=str(realizations))
+        #return render_template('view.html', data=str(realizations))
 
+        (d, x, y, z) = realizations.shape
+        X, Y, Z = np.mgrid[0:x, 0:y, 0:z]
+        values = realizations[0]
+
+        fig = go.Figure(data=go.Volume(
+            x=X.flatten(),
+            y=Y.flatten(),
+            z=Z.flatten(),
+            value=values.flatten(),
+            opacity=0.1, # needs to be small to see through all surfaces
+            surface_count=21, # needs to be a large number for good volume rendering
+            ))
+        
+        html = plotly.io.to_html(fig, full_html=False, default_height=600)
+        return render_template('view2.html', plot=html)
     else:
         # we could add an error for each error type
         flash('Submission {} cannot be viewed'.format(submission_id))

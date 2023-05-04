@@ -146,29 +146,38 @@
 
 
     <!-- ======= Submission section ======= -->
-  <section id="submission" class="d-flex align-items-center">
-    <h3>Submission</h3>
-    {% if not current_user.is_anonymous %}
-        <p>
-            {% if submissions|length > 0 %}
-                <ul>
-                    {% for submission in submissions %}
-                        <li> {{ submission }} <a href="{{ url_for('view', id=submission.id) }}">view</a> <a href="{{ url_for('delete', id=submission.id) }}">delete</a></li>
-                    {% endfor %}
-                </ul>
+  <section id="about" class="about">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Submission</h2>
+        </div>
+
+        <div class="row content">
+          <div class="col-lg-6">
+            {% if not current_user.is_anonymous %}
+                <p>
+                    {% if submissions|length > 0 %}
+                        <ul>
+                            {% for submission in submissions %}
+                                <li> {{ submission }} <a href="{{ url_for('view', id=submission.id) }}">view</a> <a href="{{ url_for('delete', id=submission.id) }}">delete</a></li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <i> No jobs were submitted </i>
+                    {% endif %}
+                </p>
+                <br>
+                <p>
+                    You can submit jobs <a href="{{ url_for('model') }}">here</a>.
+                </p>
             {% else %}
-                <i> No jobs were submitted </i>
+                <p>
+                    Please <a href="{{ url_for('login') }}">login</a> or <a href="{{ url_for('register') }}">register</a> to be able to submit models.
+                </p>
             {% endif %}
-        </p>
-        <br>
-        <p>
-            You can submit jobs <a href="{{ url_for('model') }}">here</a>.
-        </p>
-    {% else %}
-        <p>
-            Please <a href="{{ url_for('login') }}">login</a> or <a href="{{ url_for('register') }}">register</a> to be able to submit models.
-        </p>
-    {% endif %}
+          </div>
+        </div>
   </section><!-- End Hero -->
 
 

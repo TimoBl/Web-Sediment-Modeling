@@ -39,6 +39,7 @@ map.on(L.Draw.Event.CREATED, function (event) {
     drawnItems.addLayer(event.layer);
 });
 
+
 function submitPolygon() {
     var latlngs = [];
     drawnItems.eachLayer(function (layer) {

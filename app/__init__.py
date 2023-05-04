@@ -26,6 +26,7 @@ login.login_view = 'login' # to protect user from unauthorized pages
 # redis
 app.redis = Redis.from_url(app.config['REDIS_URL'])
 app.task_queue = rq.Queue('submission-tasks', connection=app.redis) # queue for submitting tasks
+# kill : sudo service redis-server stop
 
 # logging system
 if not app.debug:

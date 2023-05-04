@@ -1,83 +1,10 @@
-2023-04-23 15:37:32,644 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+2023-04-29 12:38:16,697 ERROR: Exception on /index [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 698, in connect
-    sock = self.retry.call_with_retry(
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/retry.py", line 46, in call_with_retry
-    return do()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 699, in <lambda>
-    lambda: self._connect(), lambda error: self.disconnect(error)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 987, in _connect
-    raise err
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 975, in _connect
-    sock.connect(socket_address)
-ConnectionRefusedError: [Errno 111] Connection refused
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/backends/redis.py", line 119, in reconnect_on_error
-    yield
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/backends/redis.py", line 169, in _consume_from
-    self._pubsub.subscribe(key)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/client.py", line 1623, in subscribe
-    ret_val = self.execute_command("SUBSCRIBE", *new_channels.keys())
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/client.py", line 1458, in execute_command
-    self.connection = self.connection_pool.get_connection(
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 1442, in get_connection
-    connection.connect()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 704, in connect
-    raise ConnectionError(self._error_message(e))
-redis.exceptions.ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 698, in connect
-    sock = self.retry.call_with_retry(
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/retry.py", line 46, in call_with_retry
-    return do()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 699, in <lambda>
-    lambda: self._connect(), lambda error: self.disconnect(error)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 987, in _connect
-    raise err
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 975, in _connect
-    sock.connect(socket_address)
-ConnectionRefusedError: [Errno 111] Connection refused
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/kombu/connection.py", line 446, in _reraise_as_library_errors
-    yield
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/app/base.py", line 787, in send_task
-    self.backend.on_task_call(P, task_id)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/backends/redis.py", line 365, in on_task_call
-    self.result_consumer.consume_from(task_id)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/backends/redis.py", line 161, in consume_from
-    return self.start(task_id)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/backends/redis.py", line 139, in start
-    self._consume_from(initial_task_id)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/backends/redis.py", line 168, in _consume_from
-    with self.reconnect_on_error():
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/contextlib.py", line 153, in __exit__
-    self.gen.throw(typ, value, traceback)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/backends/redis.py", line 122, in reconnect_on_error
-    self._ensure(self._reconnect_pubsub, ())
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/backends/redis.py", line 376, in ensure
-    return retry_over_time(
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/kombu/utils/functional.py", line 312, in retry_over_time
-    return fun(*args, **kwargs)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/backends/redis.py", line 106, in _reconnect_pubsub
-    metas = self.backend.client.mget(self.subscribed_to)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/commands/core.py", line 1976, in mget
-    return self.execute_command("MGET", *args, **options)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/client.py", line 1255, in execute_command
-    conn = self.connection or pool.get_connection(command_name, **options)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 1442, in get_connection
-    connection.connect()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 704, in connect
-    raise ConnectionError(self._error_message(e))
-redis.exceptions.ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 748, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: submission.complete
 
 The above exception was the direct cause of the following exception:
 
@@ -90,33 +17,103 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 115, in model
-    run_job.apply_async(args=[name, dim, spacing])
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/app/task.py", line 575, in apply_async
-    return app.send_task(
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/app/base.py", line 785, in send_task
-    with P.connection._reraise_as_library_errors():
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/contextlib.py", line 153, in __exit__
-    self.gen.throw(typ, value, traceback)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/kombu/connection.py", line 450, in _reraise_as_library_errors
-    raise ConnectionError(str(exc)) from exc
-kombu.exceptions.OperationalError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
-2023-04-23 15:38:09,785 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-23 15:51:47,191 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-23 15:53:20,534 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-23 15:53:45,745 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-23 15:54:13,416 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-24 09:42:09,925 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-24 09:45:37,296 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-24 10:00:25,268 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-24 10:15:33,943 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-24 10:17:59,760 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-24 10:27:32,419 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:35]
-2023-04-24 10:28:34,463 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-24 10:29:19,251 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-24 10:30:47,186 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-24 10:31:13,815 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-24 10:32:30,398 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:34]
-2023-04-24 10:33:25,322 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:34]
+  File "/home/timo/Documents/Prototype/app/routes.py", line 20, in index
+    submissions = current_user.get_submissions().all()
+  File "/home/timo/Documents/Prototype/app/models.py", line 27, in get_submissions
+    own = Submission.query.filter_by(user_id=self.id).all() # we search for submissions with our id
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/query.py", line 2697, in all
+    return self._iter().all()  # type: ignore
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/query.py", line 2855, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2229, in execute
+    return self._execute_internal(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2124, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/context.py", line 253, in orm_execute_statement
+    result = conn.execute(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1414, in execute
+    return meth(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 486, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1638, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1842, in _execute_context
+    return self._exec_single_context(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1983, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2326, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 748, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: submission.complete
+[SQL: SELECT submission.id AS submission_id, submission.name AS submission_name, submission.timestamp AS submission_timestamp, submission.user_id AS submission_user_id, submission.status AS submission_status, submission.complete AS submission_complete 
+FROM submission 
+WHERE submission.user_id = ?]
+[parameters: (2,)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2023-04-29 12:38:41,890 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-29 12:38:47,932 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-29 12:38:51,100 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-29 12:38:53,279 ERROR: Exception on /index [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/timo/Documents/Prototype/app/routes.py", line 20, in index
+    submissions = current_user.get_submissions().all()
+  File "/home/timo/Documents/Prototype/app/models.py", line 28, in get_submissions
+    return own.order_by(Submission.timestamp.desc()) # and return the newest first
+AttributeError: 'list' object has no attribute 'order_by'
+2023-04-29 12:38:54,265 ERROR: Exception on /index [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/timo/Documents/Prototype/app/routes.py", line 20, in index
+    submissions = current_user.get_submissions().all()
+  File "/home/timo/Documents/Prototype/app/models.py", line 28, in get_submissions
+    return own.order_by(Submission.timestamp.desc()) # and return the newest first
+AttributeError: 'list' object has no attribute 'order_by'
+2023-04-29 12:38:55,296 ERROR: Exception on /index [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/timo/Documents/Prototype/app/routes.py", line 20, in index
+    submissions = current_user.get_submissions().all()
+  File "/home/timo/Documents/Prototype/app/models.py", line 28, in get_submissions
+    return own.order_by(Submission.timestamp.desc()) # and return the newest first
+AttributeError: 'list' object has no attribute 'order_by'
+2023-04-29 12:38:55,434 ERROR: Exception on /index [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/timo/Documents/Prototype/app/routes.py", line 20, in index
+    submissions = current_user.get_submissions().all()
+  File "/home/timo/Documents/Prototype/app/models.py", line 28, in get_submissions
+    return own.order_by(Submission.timestamp.desc()) # and return the newest first
+AttributeError: 'list' object has no attribute 'order_by'
+2023-04-29 12:39:24,645 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]

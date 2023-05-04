@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section id="dataVisuSection" class="dataVisualization">
+  <div class="container" data-aos="fade-up">
+      {{ plot | safe }}
+  </div>
+</section>
+
+
+{% endblock %}
