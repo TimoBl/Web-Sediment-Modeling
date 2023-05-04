@@ -11,3 +11,63 @@ Traceback (most recent call last):
 TypeError: The view function did not return a valid response. The return type must be a string, dict, list, tuple with headers or status, Response instance, or WSGI callable, but it was a ndarray.
 2023-04-29 15:10:57,090 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
 2023-04-29 15:14:53,795 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-29 17:45:15,729 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-29 18:19:53,035 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-29 18:29:00,293 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-29 19:00:16,813 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:39]
+2023-04-29 19:08:13,237 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:39]
+2023-04-29 19:11:27,803 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:39]
+2023-04-29 19:12:17,843 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:39]
+2023-05-04 10:55:34,486 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:39]
+2023-05-04 10:56:19,990 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:39]
+2023-05-04 10:56:23,474 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:39]
+2023-05-04 10:58:30,398 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:39]
+2023-05-04 10:58:33,814 ERROR: Exception on /index2 [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/timo/Documents/Prototype/app/routes.py", line 32, in index2
+    return render_template('../../BoreholeVisualisation/index.html', title='Home')
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/templating.py", line 146, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/templating.py", line 62, in get_source
+    return self._get_source_fast(environment, template)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/templating.py", line 98, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: ../../BoreholeVisualisation/index.html
+2023-05-04 11:00:32,239 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:39]
+2023-05-04 11:06:55,297 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:39]
+2023-05-04 11:14:08,420 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 11:15:05,186 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 11:18:26,001 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 11:18:34,193 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 11:22:43,080 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 11:31:36,289 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 11:32:21,915 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 11:37:37,908 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 11:43:56,599 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 11:45:28,054 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 11:52:11,402 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 11:56:04,891 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 11:58:15,388 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 11:58:40,038 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 12:07:29,049 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 12:08:08,417 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 12:09:33,592 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 12:14:53,472 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 12:23:06,516 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 12:24:03,041 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]

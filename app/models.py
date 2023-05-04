@@ -31,6 +31,7 @@ class User(UserMixin, db.Model):
 	def __repr__(self):
 		return '<User {}>'.format(self.username)
 
+
 @login.user_loader
 def load_user(id):
 	# loads a user given the id
@@ -73,7 +74,6 @@ class Submission(db.Model):
 		
 		return self.status, self.complete
 
-
 	def __repr__(self):
 		self.get_status()
-		return '{}, user: {}, {}, Stat {}, {}'.format(self.name, self.user_id, self.timestamp.strftime("%m/%d/%Y, %H:%M"), self.status, self.complete)
+		return '{}, {}, {}, {}'.format(self.name, self.timestamp.strftime("%m/%d/%Y, %H:%M"), self.status, self.complete)

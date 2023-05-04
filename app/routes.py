@@ -7,7 +7,7 @@ from werkzeug.urls import url_parse
 from flask_login import current_user, login_user, logout_user, login_required
 import os
 from rq.job import Job
-#from rq import Callback
+from flask_bootstrap import Bootstrap
 
 # for developpemnt only
 import numpy as np
@@ -128,7 +128,7 @@ def model():
         
         return redirect(url_for('index'))
 
-    return render_template('model.html', title='Model', form=form)#, user=user) #str(m.get_units_domains_realizations())
+    return render_template('model.html', title='Model', form=form) #, user=user) #str(m.get_units_domains_realizations())
 
 
 # views the result of a job
@@ -149,12 +149,12 @@ def view():
         out_dir = os.path.join("output", str(current_user.id), str(submission.id), "realizations.npy") 
         realizations = np.load(out_dir)
 
-        return str(realizations)
+        #return str(realizations)
+        return render_template('view.html', data=str(realizations))
 
     else:
         # we could add an error for each error type
         flash('Submission {} cannot be viewed'.format(submission_id))
-
 
     return redirect(url_for('index'))
 

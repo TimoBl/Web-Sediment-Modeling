@@ -8,8 +8,11 @@ from logging.handlers import RotatingFileHandler
 from redis import Redis
 import rq
 
+
 # app
-app = Flask(__name__) 
+app = Flask(__name__,
+            static_folder='assets',
+            template_folder='templates') 
 app.config.from_object(Config)
 
 # database
@@ -32,9 +35,10 @@ if not app.debug:
     file_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
     file_handler.setLevel(logging.INFO)
     
+    # logging system
     app.logger.addHandler(file_handler)
     app.logger.setLevel(logging.INFO)
     app.logger.info('Application')
 
-
+# sudo service redis-server stop 
 from app import models, errors, routes

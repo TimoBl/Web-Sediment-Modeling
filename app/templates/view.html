@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- ======= Data visualization Section-->
+<section id="dataVisuSection" class="dataVisualization">
+  <div class="container" data-aos="fade-up">
+    <div id="noInputData">
+      <div class="section-title">
+        <h2>Data 3D responsive graph visualization</h2>
+        <p>Once you selected a zone, possibly added some filters on the above section and confirmed your choice, your output model data will be shown under this given section,</p>
+      </div>
+    </div>
+    <div id="inputDataGiven" style="display:none">
+      <div class="section-title">
+        <h2>Data 3D responsive graph visualization</h2>
+        <p>Based on your previous selection and filtering, here is your output model data. You can hold the left click and drag the mouse left, right, up or down to rotate the graph. Do the same operation with the right click and you will move the whole graph from one side to another.</p>
+      </div>
+      <iframe id="dataVisu" src="dataVisualization.html" frameborder="0" style="width: 100%; height: 800px;" allowfullscreen></iframe>
+    </div>
+  </div>
+</section>
+<!-- End of Data Visualization Section -->
+    
+{% endblock %}

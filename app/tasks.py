@@ -5,11 +5,11 @@ import os
 import ArchPy 
 import numpy as np
 
+
 # this is the function we will call with redis
 def run_geo_model(user_id, name, dim, spacing):
 
     try:
-
 
         # beginning computation
         job =_set_progress_status("0%", False)
@@ -31,7 +31,6 @@ def run_geo_model(user_id, name, dim, spacing):
         realizations = model.get_units_domains_realizations()
         np.save(os.path.join(out_dir, "realizations.npy"), realizations)
 
-
     except Exception as e:
         # we should implement verfication status
         print("Error: ", e)
@@ -40,8 +39,6 @@ def run_geo_model(user_id, name, dim, spacing):
         # is always excuted regardless of execution
         print("end")
 
-
-    
     # job completed successfully
     _set_progress_status("100%", True)
 
