@@ -1,34 +1,4 @@
-2023-04-24 15:04:45,303 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
-Traceback (most recent call last):
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 1448, in get_connection
-    if connection.can_read():
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 854, in can_read
-    return self._parser.can_read(timeout)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 341, in can_read
-    return self._buffer and self._buffer.can_read(timeout)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 239, in can_read
-    return bool(self.unread_bytes()) or self._read_from_socket(
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 212, in _read_from_socket
-    raise ConnectionError(SERVER_CLOSED_CONNECTION_ERROR)
-redis.exceptions.ConnectionError: Connection closed by server.
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 698, in connect
-    sock = self.retry.call_with_retry(
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/retry.py", line 46, in call_with_retry
-    return do()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 699, in <lambda>
-    lambda: self._connect(), lambda error: self.disconnect(error)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 987, in _connect
-    raise err
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 975, in _connect
-    sock.connect(socket_address)
-ConnectionRefusedError: [Errno 111] Connection refused
-
-During handling of the above exception, another exception occurred:
-
+2023-04-24 16:53:32,741 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -40,47 +10,19 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 107, in model
-    rq_job = app.task_queue.enqueue('app.tasks.example', name, dim, spacing)
+  File "/home/timo/Documents/Prototype/app/routes.py", line 118, in model
+    rq_job = app.task_queue.enqueue(job)
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/queue.py", line 877, in enqueue
     return self.enqueue_call(
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/queue.py", line 670, in enqueue_call
-    return self.enqueue_job(job, pipeline=pipeline, at_front=at_front)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/queue.py", line 1014, in enqueue_job
-    pipe.execute()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/client.py", line 2103, in execute
-    conn = self.connection_pool.get_connection("MULTI", self.shard_hint)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 1452, in get_connection
-    connection.connect()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 704, in connect
-    raise ConnectionError(self._error_message(e))
-redis.exceptions.ConnectionError: Error 111 connecting to localhost:6379. Connection refused.
-2023-04-24 15:04:52,270 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 15:09:34,716 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 15:11:02,806 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 15:12:41,729 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 15:12:55,811 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 15:13:31,208 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 15:13:59,608 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 15:43:17,967 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 15:44:07,346 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 15:44:53,318 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 15:46:16,472 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 15:46:28,704 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 15:46:49,002 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 16:10:23,310 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 16:10:41,440 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 16:12:13,226 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 16:16:18,278 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 16:17:24,667 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 16:18:03,471 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 16:18:35,806 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 16:19:06,088 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 16:19:46,274 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 16:20:12,202 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 16:28:36,910 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 16:40:31,773 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 16:40:36,319 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/queue.py", line 649, in enqueue_call
+    job = self.create_job(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/queue.py", line 519, in create_job
+    job = self.job_class.create(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 232, in create
+    raise TypeError('Expected a callable or a string, but got: {0}'.format(func))
+TypeError: Expected a callable or a string, but got: <Job a8e2c0b4-6a2e-4699-aebf-a6d64e0dce05: tasks.run_geo_model('Demo', (50, 50, 50), (1.0, 1.0, 0.1))>
+2023-04-24 16:54:07,994 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 16:54:13,272 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -92,11 +34,30 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 115, in model
-    job = Job.create(tasks.run_geo_model, name, dim, spacing)
-NameError: name 'tasks' is not defined
-2023-04-24 16:40:53,553 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 16:40:57,120 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+  File "/home/timo/Documents/Prototype/app/routes.py", line 118, in model
+    rq_job = app.task_queue.enqueue(job)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/queue.py", line 877, in enqueue
+    return self.enqueue_call(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/queue.py", line 649, in enqueue_call
+    job = self.create_job(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/queue.py", line 519, in create_job
+    job = self.job_class.create(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 232, in create
+    raise TypeError('Expected a callable or a string, but got: {0}'.format(func))
+TypeError: Expected a callable or a string, but got: <Job fee4e2c5-8d39-4c5d-a63c-c7390f94feb6: tasks.run_geo_model('Demo', (50, 50, 50), (1.0, 1.0, 0.1))>
+2023-04-24 16:54:48,910 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 20:03:02,244 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 20:06:50,376 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 20:13:13,552 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 20:28:32,714 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 20:30:09,903 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 20:32:35,451 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 20:37:39,290 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 20:38:09,151 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-29 11:57:34,614 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-29 12:00:33,048 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-29 12:01:05,425 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-29 12:01:20,768 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -108,9 +69,12 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 115, in model
-    job = Job.create('tasks.run_geo_model', name, dim, spacing)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 208, in create
-    raise TypeError('{0!r} is not a valid args list'.format(args))
-TypeError: 'Demo' is not a valid args list
-2023-04-24 16:42:00,285 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+  File "/home/timo/Documents/Prototype/app/routes.py", line 125, in model
+    rq_job = app.task_queue.enqueue_job(job, on_success=Callback(success_job), on_failure=Callback(failure_job))
+NameError: name 'Callback' is not defined
+2023-04-29 12:30:50,314 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-29 12:32:02,091 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-29 12:32:16,833 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-29 12:33:24,953 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-29 12:37:58,130 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-29 12:38:07,870 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]

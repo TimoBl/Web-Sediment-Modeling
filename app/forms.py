@@ -41,8 +41,8 @@ class JobSubmissionForm(FlaskForm):
     height =  IntegerField("Height", validators=[DataRequired()], default=50)
     depth =  IntegerField("Depth", validators=[DataRequired()], default=50)
 
-    sw =  FloatField("Spacing x", validators=[DataRequired()], default=1)
-    sh =  FloatField("Spacing y", validators=[DataRequired()], default=1)
-    sd =  FloatField("Spacing z", validators=[DataRequired()], default=0.1)
+    sw =  FloatField("Spacing x", validators=[DataRequired()], default=25)
+    sh =  FloatField("Spacing y", validators=[DataRequired()], default=25)
+    sd =  FloatField("Spacing z", validators=[DataRequired()], default=1)
 
     submit = SubmitField('run')

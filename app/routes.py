@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for, send_file
 from app import app, db
 from app.models import User, Submission
 from app.forms import LoginForm, RegistrationForm, JobSubmissionForm
@@ -15,6 +15,13 @@ import shutil
 import plotly
 import plotly.graph_objects as go
 import plotly.express as px
+from rq import Callback
+from scipy.interpolate import RegularGridInterpolator as rgi
+
+
+# global variables
+JOB_TIMEOUT = 15*60 # maximum of 5 minutes for job to complete
+
 
 
 @app.route('/')
@@ -104,6 +111,14 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 
+# Callback functions
+def report_success(job, connection, result, *args, **kwargs):
+    print("success")
+
+def report_failure(job, connection, type, value, traceback):
+    print("failure")
+
+
 # submit job
 @app.route('/model', methods=['GET', 'POST'])
 @login_required # user needs to be logged in
@@ -121,7 +136,7 @@ def model():
         spacing = (form.sw.data, form.sh.data, form.sd.data)
                            
         # get the job into queue
-        job = Job.create('tasks.run_geo_model', args=(current_user.id, name, dim, spacing), connection=app.redis)
+        job = Job.create('tasks.run_aare_model', args=(current_user.id, name, dim, spacing), connection=app.redis, timeout=JOB_TIMEOUT)
         rq_job = app.task_queue.enqueue_job(job)
 
         # show job submission
@@ -129,13 +144,13 @@ def model():
         db.session.add(submission)
         db.session.commit()
         
-        return redirect(url_for('index'))
+        return redirect(url_for('index') + "#submission")
 
     return render_template('model.html', title='Model', form=form) #, user=user) #str(m.get_units_domains_realizations())
 
 
 # views the result of a job
-@app.route('/view', methods=['GET', 'POST'])
+@app.route('/view', methods=['GET'])
 @login_required # user needs to be logged in
 def view():
 
@@ -152,33 +167,64 @@ def view():
         out_dir = os.path.join("output", str(current_user.id), str(submission.id), "realizations.npy") 
         realizations = np.load(out_dir)
 
-        #return str(realizations)
-        #return render_template('view.html', data=str(realizations))
-
+        # choose first realizations
         (d, x, y, z) = realizations.shape
+        realizations = realizations[0] # you should be able to choose between realizations!!!!
+
+        #print(realizations.shape)
+        
+        # reshape array to indixes
         X, Y, Z = np.mgrid[0:x, 0:y, 0:z]
-        values = realizations[0]
+        values = realizations
 
         fig = go.Figure(data=go.Volume(
             x=X.flatten(),
             y=Y.flatten(),
             z=Z.flatten(),
             value=values.flatten(),
-            opacity=0.1, # needs to be small to see through all surfaces
-            surface_count=21, # needs to be a large number for good volume rendering
+            opacity=0.15, # needs to be small to see through all surfaces
+            surface_count=5, # needs to be a large number for good volume rendering -> we reduced to get better performance
             ))
         
-        html = plotly.io.to_html(fig, full_html=False, default_height=600)
-        return render_template('view2.html', plot=html)
+        # maybe we should then get the html width somehow
+        html = plotly.io.to_html(fig, full_html=False, default_height=500, default_width=700)  # you should interactively get the width before from the client, and maybe also have the possibility to change it 
+        return render_template('view.html', plot=html, submission=submission)
     else:
         # we could add an error for each error type
         flash('Submission {} cannot be viewed'.format(submission_id))
 
-    return redirect(url_for('index'))
+    return redirect(url_for('index') + "#submission")
+
+
+# download realization
+@app.route('/download', methods=['GET'])
+@login_required # user needs to be logged in
+def download():
+
+    # get the submission id
+    submission_id = request.args.get('id', None)
+
+    # find submission
+    submission = Submission.query.filter_by(id=submission_id).first()
+
+    # check if submission is valid and from the same user
+    if submission is not None and submission.user_id==current_user.id and submission.complete:
+
+        # we can view the results
+        path = os.path.join("output", str(current_user.id), str(submission.id), "realizations.npy") 
+        
+        return send_file(path, as_attachment=True)
+
+    else:
+        # we could add an error for each error type
+        flash('Submission {} cannot be downloaded'.format(submission_id))
+
+    return redirect(url_for('index') + "#submission")
+
 
 
 # deletes a submission
-@app.route('/delete', methods=['GET', 'POST'])
+@app.route('/delete', methods=['GET'])
 @login_required # user needs to be logged in
 def delete():
 
@@ -204,4 +250,4 @@ def delete():
     else:
         flash('Submission {} could not be deleted'.format(submission_id))
 
-    return redirect(url_for('index'))
+    return redirect(url_for('index') + "#submission")

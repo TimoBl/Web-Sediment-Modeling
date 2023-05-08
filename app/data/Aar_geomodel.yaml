@@ -1,0 +1,972 @@
+Facies:
+  Clay and silt:
+    ID: 6
+    color: blue
+  Clayey gravel:
+    ID: 4
+    color: green
+  Clayey sand:
+    ID: 3
+    color: darkgoldenrod
+  Gravel:
+    ID: 5
+    color: lightgreen
+  Sand:
+    ID: 2
+    color: yellow
+  others:
+    ID: 1
+    color: black
+Pile_master: Pile_Aar
+Piles:
+  Pile_Aar:
+    list_units:
+    - SUP
+    - Hangschutt_Bachschutt
+    - YG
+    - LGA
+    - LGL
+    - LGMT
+    - LGM
+    - Munsingen
+    - IGT
+    - Altmorane
+    - glacio_lac + schlamm
+    - Bumberg
+    - Oppligen-Sand
+    - Alte Seetone
+    name: Pile_Aar
+    seed: 1
+    verbose: 1
+Results: null
+Units:
+  Alte Seetone:
+    ID: 14
+    color: midnightblue
+    dic_facies:
+      SIS_orientation: false
+      azimuth: 0
+      dip: 0
+      f_covmodel:
+      - alpha: 0.0
+        beta: 0.0
+        elem:
+        - !!python/tuple
+          - exponential
+          - r:
+            - 100.0
+            - 150.0
+            - 15.0
+            w: 0.105
+        - !!python/tuple
+          - spherical
+          - r:
+            - 100.0
+            - 150.0
+            - 15.0
+            w: 0.105
+        gamma: 0.0
+      f_method: SIS
+      neig: 10
+      plunge: 0
+      probability: null
+      r: 1
+    list_facies:
+    - Clay and silt
+    - Clayey sand
+    - Sand
+    - others
+    name: Alte Seetone
+    order: 14
+    surface:
+      contact: onlap
+      dic_surf:
+        N_transfo: false
+        covmodel:
+          alpha: -10.0
+          elem:
+          - !!python/tuple
+            - spherical
+            - r:
+              - 2000.0
+              - 4000.0
+              w: 100.0
+        int_method: grf_ineq
+        krig_type: ordinary_kriging
+        nit: 20
+        nmax: 20
+        tau: 0.01
+      name: Surface 1
+  Altmorane:
+    ID: 10
+    color: gold
+    dic_facies:
+      SIS_orientation: false
+      azimuth: 0
+      dip: 0
+      f_covmodel:
+      - alpha: 0.0
+        beta: 0.0
+        elem:
+        - !!python/tuple
+          - exponential
+          - r:
+            - 100.0
+            - 150.0
+            - 15.0
+            w: 0.105
+        - !!python/tuple
+          - spherical
+          - r:
+            - 100.0
+            - 150.0
+            - 15.0
+            w: 0.105
+        gamma: 0.0
+      f_method: SIS
+      neig: 10
+      plunge: 0
+      probability: null
+      r: 1
+    list_facies:
+    - Clayey gravel
+    - Sand
+    - Gravel
+    - Clayey sand
+    - Clay and silt
+    name: Altmorane
+    order: 10
+    surface:
+      contact: onlap
+      dic_surf:
+        N_transfo: false
+        covmodel:
+          alpha: -10.0
+          elem:
+          - !!python/tuple
+            - spherical
+            - r:
+              - 2000.0
+              - 4000.0
+              w: 100.0
+        int_method: grf_ineq
+        krig_type: simple_kriging
+        nit: 20
+        nmax: 20
+        tau: 0.01
+      name: Surface 1
+  Bumberg:
+    ID: 12
+    color: lime
+    dic_facies:
+      SIS_orientation: false
+      azimuth: 0
+      dip: 0
+      f_covmodel:
+      - alpha: 0.0
+        beta: 0.0
+        elem:
+        - !!python/tuple
+          - exponential
+          - r:
+            - 100.0
+            - 150.0
+            - 15.0
+            w: 0.105
+        - !!python/tuple
+          - spherical
+          - r:
+            - 100.0
+            - 150.0
+            - 15.0
+            w: 0.105
+        gamma: 0.0
+      f_method: SIS
+      neig: 10
+      plunge: 0
+      probability: null
+      r: 1
+    list_facies:
+    - Gravel
+    - Clayey gravel
+    - Clay and silt
+    - Sand
+    - Clayey sand
+    name: Bumberg
+    order: 12
+    surface:
+      contact: erode
+      dic_surf:
+        N_transfo: false
+        covmodel:
+          alpha: -10.0
+          elem:
+          - !!python/tuple
+            - spherical
+            - r:
+              - 2000.0
+              - 4000.0
+              w: 100.0
+        int_method: grf_ineq
+        krig_type: ordinary_kriging
+        nit: 20
+        nmax: 20
+        tau: 0.01
+      name: Surface 1
+  Hangschutt_Bachschutt:
+    ID: 2
+    color: lightgray
+    dic_facies:
+      SIS_orientation: false
+      azimuth: 0
+      dip: 0
+      f_covmodel:
+      - alpha: 0.0
+        beta: 0.0
+        elem:
+        - !!python/tuple
+          - exponential
+          - r:
+            - 100.0
+            - 150.0
+            - 15.0
+            w: 0.105
+        - !!python/tuple
+          - spherical
+          - r:
+            - 100.0
+            - 150.0
+            - 15.0
+            w: 0.105
+        gamma: 0.0
+      f_method: SIS
+      neig: 10
+      plunge: 0
+      probability: null
+      r: 1
+    list_facies:
+    - Clayey gravel
+    - Gravel
+    - Clay and silt
+    name: Hangschutt_Bachschutt
+    order: 2
+    surface:
+      contact: onlap
+      dic_surf:
+        N_transfo: false
+        covmodel:
+          alpha: -10.0
+          elem:
+          - !!python/tuple
+            - spherical
+            - r:
+              - 2000.0
+              - 4000.0
+              w: 100.0
+        int_method: grf_ineq
+        krig_type: ordinary_kriging
+        nit: 20
+        nmax: 20
+        tau: 0.01
+      name: Surface 1
+  IGT:
+    ID: 9
+    color: aqua
+    dic_facies:
+      SIS_orientation: false
+      azimuth: 0
+      dip: 0
+      f_covmodel:
+      - alpha: 0.0
+        beta: 0.0
+        elem:
+        - !!python/tuple
+          - exponential
+          - r:
+            - 100.0
+            - 150.0
+            - 15.0
+            w: 0.105
+        - !!python/tuple
+          - spherical
+          - r:
+            - 100.0
+            - 150.0
+            - 15.0
+            w: 0.105
+        gamma: 0.0
+      f_method: SIS
+      neig: 10
+      plunge: 0
+      probability: null
+      r: 1
+    list_facies:
+    - Clay and silt
+    name: IGT
+    order: 9
+    surface:
+      contact: onlap
+      dic_surf:
+        N_transfo: false
+        covmodel:
+          alpha: -10.0
+          elem:
+          - !!python/tuple
+            - spherical
+            - r:
+              - 2000.0
+              - 4000.0
+              w: 100.0
+        int_method: grf_ineq
+        krig_type: ordinary_kriging
+        nit: 20
+        nmax: 20
+        tau: 0.01
+      name: Surface 1
+  LGA:
+    ID: 4
+    color: royalblue
+    dic_facies:
+      SIS_orientation: false
+      azimuth: 0
+      dip: 0
+      f_covmodel:
+      - alpha: 0.0
+        beta: 0.0
+        elem:
+        - !!python/tuple
+          - exponential
+          - r:
+            - 100.0
+            - 150.0
+            - 15.0
+            w: 0.105
+        - !!python/tuple
+          - spherical
+          - r:
+            - 100.0
+            - 150.0
+            - 15.0
+            w: 0.105
+        gamma: 0.0
+      f_method: SIS
+      neig: 10
+      plunge: 0
+      probability: null
+      r: 1
+    list_facies:
+    - Gravel
+    - Clayey gravel
+    - Sand
+    name: LGA
+    order: 4
+    surface:
+      contact: onlap
+      dic_surf:
+        N_transfo: false
+        covmodel:
+          alpha: 0.0
+          elem:
+          - !!python/tuple
+            - cubic
+            - r:
+              - 18228.733995925184
+              - 18228.733995925184
+              w: 123.14596489994595
+          - !!python/tuple
+            - exponential
+            - r:
+              - 27553.690522552206
+              - 27553.690522552206
+              w: 123.14596489994595
+          - !!python/tuple
+            - spherical
+            - r:
+              - 14426.012585647595
+              - 14426.012585647595
+              w: 123.14596489994595
+        int_method: grf_ineq
+        krig_type: ordinary_kriging
+        nit: 20
+        nmax: 20
+        tau: 0.01
+      name: Surface 1
+  LGL:
+    ID: 5
+    color: darkblue
+    dic_facies:
+      SIS_orientation: false
+      azimuth: 0
+      dip: 0
+      f_covmodel:
+      - alpha: 0.0
+        beta: 0.0
+        elem:
+        - !!python/tuple
+          - exponential
+          - r:
+            - 100.0
+            - 150.0
+            - 15.0
+            w: 0.105
+        - !!python/tuple
+          - spherical
+          - r:
+            - 100.0
+            - 150.0
+            - 15.0
+            w: 0.105
+        gamma: 0.0
+      f_method: SIS
+      neig: 10
+      plunge: 0
+      probability: null
+      r: 1
+    list_facies:
+    - Clay and silt
+    - Sand
+    - Clayey sand
+    name: LGL
+    order: 5
+    surface:
+      contact: onlap
+      dic_surf:
+        N_transfo: false
+        covmodel:
+          alpha: 0.0
+          elem:
+          - !!python/tuple
+            - exponential
+            - r:
+              - 7786.585204357135
+              - 7786.585204357135
+              w: 180.94985955382253
+          - !!python/tuple
+            - spherical
+            - r:
+              - 54711.72993561515
+              - 54711.72993561515
+              w: 140.21149810599735
+        int_method: grf_ineq
+        krig_type: ordinary_kriging
+        nit: 20
+        nmax: 20
+        tau: 0.01
+      name: Surface 1
+  LGM:
+    ID: 7
+    color: Khaki
+    dic_facies:
+      SIS_orientation: false
+      azimuth: 0
+      dip: 0
+      f_covmodel:
+      - alpha: 0.0
+        beta: 0.0
+        elem:
+        - !!python/tuple
+          - exponential
+          - r:
+            - 100.0
+            - 150.0
+            - 15.0
+            w: 0.105
+        - !!python/tuple
+          - spherical
+          - r:
+            - 100.0
+            - 150.0
+            - 15.0
+            w: 0.105
+        gamma: 0.0
+      f_method: SIS
+      neig: 10
+      plunge: 0
+      probability: null
+      r: 1
+    list_facies:
+    - Clayey gravel
+    - Clay and silt
+    - Clayey sand
+    - Sand
+    - Gravel
+    name: LGM
+    order: 7
+    surface:
+      contact: erode
+      dic_surf:
+        N_transfo: false
+        covmodel:
+          alpha: 0.0
+          elem:
+          - !!python/tuple
+            - exponential
+            - r:
+              - 1076.1696103966235
+              - 1076.1696103966235
+              w: 347.2882790894927
+        int_method: grf_ineq
+        krig_type: ordinary_kriging
+        nit: 20
+        nmax: 20
+        tau: 0.01
+      name: Surface 1
+  LGMT:
+    ID: 6
+    color: goldenrod
+    dic_facies:
+      SIS_orientation: false
+      azimuth: 0
+      dip: 0
+      f_covmodel:
+      - alpha: 0.0
+        beta: 0.0
+        elem:
+        - !!python/tuple
+          - exponential
+          - r:
+            - 100.0
+            - 150.0
+            - 15.0
+            w: 0.105
+        - !!python/tuple
+          - spherical
+          - r:
+            - 100.0
+            - 150.0
+            - 15.0
+            w: 0.105
+        gamma: 0.0
+      f_method: SIS
+      neig: 10
+      plunge: 0
+      probability: null
+      r: 1
+    list_facies:
+    - Clayey gravel
+    - Sand
+    - Clayey sand
+    - Gravel
+    - Clay and silt
+    name: LGMT
+    order: 6
+    surface:
+      contact: onlap
+      dic_surf:
+        N_transfo: false
+        covmodel:
+          alpha: -10.0
+          elem:
+          - !!python/tuple
+            - spherical
+            - r:
+              - 2000.0
+              - 4000.0
+              w: 100.0
+        int_method: grf_ineq
+        krig_type: ordinary_kriging
+        nit: 20
+        nmax: 20
+        tau: 0.01
+      name: Surface 1
+  Munsingen:
+    ID: 8
+    color: lightgreen
+    dic_facies:
+      SIS_orientation: false
+      azimuth: 0
+      dip: 0
+      f_covmodel:
+      - alpha: 0.0
+        beta: 0.0
+        elem:
+        - !!python/tuple
+          - exponential
+          - r:
+            - 100.0
+            - 150.0
+            - 15.0
+            w: 0.105
+        - !!python/tuple
+          - spherical
+          - r:
+            - 100.0
+            - 150.0
+            - 15.0
+            w: 0.105
+        gamma: 0.0
+      f_method: SIS
+      neig: 10
+      plunge: 0
+      probability: null
+      r: 1
+    list_facies:
+    - Gravel
+    - Clayey gravel
+    - Clay and silt
+    - Sand
+    - Clayey sand
+    name: Munsingen
+    order: 8
+    surface:
+      contact: erode
+      dic_surf:
+        N_transfo: false
+        covmodel:
+          alpha: -10.0
+          elem:
+          - !!python/tuple
+            - spherical
+            - r:
+              - 2000.0
+              - 4000.0
+              w: 100.0
+        int_method: grf_ineq
+        krig_type: ordinary_kriging
+        nit: 20
+        nmax: 20
+        tau: 0.01
+      name: Surface 1
+  Oppligen-Sand:
+    ID: 13
+    color: purple
+    dic_facies:
+      SIS_orientation: false
+      azimuth: 0
+      dip: 0
+      f_covmodel:
+      - alpha: 0.0
+        beta: 0.0
+        elem:
+        - !!python/tuple
+          - exponential
+          - r:
+            - 100.0
+            - 150.0
+            - 15.0
+            w: 0.105
+        - !!python/tuple
+          - spherical
+          - r:
+            - 100.0
+            - 150.0
+            - 15.0
+            w: 0.105
+        gamma: 0.0
+      f_method: SIS
+      neig: 10
+      plunge: 0
+      probability: null
+      r: 1
+    list_facies:
+    - Sand
+    - Gravel
+    - Clayey sand
+    name: Oppligen-Sand
+    order: 13
+    surface:
+      contact: onlap
+      dic_surf:
+        N_transfo: false
+        covmodel:
+          alpha: -10.0
+          elem:
+          - !!python/tuple
+            - spherical
+            - r:
+              - 2000.0
+              - 4000.0
+              w: 100.0
+        int_method: grf_ineq
+        krig_type: ordinary_kriging
+        nit: 20
+        nmax: 20
+        tau: 0.01
+      name: Surface 1
+  SUP:
+    ID: 1
+    color: black
+    dic_facies:
+      SIS_orientation: false
+      azimuth: 0
+      dip: 0
+      f_covmodel:
+      - alpha: 0.0
+        beta: 0.0
+        elem:
+        - !!python/tuple
+          - exponential
+          - r:
+            - 100.0
+            - 150.0
+            - 15.0
+            w: 0.105
+        - !!python/tuple
+          - spherical
+          - r:
+            - 100.0
+            - 150.0
+            - 15.0
+            w: 0.105
+        gamma: 0.0
+      f_method: SIS
+      neig: 10
+      plunge: 0
+      probability: null
+      r: 1
+    list_facies:
+    - Clay and silt
+    - others
+    - Sand
+    - Gravel
+    - Clayey gravel
+    - Clayey sand
+    name: SUP
+    order: 1
+    surface:
+      contact: onlap
+      dic_surf:
+        N_transfo: false
+        covmodel:
+          alpha: -10.0
+          elem:
+          - !!python/tuple
+            - spherical
+            - r:
+              - 2000.0
+              - 4000.0
+              w: 100.0
+        int_method: grf_ineq
+        krig_type: ordinary_kriging
+        nit: 20
+        nmax: 20
+        tau: 0.01
+      name: Surface 1
+  YG:
+    ID: 3
+    color: lightblue
+    dic_facies:
+      SIS_orientation: false
+      azimuth: 0
+      dip: 0
+      f_covmodel:
+      - alpha: 0.0
+        beta: 0.0
+        elem:
+        - !!python/tuple
+          - exponential
+          - r:
+            - 100.0
+            - 150.0
+            - 15.0
+            w: 0.105
+        - !!python/tuple
+          - spherical
+          - r:
+            - 100.0
+            - 150.0
+            - 15.0
+            w: 0.105
+        gamma: 0.0
+      f_method: SIS
+      neig: 10
+      plunge: 0
+      probability: null
+      r: 1
+    list_facies:
+    - Gravel
+    - Clayey gravel
+    - Sand
+    name: YG
+    order: 3
+    surface:
+      contact: onlap
+      dic_surf:
+        N_transfo: false
+        covmodel:
+          alpha: 0.0
+          elem:
+          - !!python/tuple
+            - cubic
+            - r:
+              - 19872.42552455628
+              - 19872.42552455628
+              w: 158.8384393465909
+          - !!python/tuple
+            - exponential
+            - r:
+              - 54733.32899245315
+              - 54733.32899245315
+              w: 49.45017210806655
+          - !!python/tuple
+            - spherical
+            - r:
+              - 24000.184125950076
+              - 24000.184125950076
+              w: 158.8384393465909
+        int_method: grf_ineq
+        krig_type: ordinary_kriging
+        nit: 20
+        nmax: 20
+        tau: 0.01
+      name: Surface 1
+  glacio_lac + schlamm:
+    ID: 11
+    color: coral
+    dic_facies:
+      SIS_orientation: false
+      azimuth: 0
+      dip: 0
+      f_covmodel:
+      - alpha: 0.0
+        beta: 0.0
+        elem:
+        - !!python/tuple
+          - exponential
+          - r:
+            - 100.0
+            - 150.0
+            - 15.0
+            w: 0.105
+        - !!python/tuple
+          - spherical
+          - r:
+            - 100.0
+            - 150.0
+            - 15.0
+            w: 0.105
+        gamma: 0.0
+      f_method: SIS
+      neig: 10
+      plunge: 0
+      probability: null
+      r: 1
+    list_facies:
+    - Gravel
+    - Clay and silt
+    - Sand
+    - Clayey gravel
+    name: glacio_lac + schlamm
+    order: 11
+    surface:
+      contact: onlap
+      dic_surf:
+        N_transfo: false
+        covmodel:
+          alpha: -10.0
+          elem:
+          - !!python/tuple
+            - spherical
+            - r:
+              - 2000.0
+              - 4000.0
+              w: 100.0
+        int_method: grf_ineq
+        krig_type: ordinary_kriging
+        nit: 20
+        nmax: 20
+        tau: 0.01
+      name: Surface 1
+boreholes:
+  facies_data: Aar_geomodel.fd
+  list_bhs: Aar_geomodel.lbh
+  units_data: Aar_geomodel.ud
+facies_computed: 0
+geol_map: Aar_geomodel.gmap
+grid:
+  bot: Aar_geomodel.bot
+  dimensions: !!python/tuple
+  - 274.0
+  - 474.0
+  - 70.0
+  mask: Aar_geomodel.msk
+  origin: !!python/tuple
+  - 2601735.7889157427
+  - 1174159.4862123774
+  - 450.0
+  spacing: !!python/tuple
+  - 50.0
+  - 50.0
+  - 2.0
+  top: Aar_geomodel.top
+name: Aar_geomodel
+ncpu: -1
+prop_computed: 0
+properties:
+  K:
+    covmodels:
+    - null
+    - alpha: 0.0
+      beta: 0.0
+      elem:
+      - !!python/tuple
+        - exponential
+        - r:
+          - 50.0
+          - 50.0
+          - 2.0
+          w: 0.16
+      gamma: 0.0
+    - alpha: 0.0
+      beta: 0.0
+      elem:
+      - !!python/tuple
+        - exponential
+        - r:
+          - 50.0
+          - 50.0
+          - 2.0
+          w: 0.25
+      gamma: 0.0
+    - null
+    - alpha: 0.0
+      beta: 0.0
+      elem:
+      - !!python/tuple
+        - exponential
+        - r:
+          - 50.0
+          - 50.0
+          - 2.0
+          w: 0.2
+      gamma: 0.0
+    - alpha: 0.0
+      beta: 0.0
+      elem:
+      - !!python/tuple
+        - exponential
+        - r:
+          - 50.0
+          - 50.0
+          - 2.0
+          w: 0.2
+      gamma: 0.0
+    def_mean: -5
+    facies:
+    - Clay and silt
+    - Sand
+    - Gravel
+    - others
+    - Clayey sand
+    - Clayey gravel
+    int_method:
+    - homogenous
+    - sgs
+    - sgs
+    - homogenous
+    - sgs
+    - sgs
+    means:
+    - -8.0
+    - -3.5
+    - -2.0
+    - -5.0
+    - -5.5
+    - -6.0
+    name: K
+    vmax: null
+    vmin: null
+seed: 22
+surfaces_computed: 1
+verbose: 1
+ws: working_directory
