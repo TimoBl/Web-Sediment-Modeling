@@ -150,10 +150,10 @@
    */
   on('click', '.submitBtn', function(e) {
     e.preventDefault()
-    document.getElementById('noInputData').style.display='none';
-    document.getElementById('inputDataGiven').style.display='block';
+    //document.getElementById('noInputData').style.display='none';
+    //document.getElementById('inputDataGiven').style.display='block';
   }, true)
-
+ 
   /**
    * show container for data visualization when input given
    */

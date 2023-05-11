@@ -51,13 +51,8 @@ function submitPolygon() {
     console.log(polygon);
     $.ajax({
         type: 'POST',
-        url: '/get_polygon',
-        contentType: 'application/json;charset=UTF-8',
-        data: polygon,
-        success: function (response) {
-            var userid = response
-            window.location.href = "./computing/"+userid
-        }
+        url: '/model',
+        data: {'data': polygon}
     });
 
 }

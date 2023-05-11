@@ -124,6 +124,13 @@ def report_failure(job, connection, type, value, traceback):
 @login_required # user needs to be logged in
 def model():
 
+    # get the submission id
+    data = None
+    if request.method== "POST":
+        data = request.form['data']
+    print(data)
+
+    '''
     # get form
     form = JobSubmissionForm()
 
@@ -145,8 +152,9 @@ def model():
         db.session.commit()
         
         return redirect(url_for('index') + "#submission")
-
-    return render_template('model.html', title='Model', form=form) #, user=user) #str(m.get_units_domains_realizations())
+    '''
+    return redirect(url_for('index') + "#submission")
+    #return render_template('model.html', title='Model') ,#  form=form) #, user=user) #str(m.get_units_domains_realizations())
 
 
 # views the result of a job

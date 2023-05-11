@@ -1,34 +1,16 @@
-2023-04-23 15:13:45,754 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-23 15:14:14,194 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+2023-04-24 15:04:45,303 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 698, in connect
-    sock = self.retry.call_with_retry(
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/retry.py", line 46, in call_with_retry
-    return do()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 699, in <lambda>
-    lambda: self._connect(), lambda error: self.disconnect(error)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 987, in _connect
-    raise err
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 975, in _connect
-    sock.connect(socket_address)
-ConnectionRefusedError: [Errno 111] Connection refused
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/backends/redis.py", line 119, in reconnect_on_error
-    yield
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/backends/redis.py", line 169, in _consume_from
-    self._pubsub.subscribe(key)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/client.py", line 1623, in subscribe
-    ret_val = self.execute_command("SUBSCRIBE", *new_channels.keys())
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/client.py", line 1458, in execute_command
-    self.connection = self.connection_pool.get_connection(
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 1442, in get_connection
-    connection.connect()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 704, in connect
-    raise ConnectionError(self._error_message(e))
-redis.exceptions.ConnectionError: Error 111 connecting to localhost:6379. Connection refused.
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 1448, in get_connection
+    if connection.can_read():
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 854, in can_read
+    return self._parser.can_read(timeout)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 341, in can_read
+    return self._buffer and self._buffer.can_read(timeout)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 239, in can_read
+    return bool(self.unread_bytes()) or self._read_from_socket(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 212, in _read_from_socket
+    raise ConnectionError(SERVER_CLOSED_CONNECTION_ERROR)
+redis.exceptions.ConnectionError: Connection closed by server.
 
 During handling of the above exception, another exception occurred:
 
@@ -46,41 +28,6 @@ Traceback (most recent call last):
 ConnectionRefusedError: [Errno 111] Connection refused
 
 During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/kombu/connection.py", line 446, in _reraise_as_library_errors
-    yield
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/app/base.py", line 787, in send_task
-    self.backend.on_task_call(P, task_id)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/backends/redis.py", line 365, in on_task_call
-    self.result_consumer.consume_from(task_id)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/backends/redis.py", line 161, in consume_from
-    return self.start(task_id)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/backends/redis.py", line 139, in start
-    self._consume_from(initial_task_id)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/backends/redis.py", line 168, in _consume_from
-    with self.reconnect_on_error():
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/contextlib.py", line 153, in __exit__
-    self.gen.throw(typ, value, traceback)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/backends/redis.py", line 122, in reconnect_on_error
-    self._ensure(self._reconnect_pubsub, ())
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/backends/redis.py", line 376, in ensure
-    return retry_over_time(
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/kombu/utils/functional.py", line 312, in retry_over_time
-    return fun(*args, **kwargs)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/backends/redis.py", line 106, in _reconnect_pubsub
-    metas = self.backend.client.mget(self.subscribed_to)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/commands/core.py", line 1976, in mget
-    return self.execute_command("MGET", *args, **options)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/client.py", line 1255, in execute_command
-    conn = self.connection or pool.get_connection(command_name, **options)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 1442, in get_connection
-    connection.connect()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 704, in connect
-    raise ConnectionError(self._error_message(e))
-redis.exceptions.ConnectionError: Error 111 connecting to localhost:6379. Connection refused.
-
-The above exception was the direct cause of the following exception:
 
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
@@ -93,20 +40,77 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/home/timo/Documents/Prototype/app/routes.py", line 107, in model
+    rq_job = app.task_queue.enqueue('app.tasks.example', name, dim, spacing)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/queue.py", line 877, in enqueue
+    return self.enqueue_call(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/queue.py", line 670, in enqueue_call
+    return self.enqueue_job(job, pipeline=pipeline, at_front=at_front)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/queue.py", line 1014, in enqueue_job
+    pipe.execute()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/client.py", line 2103, in execute
+    conn = self.connection_pool.get_connection("MULTI", self.shard_hint)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 1452, in get_connection
+    connection.connect()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/redis/connection.py", line 704, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 111 connecting to localhost:6379. Connection refused.
+2023-04-24 15:04:52,270 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 15:09:34,716 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 15:11:02,806 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 15:12:41,729 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 15:12:55,811 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 15:13:31,208 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 15:13:59,608 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 15:43:17,967 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 15:44:07,346 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 15:44:53,318 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 15:46:16,472 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 15:46:28,704 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 15:46:49,002 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 16:10:23,310 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 16:10:41,440 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 16:12:13,226 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 16:16:18,278 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 16:17:24,667 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 16:18:03,471 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 16:18:35,806 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 16:19:06,088 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 16:19:46,274 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 16:20:12,202 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 16:28:36,910 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 16:40:31,773 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 16:40:36,319 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
   File "/home/timo/Documents/Prototype/app/routes.py", line 115, in model
-    run_job.apply_async(args=[name, dim, spacing])
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/app/task.py", line 575, in apply_async
-    return app.send_task(
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/celery/app/base.py", line 785, in send_task
-    with P.connection._reraise_as_library_errors():
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/contextlib.py", line 153, in __exit__
-    self.gen.throw(typ, value, traceback)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/kombu/connection.py", line 450, in _reraise_as_library_errors
-    raise ConnectionError(str(exc)) from exc
-kombu.exceptions.OperationalError: Error 111 connecting to localhost:6379. Connection refused.
-2023-04-23 15:22:28,016 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-23 15:28:52,406 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-23 15:30:53,803 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-23 15:32:24,329 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-23 15:34:03,181 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
-2023-04-23 15:37:06,475 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:33]
+    job = Job.create(tasks.run_geo_model, name, dim, spacing)
+NameError: name 'tasks' is not defined
+2023-04-24 16:40:53,553 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-24 16:40:57,120 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/home/timo/Documents/Prototype/app/routes.py", line 115, in model
+    job = Job.create('tasks.run_geo_model', name, dim, spacing)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 208, in create
+    raise TypeError('{0!r} is not a valid args list'.format(args))
+TypeError: 'Demo' is not a valid args list
+2023-04-24 16:42:00,285 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
