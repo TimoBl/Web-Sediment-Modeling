@@ -1,4 +1,5 @@
-2023-05-11 09:53:11,038 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+2023-05-14 19:05:53,962 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-14 19:05:56,644 ERROR: Exception on /view [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -10,26 +11,11 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 157, in model
-    #return render_template('model.html', title='Model') ,#  form=form) #, user=user) #str(m.get_units_domains_realizations())
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/templating.py", line 147, in render_template
-    return _render(app, template, context)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/templating.py", line 130, in _render
-    rv = template.render(context)
-  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 1301, in render
-    self.environment.handle_exception()
-  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 936, in handle_exception
-    raise rewrite_traceback_stack(source=source)
-  File "/home/timo/Documents/Prototype/app/templates/model.html", line 1, in top-level template code
-    {% extends "base.html" %}
-  File "/home/timo/Documents/Prototype/app/templates/base.html", line 106, in top-level template code
-    {% block content %}
-  File "/home/timo/Documents/Prototype/app/templates/model.html", line 6, in block 'content'
-    {{ form.hidden_tag() }}
-  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 485, in getattr
-    return getattr(obj, attribute)
-jinja2.exceptions.UndefinedError: 'form' is undefined
-2023-05-11 09:53:13,327 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+  File "/home/timo/Documents/Prototype/app/routes.py", line 218, in view
+    html = plotly.io.to_html(fig, full_html=False, default_height=500, default_width=700, margin=dict(l=10, r=10, t=25, b=10))  # you should interactively get the width before from the client, and maybe also have the possibility to change it
+TypeError: to_html() got an unexpected keyword argument 'margin'
+2023-05-14 19:08:01,106 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-14 19:08:04,008 ERROR: Exception on /view [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -41,22 +27,34 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 157, in model
-    #return render_template('model.html', title='Model') ,#  form=form) #, user=user) #str(m.get_units_domains_realizations())
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/templating.py", line 147, in render_template
-    return _render(app, template, context)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/templating.py", line 130, in _render
-    rv = template.render(context)
-  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 1301, in render
-    self.environment.handle_exception()
-  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 936, in handle_exception
-    raise rewrite_traceback_stack(source=source)
-  File "/home/timo/Documents/Prototype/app/templates/model.html", line 1, in top-level template code
-    {% extends "base.html" %}
-  File "/home/timo/Documents/Prototype/app/templates/base.html", line 106, in top-level template code
-    {% block content %}
-  File "/home/timo/Documents/Prototype/app/templates/model.html", line 6, in block 'content'
-    {{ form.hidden_tag() }}
-  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 485, in getattr
-    return getattr(obj, attribute)
-jinja2.exceptions.UndefinedError: 'form' is undefined
+  File "/home/timo/Documents/Prototype/app/routes.py", line 216, in view
+    html = plotly.io.to_html(fig, full_html=False, default_height=500, default_width=700, margin=dict(l=10, r=10, t=25, b=10))  # you should interactively get the width before from the client, and maybe also have the possibility to change it
+TypeError: to_html() got an unexpected keyword argument 'margin'
+2023-05-14 19:08:17,995 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-14 19:08:49,372 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-14 19:12:43,213 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-14 19:17:47,171 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-14 19:18:34,787 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-14 19:18:38,121 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-14 19:19:17,995 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-14 19:21:38,342 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-14 19:21:46,626 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/home/timo/Documents/Prototype/app/routes.py", line 133, in model
+    coordinates = json.load(request.form['coordinates'])
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/json/__init__.py", line 293, in load
+    return loads(fp.read(),
+AttributeError: 'str' object has no attribute 'read'
+2023-05-14 19:23:01,259 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-14 19:24:20,959 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-14 19:25:26,872 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]

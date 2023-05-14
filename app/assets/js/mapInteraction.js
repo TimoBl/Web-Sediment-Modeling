@@ -1,4 +1,4 @@
-var map = L.map('mapid').setView([46.20533, 6.14559], 13);
+var map = L.map('mapid').setView([46.859588, 7.529822], 13);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
@@ -52,7 +52,7 @@ function submitPolygon() {
     $.ajax({
         type: 'POST',
         url: '/model',
-        data: {'data': polygon}
+        data: {'coordinates': polygon}
     });
 
 }

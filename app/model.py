@@ -219,7 +219,7 @@ def borehole_analysis(ArchTable, db, list_facies,
 
 
 #Aar_model main function
-def AareModel(spacing=(10, 10, 10), select_files=False, nreal_units=5, nreal_facies=2, nreal_prop=1,
+def AareModel(poly_data, spacing, select_files=False, nreal_units=5, nreal_facies=2, nreal_prop=1,
 				ws="data", bhs_path="data/all_BH.csv", all_layers="data/Layer_all_free.csv", mnt="data/MNT25.tif", bdrck_path="data/BEM25-2021_crop_Aar.tif"):
     
     # load files
@@ -227,7 +227,9 @@ def AareModel(spacing=(10, 10, 10), select_files=False, nreal_units=5, nreal_fac
     bhs = pd.read_csv(bhs_path)
     
     # mock coordinates
+    print(poly_data)
     poly_data = np.load("data/polygon_coord_6.npy") 
+    print(poly_data)
 
     # create multipolygon shapely
     p1 = MultiPolygon([Polygon(p) for p in poly_data])

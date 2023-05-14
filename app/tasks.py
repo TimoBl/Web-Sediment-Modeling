@@ -44,7 +44,14 @@ def run_geo_model(user_id, name, dim, spacing):
 
 
 
-def run_aare_model(user_id, name, dim, spacing):
+# a naive approach of 
+def coordinates_to_meters(lat, lng):
+    N = 111320 * lat
+    E = (40075 * np.cos(lat * np.pi / 180) / 360) * lng
+    return [N, E]
+
+
+def run_aare_model(user_id, name, coordinates, spacing):
 
     try:
 
@@ -56,8 +63,11 @@ def run_aare_model(user_id, name, dim, spacing):
         if not os.path.exists(out_dir):
             os.mkdir(out_dir) # somehow archpy overwrite this when we give directory
 
+        # convert coordinates
+        poly_data = [[coordinates_to_meters(p['lat'], p['lng']) for p in coordinates[0]]]
+
         # run geological model
-        realizations = AareModel(spacing=spacing)
+        realizations = AareModel(poly_data, spacing)
 
         # the more efficient representation does not lead to better view
         #X, Y, Z = np.nonzero(realizations[0])
@@ -67,16 +77,21 @@ def run_aare_model(user_id, name, dim, spacing):
         # save output
         np.save(os.path.join(out_dir, "realizations.npy"), realizations)
 
+        # job completed successfully
+        _set_progress_status("100%", True)
+
     except Exception as e:
         # we should implement verfication status
         print("Error: ", e)
+
+        # job did not completed successfully
+        _set_progress_status("100%", False)
 
     finally:
         # is always excuted regardless of execution
         print("end")
 
-    # job completed successfully
-    _set_progress_status("100%", True)
+    
 
 
 

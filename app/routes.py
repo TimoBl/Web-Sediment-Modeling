@@ -17,7 +17,7 @@ import plotly.graph_objects as go
 import plotly.express as px
 from rq import Callback
 from scipy.interpolate import RegularGridInterpolator as rgi
-
+import json
 
 # global variables
 JOB_TIMEOUT = 15*60 # maximum of 5 minutes for job to complete
@@ -126,9 +126,27 @@ def model():
 
     # get the submission id
     data = None
+
     if request.method== "POST":
-        data = request.form['data']
-    print(data)
+
+        # get the coordinates
+        coordinates = json.loads(request.form['coordinates'])
+        
+        # mock values
+        name = "Demo"
+        spacing = (25, 25, 5)
+
+        # we should test the coordinates before launching the jobg
+
+        # get the job into queue
+        job = Job.create('tasks.run_aare_model', args=(current_user.id, name, coordinates, spacing), connection=app.redis, timeout=JOB_TIMEOUT)
+        rq_job = app.task_queue.enqueue_job(job)
+
+        # show job submission
+        submission = Submission(id=rq_job.get_id(), name=name, user_id=current_user.id)
+        db.session.add(submission)
+        db.session.commit()
+
 
     '''
     # get form
@@ -186,13 +204,15 @@ def view():
         values = realizations
 
         fig = go.Figure(data=go.Volume(
-            x=X.flatten(),
+            x=Z.flatten(),
             y=Y.flatten(),
-            z=Z.flatten(),
+            z=-X.flatten(),
             value=values.flatten(),
-            opacity=0.15, # needs to be small to see through all surfaces
+            opacity=0.3, # needs to be small to see through all surfaces
             surface_count=5, # needs to be a large number for good volume rendering -> we reduced to get better performance
             ))
+
+        fig.update_layout(autosize=True, margin=dict(l=20, r=20, t=20, b=20))
         
         # maybe we should then get the html width somehow
         html = plotly.io.to_html(fig, full_html=False, default_height=500, default_width=700)  # you should interactively get the width before from the client, and maybe also have the possibility to change it 
