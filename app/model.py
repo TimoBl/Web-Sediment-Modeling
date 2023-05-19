@@ -228,8 +228,8 @@ def AareModel(poly_data, spacing, select_files=False, nreal_units=5, nreal_facie
     
     # mock coordinates
     print(poly_data)
-    poly_data = np.load("data/polygon_coord_6.npy") 
-    print(poly_data)
+    #poly_data = np.load("data/polygon_coord_6.npy") 
+    #print(poly_data)
 
     # create multipolygon shapely
     p1 = MultiPolygon([Polygon(p) for p in poly_data])

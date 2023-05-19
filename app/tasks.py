@@ -46,8 +46,8 @@ def run_geo_model(user_id, name, dim, spacing):
 
 # a naive approach of 
 def coordinates_to_meters(lat, lng):
-    N = 111320 * lat
-    E = (40075 * np.cos(lat * np.pi / 180) / 360) * lng
+    N = (111132.954 * lat) / 2
+    E = 2 * (111319.488 * np.cos(np.pi *lat / 180)) * lng
     return [N, E]
 
 
@@ -65,6 +65,10 @@ def run_aare_model(user_id, name, coordinates, spacing):
 
         # convert coordinates
         poly_data = [[coordinates_to_meters(p['lat'], p['lng']) for p in coordinates[0]]]
+        #print(poly_data)
+
+        #poly_data = np.load("data/polygon_coord_6.npy") 
+        #print(poly_data)
 
         # run geological model
         realizations = AareModel(poly_data, spacing)

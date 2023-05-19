@@ -136,7 +136,7 @@ def model():
         name = "Demo"
         spacing = (25, 25, 5)
 
-        # we should test the coordinates before launching the jobg
+        # we should test the coordinates before launching the job and otherwise give an error
 
         # get the job into queue
         job = Job.create('tasks.run_aare_model', args=(current_user.id, name, coordinates, spacing), connection=app.redis, timeout=JOB_TIMEOUT)
@@ -147,6 +147,12 @@ def model():
         db.session.add(submission)
         db.session.commit()
 
+        flash('Job {} was submited'.format(submission.id))
+
+    else:
+        flash('Could not submit model!')
+    
+    return redirect(url_for('index') + "#submission")
 
     '''
     # get form
@@ -171,7 +177,6 @@ def model():
         
         return redirect(url_for('index') + "#submission")
     '''
-    return redirect(url_for('index') + "#submission")
     #return render_template('model.html', title='Model') ,#  form=form) #, user=user) #str(m.get_units_domains_realizations())
 
 
@@ -183,6 +188,9 @@ def view():
     # get the submission id
     submission_id = request.args.get('id', None)
 
+    # get the realization id 
+    realization_id = int(request.args.get('realization_id', 0))
+
     # find submission
     submission = Submission.query.filter_by(id=submission_id).first()
 
@@ -193,21 +201,24 @@ def view():
         out_dir = os.path.join("output", str(current_user.id), str(submission.id), "realizations.npy") 
         realizations = np.load(out_dir)
 
-        # choose first realizations
+        # choose realizations
         (d, x, y, z) = realizations.shape
-        realizations = realizations[0] # you should be able to choose between realizations!!!!
+        realization_id = min(realization_id, d-1)
+        realizations = realizations[realization_id] 
 
-        #print(realizations.shape)
-        
         # reshape array to indixes
         X, Y, Z = np.mgrid[0:x, 0:y, 0:z]
         values = realizations
+        X, Y, Z, values = X.flatten(), Y.flatten(), Z.flatten(), values.flatten()
+
+        #[X, Y, Z, values] = realizations
+        # maybe add a display size
 
         fig = go.Figure(data=go.Volume(
-            x=Z.flatten(),
-            y=Y.flatten(),
-            z=-X.flatten(),
-            value=values.flatten(),
+            x=Z,
+            y=Y,
+            z=-X,
+            value=values,
             opacity=0.3, # needs to be small to see through all surfaces
             surface_count=5, # needs to be a large number for good volume rendering -> we reduced to get better performance
             ))
@@ -216,7 +227,7 @@ def view():
         
         # maybe we should then get the html width somehow
         html = plotly.io.to_html(fig, full_html=False, default_height=500, default_width=700)  # you should interactively get the width before from the client, and maybe also have the possibility to change it 
-        return render_template('view.html', plot=html, submission=submission)
+        return render_template('view.html', plot=html, submission=submission, realization_id=realization_id ,realizations=d)
     else:
         # we could add an error for each error type
         flash('Submission {} cannot be viewed'.format(submission_id))

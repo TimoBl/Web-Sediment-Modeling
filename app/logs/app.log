@@ -58,3 +58,59 @@ AttributeError: 'str' object has no attribute 'read'
 2023-05-14 19:23:01,259 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
 2023-05-14 19:24:20,959 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
 2023-05-14 19:25:26,872 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-19 10:27:57,839 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-19 10:43:44,913 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-19 10:43:57,158 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/home/timo/Documents/Prototype/app/routes.py", line 150, in model
+    flash('Job {} was submited'.format(submission_id))
+NameError: name 'submission_id' is not defined
+2023-05-19 10:45:28,847 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-19 10:57:32,348 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-19 11:18:44,911 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-19 11:25:55,285 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-19 11:32:01,053 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-19 11:32:57,484 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-19 11:33:30,122 ERROR: Exception on /view [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/home/timo/Documents/Prototype/app/routes.py", line 210, in view
+    [X, Y, Z, values] = realizations
+ValueError: too many values to unpack (expected 4)
+2023-05-19 11:37:29,410 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-19 12:37:46,904 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-19 12:38:12,407 ERROR: Exception on /view [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/home/timo/Documents/Prototype/app/routes.py", line 206, in view
+    realization_id = min(realization_id, d-1)
+TypeError: '<' not supported between instances of 'int' and 'str'
+2023-05-19 12:40:44,553 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
