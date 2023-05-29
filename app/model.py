@@ -218,17 +218,17 @@ def borehole_analysis(ArchTable, db, list_facies,
                         ArchTable.get_unit(unit).add_facies(list_facies[i])
 
 
+'''
 #Aar_model main function
-def AareModel(poly_data, spacing, select_files=False, nreal_units=5, nreal_facies=2, nreal_prop=1,
+def AareModel(poly_data=None, spacing=None, select_files=False, nreal_units=5, nreal_facies=2, nreal_prop=1,
 				ws="data", bhs_path="data/all_BH.csv", all_layers="data/Layer_all_free.csv", mnt="data/MNT25.tif", bdrck_path="data/BEM25-2021_crop_Aar.tif"):
     
     # load files
-    lay = pd.read_csv(all_layers, error_bad_lines=False, sep=";", low_memory=False)
-    bhs = pd.read_csv(bhs_path)
+    
     
     # mock coordinates
-    print(poly_data)
-    #poly_data = np.load("data/polygon_coord_6.npy") 
+    #rint(poly_data)
+    poly_data = np.load("data/polygon_coord_6.npy") 
     #print(poly_data)
 
     # create multipolygon shapely
@@ -241,7 +241,8 @@ def AareModel(poly_data, spacing, select_files=False, nreal_units=5, nreal_facie
         po.name = i  # set cell id as names to grid cells
         bhs_points.append(po)
 
-    #check position, only keep points inside polygon
+    #check position, only keep points inside polygonut_dir):
+        os.mkdir(out_dir) # somehow archpy overwrite this when we g
     l = np.array([po.name for po in bhs_points if po.intersects(p1)])
 
     #select bhs in zone
@@ -300,3 +301,6 @@ def AareModel(poly_data, spacing, select_files=False, nreal_units=5, nreal_facie
     T1.compute_prop(nreal_prop)
         
     return T1.get_units_domains_realizations()
+
+AareModel()
+'''

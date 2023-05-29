@@ -19,6 +19,9 @@ from rq import Callback
 from scipy.interpolate import RegularGridInterpolator as rgi
 import json
 
+from app.tasks import AareModel, run_model
+
+
 # global variables
 JOB_TIMEOUT = 15*60 # maximum of 5 minutes for job to complete
 
@@ -131,51 +134,39 @@ def model():
         # mock values
         name = "Demo"
         spacing = (25, 25, 5)
+        poly_data = coordinates
+        #out_dir = os.path.join()
         
-        # we should test the coordinates before launching the job and otherwise give an error
+        # initialize model 
+        model = AareModel(name, coordinates, spacing)
 
-        # get the job into queue
-        job = Job.create('tasks.run_aare_model', args=(current_user.id, name, coordinates, spacing), connection=app.redis, timeout=JOB_TIMEOUT)
-        rq_job = app.task_queue.enqueue_job(job)
+        # check validity
+        valid, msg = model.is_valid()
+        
+        if valid:
+            # maybe we should also check if we can actually submit the job -> connection to the backend
 
-        # show job submission
-        submission = Submission(id=rq_job.get_id(), name=name, user_id=current_user.id)
-        db.session.add(submission)
-        db.session.commit()
+            # get the job into queue 
+            job = Job.create('tasks.run_model', args=(current_user.id, name, poly_data, spacing), connection=app.redis, timeout=JOB_TIMEOUT)
+            rq_job = app.task_queue.enqueue_job(job) #on_success=report_success, on_failure=report_failure) #, on_stopped=report_stopped)
 
-        flash('Job {} was submited'.format(submission.id))
-        return url_for('submission')
+            # show in job submission
+            submission = Submission(id=rq_job.get_id(), name=name, user_id=current_user.id)
+            db.session.add(submission)
+            db.session.commit()
+            
+
+            flash('Job {} was submited'.format(submission.id))
+            return url_for('submission')
+
+        else:
+            flash('Job could not be submited: {}'.format(msg))
+            return url_for('index') + "#interactiveMapSection"
 
     else:
         flash('Could not submit model!')
         return url_for('index')
     
-
-    '''
-    # get form
-    form = JobSubmissionForm()
-
-    # check if submission is valid
-    if form.validate_on_submit():
-
-        # get variables
-        name = form.name.data
-        dim = (form.width.data, form.height.data, form.depth.data)
-        spacing = (form.sw.data, form.sh.data, form.sd.data)
-                           
-        # get the job into queue
-        job = Job.create('tasks.run_aare_model', args=(current_user.id, name, dim, spacing), connection=app.redis, timeout=JOB_TIMEOUT)
-        rq_job = app.task_queue.enqueue_job(job)
-
-        # show job submission
-        submission = Submission(id=rq_job.get_id(), name=form.name.data, user_id=current_user.id)
-        db.session.add(submission)
-        db.session.commit()
-        
-        return redirect(url_for('index') + "#submission")
-    '''
-    #return render_template('model.html', title='Model') ,#  form=form) #, user=user) #str(m.get_units_domains_realizations())
-
 
 # views the result of a job
 @app.route('/view', methods=['GET'])
