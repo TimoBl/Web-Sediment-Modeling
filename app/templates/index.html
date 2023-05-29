@@ -105,7 +105,9 @@
         <br>
 
         <div id="mapid" style="border:0; width: 100%; height: 500px;"></div>
-        <a class="submitBtn" onclick="submitPolygon()">Visualize my data</a>
+        <a class="submitBtn" onclick="submitPolygon('{{ url_for('model') }}')">Visualize my data</a>
+
+        <div>You can view submissions here <a href="{{ url_for('submission') }}">here</a></div>
       </div>
     </section>
     <!-- End of Interactive Map -->
@@ -143,42 +145,6 @@
 
       </div>
     </section><!-- End About Us Section -->
-
-
-    <!-- ======= Submission section ======= -->
-  <section id="submission" class="su">
-      <div class="container" data-aos="fade-up">
-
-        <div class="section-title">
-          <h2>Submission</h2>
-        </div>
-
-        <div class="row content">
-          <div class="col-lg-6">
-            {% if not current_user.is_anonymous %}
-                <p>
-                    {% if submissions|length > 0 %}
-                        <ul>
-                            {% for submission in submissions %}
-                                <li> {{ submission }} <a href="{{ url_for('view', id=submission.id) }}">view</a> <a href="{{ url_for('delete', id=submission.id) }}">delete</a></li>
-                            {% endfor %}
-                        </ul>
-                    {% else %}
-                        <i> No jobs were submitted </i>
-                    {% endif %}
-                </p>
-                <br>
-                <p>
-                    You can submit jobs <a href="{{ url_for('model') }}">here</a>.
-                </p>
-            {% else %}
-                <p>
-                    Please <a href="{{ url_for('login') }}">login</a> or <a href="{{ url_for('register') }}">register</a> to be able to submit models.
-                </p>
-            {% endif %}
-          </div>
-        </div>
-  </section><!-- End Hero -->
 
 
         <!-- ======= Frequently Asked Questions Section ======= -->
@@ -286,3 +252,15 @@
     <!-- End Contact Section -->
 
 {% endblock %} 
+
+
+ <!-- Leaflet Files -->
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+
+
+<!-- Leaflet map drawing -->
+<script type="text/javascript" src="assets/js/mapInteraction.js"></script>

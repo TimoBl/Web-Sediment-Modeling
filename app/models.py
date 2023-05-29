@@ -4,7 +4,7 @@ from flask_login import UserMixin
 from datetime import datetime
 import redis
 import rq
-from app import app, db, login
+from app import app, db, login, moment
 
 
 # User class
@@ -76,4 +76,7 @@ class Submission(db.Model):
 
 	def __repr__(self):
 		self.get_status()
-		return '{}, {}, {}, {}'.format(self.name, self.timestamp.strftime("%m/%d/%Y, %H:%M"), self.status, self.complete)
+		
+		# change this to include moment
+		#return '{}, {}, {}, {}'.format(self.name, self.timestamp.strftime("%m/%d/%Y, %H:%M"), self.status, self.complete)
+		return self

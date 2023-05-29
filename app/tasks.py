@@ -5,11 +5,9 @@ import os
 import ArchPy 
 import numpy as np
 
-
+'''
 # this is the function we will call with redis
 def run_geo_model(user_id, name, dim, spacing):
-
-    try:
 
         # beginning computation
         job =_set_progress_status("0%", False)
@@ -41,7 +39,7 @@ def run_geo_model(user_id, name, dim, spacing):
 
     # job completed successfully
     _set_progress_status("100%", True)
-
+'''
 
 
 # a naive approach of 
@@ -85,6 +83,7 @@ def run_aare_model(user_id, name, coordinates, spacing):
         _set_progress_status("100%", True)
 
     except Exception as e:
+
         # we should implement verfication status
         print("Error: ", e)
 
@@ -93,7 +92,7 @@ def run_aare_model(user_id, name, coordinates, spacing):
 
     finally:
         # is always excuted regardless of execution
-        print("end")
+        print("End")
 
     
 

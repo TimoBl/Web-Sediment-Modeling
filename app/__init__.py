@@ -7,6 +7,8 @@ import logging
 from logging.handlers import RotatingFileHandler
 from redis import Redis
 import rq
+from flask_moment import Moment
+
 
 
 # app
@@ -27,6 +29,9 @@ login.login_view = 'login' # to protect user from unauthorized pages
 app.redis = Redis.from_url(app.config['REDIS_URL'])
 app.task_queue = rq.Queue('submission-tasks', connection=app.redis) # queue for submitting tasks
 # kill : sudo service redis-server stop
+
+# time keeping
+moment = Moment(app)
 
 # logging system
 if not app.debug:

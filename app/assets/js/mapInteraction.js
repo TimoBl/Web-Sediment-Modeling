@@ -40,7 +40,7 @@ map.on(L.Draw.Event.CREATED, function (event) {
 });
 
 
-function submitPolygon() {
+function submitPolygon(link) {
     var latlngs = [];
     drawnItems.eachLayer(function (layer) {
         if (layer instanceof L.Polygon) {
@@ -51,8 +51,11 @@ function submitPolygon() {
     console.log(polygon);
     $.ajax({
         type: 'POST',
-        url: '/model',
-        data: {'coordinates': polygon}
+        url: link,
+        data: {'coordinates': polygon},
+        success: function(data, textStatus){
+            window.location = data; // redirects to submission page
+        }
     });
 
 }

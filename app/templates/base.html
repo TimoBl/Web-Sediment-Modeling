@@ -35,6 +35,15 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
 
+  <!-- Flask scripts -->
+  {{ moment.include_moment() }}
+
+  <script>
+    function removeNotification(elem){
+      $(elem).parent('div').remove();
+    }
+  </script>
+
   <!-- =======================================================
   * Template Name: Arsha
   * Updated: Mar 10 2023 with Bootstrap v5.2.3
@@ -95,8 +104,23 @@
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
-
     </div>
+
+
+    <!-- flash messages -->
+    <div class="container">
+      {% with messages = get_flashed_messages() %}
+          {% if messages %}
+              {% for message in messages %}
+                  <div class="alert alert-info" role="alert">{{ message }} 
+                    <a style="float: right;" onclick="removeNotification(this)">X</a> 
+                  </div>
+              {% endfor %}
+          {% endif %}
+      {% endwith %}
+    </div>
+    <!-- End flash messages -->
+
   </header><!-- End Header -->
 
 

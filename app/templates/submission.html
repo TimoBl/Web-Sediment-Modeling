@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+ <!-- ======= Submission section ======= -->
+  <section id="submission" class="su">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Submission</h2>
+        </div>
+
+        <div class="row content">
+          <div class="col-lg-6">
+            {% if not current_user.is_anonymous %}
+                <p>
+                    {% if submissions|length > 0 %}
+                        <table>
+
+                            <tr><th>Name</th><th>Date</th><th>Time</th><th>View</th><th>Delete</th></tr>
+                            
+                            {% for submission in submissions %}
+                                <tr>
+                                    <td> {{ submission.name }} </td>
+                                    <td> {{ moment(submission.timestamp).format('MMMM Do YYYY') }} </td>
+                                    <td> {{ moment(submission.timestamp).format('hh:mm') }} </td>
+                                    <td><a href="{{ url_for('view', id=submission.id) }}">view</a></td>
+                                    <td><a href="{{ url_for('delete', id=submission.id) }}">delete</a></td>
+                                </tr>
+                            {% endfor %}
+                            
+                        </table>
+                    {% else %}
+                        <i> No jobs were submitted </i>
+                    {% endif %}
+                </p>
+
+                <!--<p>
+                    You can submit jobs <a href="{{ url_for('index') }}">here</a>.
+                </p>-->
+
+                <p>
+                    
+                </p>
+
+            {% else %}
+                <p>
+                    Please <a href="{{ url_for('login') }}">login</a> or <a href="{{ url_for('register') }}">register</a> to be able to submit models.
+                </p>
+            {% endif %}
+          </div>
+        </div>
+  </section>
+  <!-- End Submission -->
+
+
+{% endblock %}

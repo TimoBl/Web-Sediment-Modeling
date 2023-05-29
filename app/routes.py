@@ -23,18 +23,17 @@ import json
 JOB_TIMEOUT = 15*60 # maximum of 5 minutes for job to complete
 
 
-
 @app.route('/')
 @app.route('/index')
 def index():
-    # check if user is authenticated
-    if current_user.is_authenticated:
-
-        # if yes can show submissons
-        submissions = current_user.get_submissions().all()
-        return render_template('index.html', title='Home', submissions=submissions)
-    
     return render_template('index.html', title='Home')
+
+
+@app.route('/submission', methods=['GET', 'POST'])
+@login_required # user needs to be logged in
+def submission():
+    submissions = current_user.get_submissions().all()
+    return render_template('submission.html', title='Home', submissions=submissions)
 
 
 @app.route('/login', methods=['GET', 'POST']) 
@@ -124,10 +123,7 @@ def report_failure(job, connection, type, value, traceback):
 @login_required # user needs to be logged in
 def model():
 
-    # get the submission id
-    data = None
-
-    if request.method== "POST":
+    if request.method=="POST":
 
         # get the coordinates
         coordinates = json.loads(request.form['coordinates'])
@@ -135,7 +131,7 @@ def model():
         # mock values
         name = "Demo"
         spacing = (25, 25, 5)
-
+        
         # we should test the coordinates before launching the job and otherwise give an error
 
         # get the job into queue
@@ -148,11 +144,12 @@ def model():
         db.session.commit()
 
         flash('Job {} was submited'.format(submission.id))
+        return url_for('submission')
 
     else:
         flash('Could not submit model!')
+        return url_for('index')
     
-    return redirect(url_for('index') + "#submission")
 
     '''
     # get form
@@ -195,7 +192,7 @@ def view():
     submission = Submission.query.filter_by(id=submission_id).first()
 
     # check if submission is valid and from the same user
-    if submission is not None and submission.user_id==current_user.id and submission.complete:
+    if submission is not None and submission.user_id==current_user.id: #and submission.complete:
 
         # we can view the results
         out_dir = os.path.join("output", str(current_user.id), str(submission.id), "realizations.npy") 
@@ -232,7 +229,7 @@ def view():
         # we could add an error for each error type
         flash('Submission {} cannot be viewed'.format(submission_id))
 
-    return redirect(url_for('index') + "#submission")
+    return redirect(url_for('submission'))
 
 
 # download realization
@@ -251,14 +248,13 @@ def download():
 
         # we can view the results
         path = os.path.join("output", str(current_user.id), str(submission.id), "realizations.npy") 
-        
         return send_file(path, as_attachment=True)
 
     else:
         # we could add an error for each error type
         flash('Submission {} cannot be downloaded'.format(submission_id))
 
-    return redirect(url_for('index') + "#submission")
+    return redirect(url_for('submission'))
 
 
 
@@ -289,4 +285,4 @@ def delete():
     else:
         flash('Submission {} could not be deleted'.format(submission_id))
 
-    return redirect(url_for('index') + "#submission")
+    return redirect(url_for('submission'))

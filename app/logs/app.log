@@ -1,5 +1,4 @@
-2023-05-14 19:05:53,962 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-14 19:05:56,644 ERROR: Exception on /view [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+2023-05-25 15:18:12,803 ERROR: Exception on /submission [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -11,11 +10,26 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 218, in view
-    html = plotly.io.to_html(fig, full_html=False, default_height=500, default_width=700, margin=dict(l=10, r=10, t=25, b=10))  # you should interactively get the width before from the client, and maybe also have the possibility to change it
-TypeError: to_html() got an unexpected keyword argument 'margin'
-2023-05-14 19:08:01,106 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-14 19:08:04,008 ERROR: Exception on /view [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+  File "/home/timo/Documents/Prototype/app/routes.py", line 36, in submission
+    return render_template('submission.html', title='Home', submissions=submissions)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/templating.py", line 147, in render_template
+    return _render(app, template, context)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/templating.py", line 130, in _render
+    rv = template.render(context)
+  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/home/timo/Documents/Prototype/app/templates/submission.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "/home/timo/Documents/Prototype/app/templates/base.html", line 126, in top-level template code
+    {% block content %}
+  File "/home/timo/Documents/Prototype/app/templates/submission.html", line 24, in block 'content'
+    <td> {{ submission }} </td>
+TypeError: __str__ returned non-string (type Submission)
+2023-05-25 15:18:36,678 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
+2023-05-25 15:22:31,932 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
+2023-05-25 15:22:34,659 ERROR: Exception on /submission [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -27,90 +41,37 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 216, in view
-    html = plotly.io.to_html(fig, full_html=False, default_height=500, default_width=700, margin=dict(l=10, r=10, t=25, b=10))  # you should interactively get the width before from the client, and maybe also have the possibility to change it
-TypeError: to_html() got an unexpected keyword argument 'margin'
-2023-05-14 19:08:17,995 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-14 19:08:49,372 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-14 19:12:43,213 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-14 19:17:47,171 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-14 19:18:34,787 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-14 19:18:38,121 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-14 19:19:17,995 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-14 19:21:38,342 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-14 19:21:46,626 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
-Traceback (most recent call last):
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 133, in model
-    coordinates = json.load(request.form['coordinates'])
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/json/__init__.py", line 293, in load
-    return loads(fp.read(),
-AttributeError: 'str' object has no attribute 'read'
-2023-05-14 19:23:01,259 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-14 19:24:20,959 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-14 19:25:26,872 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-19 10:27:57,839 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-19 10:43:44,913 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-19 10:43:57,158 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
-Traceback (most recent call last):
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 150, in model
-    flash('Job {} was submited'.format(submission_id))
-NameError: name 'submission_id' is not defined
-2023-05-19 10:45:28,847 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-19 10:57:32,348 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-19 11:18:44,911 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-19 11:25:55,285 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-19 11:32:01,053 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-19 11:32:57,484 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-19 11:33:30,122 ERROR: Exception on /view [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
-Traceback (most recent call last):
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 210, in view
-    [X, Y, Z, values] = realizations
-ValueError: too many values to unpack (expected 4)
-2023-05-19 11:37:29,410 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-19 12:37:46,904 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-19 12:38:12,407 ERROR: Exception on /view [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
-Traceback (most recent call last):
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 206, in view
-    realization_id = min(realization_id, d-1)
-TypeError: '<' not supported between instances of 'int' and 'str'
-2023-05-19 12:40:44,553 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+  File "/home/timo/Documents/Prototype/app/routes.py", line 36, in submission
+    return render_template('submission.html', title='Home', submissions=submissions)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/templating.py", line 147, in render_template
+    return _render(app, template, context)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/templating.py", line 130, in _render
+    rv = template.render(context)
+  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/home/timo/Documents/Prototype/app/templates/submission.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "/home/timo/Documents/Prototype/app/templates/base.html", line 39, in top-level template code
+    {% block scripts %}
+  File "/home/timo/Documents/Prototype/app/templates/base.html", line 40, in block 'scripts'
+    {{ super() }}
+  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/utils.py", line 83, in from_obj
+    if hasattr(obj, "jinja_pass_arg"):
+jinja2.exceptions.UndefinedError: there is no parent block called 'scripts'.
+2023-05-25 15:23:58,539 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
+2023-05-25 15:26:19,901 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
+2023-05-25 15:26:39,914 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
+2023-05-25 15:37:33,978 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
+2023-05-25 15:38:10,832 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
+2023-05-25 15:38:24,441 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
+2023-05-25 15:50:27,615 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
+2023-05-25 15:52:34,186 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
+2023-05-25 15:55:27,979 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
+2023-05-25 15:58:01,016 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
+2023-05-25 15:59:25,293 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
+2023-05-25 16:01:12,838 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
+2023-05-25 16:02:42,577 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
+2023-05-25 16:05:28,162 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:48]
+2023-05-29 14:33:26,527 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]

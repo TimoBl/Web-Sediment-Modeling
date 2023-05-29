@@ -1,4 +1,4 @@
-2023-05-14 19:03:03,029 ERROR: Exception on /view [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+2023-05-14 19:04:51,563 ERROR: Exception on /view [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -16,9 +16,9 @@ Traceback (most recent call last):
     self._process_kwargs(**dict(arg, **kwargs))
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/plotly/basedatatypes.py", line 4368, in _process_kwargs
     raise err
-ValueError: Invalid property specified for object of type plotly.graph_objs.Volume: 'margin'
+ValueError: Invalid property specified for object of type plotly.graph_objs.Volume: 'layout'
 
-Did you mean "cmin"?
+Did you mean "cauto"?
 
     Valid properties:
         autocolorscale
@@ -335,8 +335,8 @@ Did you mean "cmin"?
             Sets the source reference on Chart Studio Cloud for
             `z`.
         
-Did you mean "cmin"?
+Did you mean "cauto"?
 
 Bad property path:
-margin
+layout
 ^^^^^^
