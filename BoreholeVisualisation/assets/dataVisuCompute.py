@@ -16,6 +16,4 @@ fig = go.Figure(data=go.Volume(
     surface_count=21, # needs to be a large number for good volume rendering
     ))
 
-
-"fuck this"
 fig.write_html("dataVisualization.html")
