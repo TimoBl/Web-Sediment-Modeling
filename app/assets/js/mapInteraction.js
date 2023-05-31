@@ -1,4 +1,7 @@
-var map = L.map('mapid').setView([46.859588, 7.529822], 13);
+var map = L.map('mapid', {
+    preferCanvas: true // use this for adding markers
+}).setView([46.859588, 7.529822], 13);
+
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
@@ -33,11 +36,17 @@ var drawControl = new L.Control.Draw({
         }
     }
 });
+
 map.addControl(drawControl);
 
 map.on(L.Draw.Event.CREATED, function (event) {
     drawnItems.addLayer(event.layer);
 });
+
+
+// for rendering markers
+var myRenderer = L.canvas();
+show_markers(myRenderer)
 
 
 function submitPolygon(link) {
@@ -47,8 +56,10 @@ function submitPolygon(link) {
             latlngs.push(layer.getLatLngs()[0]);
         }
     });
+
+
+    // we should add additionnal tests here before submission!
     var polygon = JSON.stringify(latlngs);
-    console.log(polygon);
     $.ajax({
         type: 'POST',
         url: link,
@@ -57,5 +68,4 @@ function submitPolygon(link) {
             window.location = data; // redirects to submission page
         }
     });
-
 }

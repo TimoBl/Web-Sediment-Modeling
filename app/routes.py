@@ -18,18 +18,23 @@ import plotly.express as px
 from rq import Callback
 from scipy.interpolate import RegularGridInterpolator as rgi
 import json
-
-from app.tasks import AareModel, run_model
+import pandas as pd
+from app.tasks import AareModel, run_model, meters_to_coordinates
 
 
 # global variables
-JOB_TIMEOUT = 15*60 # maximum of 5 minutes for job to complete
+JOB_TIMEOUT = 5*60 # maximum of 5 minutes for job to complete
 
 
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html', title='Home')
+
+    # display the boreholes
+    boreholes = pd.read_csv('data/all_BH.csv')
+    coordinates = [meters_to_coordinates(x, y) for x, y in zip(boreholes["BH_X_LV95"], boreholes["BH_Y_LV95"])]
+
+    return render_template('index.html', title='Home', boreholes=coordinates)
 
 
 @app.route('/submission', methods=['GET', 'POST'])
@@ -147,7 +152,7 @@ def model():
             # maybe we should also check if we can actually submit the job -> connection to the backend
 
             # get the job into queue 
-            job = Job.create('tasks.run_model', args=(current_user.id, name, poly_data, spacing), connection=app.redis, timeout=JOB_TIMEOUT)
+            job = Job.create(run_model, args=(current_user.id, name, poly_data, spacing), connection=app.redis, timeout=JOB_TIMEOUT)
             rq_job = app.task_queue.enqueue_job(job) #on_success=report_success, on_failure=report_failure) #, on_stopped=report_stopped)
 
             # show in job submission

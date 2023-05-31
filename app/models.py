@@ -44,8 +44,8 @@ class Submission(db.Model):
 	name = db.Column(db.String(20)) # same as project name 
 	timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow) # time of submission
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id')) # id of user who submitted the job
-	status = db.Column(db.Integer, default=-1) # status of the job {-1:submitted, 0:running, 1:finished}
-	complete = db.Column(db.Boolean, default=False) # if job is finished
+	status = db.Column(db.Integer, default=-1) # status of the job 
+	complete = db.Column(db.Boolean, default=False) # if job is successfully finished 
 
 	def get_rq_job(self):
 		try:
@@ -61,7 +61,7 @@ class Submission(db.Model):
 			
 			# so we want to get an update
 			job = self.get_rq_job()
-			self.status = job.meta.get('status', 0) if job is not None else -1
+			self.status = job.meta.get('status', 0) if job is not None else 0
 			self.complete = bool(job.meta.get('complete', False) if job is not None else False)
 	
 			# check if job was completed

@@ -17,15 +17,23 @@
                     {% if submissions|length > 0 %}
                         <table>
 
-                            <tr><th>Name</th><th>Date</th><th>Time</th><th>View</th><th>Delete</th></tr>
+                            <tr> <th>Name</th> <th>Date</th> <th>Time</th> <th>Satus</th> <th>View</th> <th>Delete</th> </tr>
                             
                             {% for submission in submissions %}
                                 <tr>
                                     <td> {{ submission.name }} </td>
                                     <td> {{ moment(submission.timestamp).format('MMMM Do YYYY') }} </td>
                                     <td> {{ moment(submission.timestamp).format('hh:mm') }} </td>
-                                    <td><a href="{{ url_for('view', id=submission.id) }}">view</a></td>
-                                    <td><a href="{{ url_for('delete', id=submission.id) }}">delete</a></td>
+                                    <td> {{ submission.status }} </td>
+
+                                    {% if submission.complete %}
+                                        <td><a href="{{ url_for('view', id=submission.id) }}">view</a></td>
+                                        <td><a href="{{ url_for('delete', id=submission.id) }}">delete</a></td>
+                                    {% else %}
+                                        <td></td>
+                                        <td><a href="{{ url_for('delete', id=submission.id) }}">delete</a></td>
+                                    {% endif %}
+
                                 </tr>
                             {% endfor %}
                             

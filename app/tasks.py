@@ -54,8 +54,13 @@ dic_facies = {
 # a naive approach of coordinate transformation
 def coordinates_to_meters(lat, lng):
     N = (111132.954 * lat) / 2
-    E = 2 * (111319.488 * np.cos(np.pi *lat / 180)) * lng
+    E = 2 * (111319.488 * np.cos(np.pi * lat / 180)) * lng
     return [N, E]
+
+def meters_to_coordinates(N, E):
+    lat = 2 * N / 111132.954 
+    lng = E / (2 * 111319.488 * np.cos(np.pi * lat / 180))
+    return [lat, lng]
 
 
 # Analyze boreholes
@@ -199,7 +204,7 @@ class AareModel:
 def run_model(user_id, name, poly_data, spacing):
 
     # beginning computation
-    job =_set_progress_status("0%", False)
+    job =_set_progress_status("running", False)
 
     # create output dir
     out_dir = os.path.join("output", str(user_id), str(job.id)) # maybe add output directory as global function
@@ -210,16 +215,24 @@ def run_model(user_id, name, poly_data, spacing):
     model = AareModel(name, poly_data, spacing)
 
     # run the simulations
-    realizations = model.run()
+    try:
+        realizations = model.run()
     
-    # the more efficient representation does not lead to better view
-    #X, Y, Z = np.nonzero(realizations[0])
-    #V = realizations[0, X, Y, Z]
-    #realizations = np.array([X, Y, Z, V])
+        # the more efficient representation does not lead to better view
+        #X, Y, Z = np.nonzero(realizations[0])
+        #V = realizations[0, X, Y, Z]
+        #realizations = np.array([X, Y, Z, V])
 
-    # save output
-    np.save(os.path.join(out_dir, "realizations.npy"), realizations)
+        # save output
+        np.save(os.path.join(out_dir, "realizations.npy"), realizations)
 
+        # finished
+        job =_set_progress_status("finished", True)
+
+    except:
+
+        # finished
+        job =_set_progress_status("failed", False)
 
 
 # we set the status
