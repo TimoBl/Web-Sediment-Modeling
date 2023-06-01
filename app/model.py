@@ -1,3 +1,4 @@
+'''
 import numpy as np
 import matplotlib.pyplot as plt
 import geone
@@ -218,7 +219,6 @@ def borehole_analysis(ArchTable, db, list_facies,
                         ArchTable.get_unit(unit).add_facies(list_facies[i])
 
 
-'''
 #Aar_model main function
 def AareModel(poly_data=None, spacing=None, select_files=False, nreal_units=5, nreal_facies=2, nreal_prop=1,
 				ws="data", bhs_path="data/all_BH.csv", all_layers="data/Layer_all_free.csv", mnt="data/MNT25.tif", bdrck_path="data/BEM25-2021_crop_Aar.tif"):

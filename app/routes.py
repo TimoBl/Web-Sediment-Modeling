@@ -9,7 +9,7 @@ import os
 from rq.job import Job
 from flask_bootstrap import Bootstrap
 
-# for developpemnt only
+# for developpemnt only -> we will have to clean up
 import numpy as np
 import shutil
 import plotly
@@ -19,11 +19,12 @@ from rq import Callback
 from scipy.interpolate import RegularGridInterpolator as rgi
 import json
 import pandas as pd
-from app.tasks import AareModel, run_model, meters_to_coordinates
+from app.tasks import pre_process, run_model, meters_to_coordinates
+import uuid
 
 
 # global variables
-JOB_TIMEOUT = 5*60 # maximum of 5 minutes for job to complete
+JOB_TIMEOUT = 10*60 # maximum of 10 minutes for job to complete
 
 
 @app.route('/')
@@ -31,7 +32,7 @@ JOB_TIMEOUT = 5*60 # maximum of 5 minutes for job to complete
 def index():
 
     # display the boreholes
-    boreholes = pd.read_csv('data/all_BH.csv')
+    boreholes = pd.read_csv('data/all_BH.csv') # change this to our borehole selection 
     coordinates = [meters_to_coordinates(x, y) for x, y in zip(boreholes["BH_X_LV95"], boreholes["BH_Y_LV95"])]
 
     return render_template('index.html', title='Home', boreholes=coordinates)
@@ -139,9 +140,25 @@ def model():
         # mock values
         name = "Demo"
         spacing = (25, 25, 5)
-        poly_data = coordinates
+        uid = uuid.uuid1() # unique identifier for job
+        working_dir = os.path.join("output", str(current_user.id), str(uid)) # saving directory
+
+        # pre-process 
+        valid, msg = pre_process(coordinates, working_dir)
+
+        if valid:
+            pass
+
+        else:
+            flash('Job could not be submited: {}'.format(msg))
+            return url_for('index') + "#interactiveMapSection"
+
         #out_dir = os.path.join()
+
+
+        #pre_process(coordinates, "test")
         
+        '''
         # initialize model 
         model = AareModel(name, coordinates, spacing)
 
@@ -165,9 +182,8 @@ def model():
             return url_for('submission')
 
         else:
-            flash('Job could not be submited: {}'.format(msg))
-            return url_for('index') + "#interactiveMapSection"
-
+            
+        '''
     else:
         flash('Could not submit model!')
         return url_for('index')

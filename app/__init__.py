@@ -10,11 +10,10 @@ import rq
 from flask_moment import Moment
 
 
-
 # app
 app = Flask(__name__,
-            static_folder='assets',
-            template_folder='templates') 
+            static_folder='assets', # for our static assets
+            template_folder='templates') # for our html templates
 app.config.from_object(Config)
 
 # database

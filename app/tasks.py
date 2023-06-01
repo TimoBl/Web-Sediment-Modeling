@@ -1,20 +1,16 @@
 # this file will handle async computations
-# from model import GeoModel, AareModel
 from rq import get_current_job
 import os
 import ArchPy 
 import numpy as np
-
 import geone
 import geone.covModel as gcm
 import os
 import sys
-#import pyvista as pv
 from ArchPy.base import *
 import pandas as pd
 import shapely
 from shapely.geometry import Polygon, MultiPolygon, Point
-
 
 
 
@@ -51,7 +47,8 @@ dic_facies = {
            'FELS':"Bedrock"}
 
 
-# a naive approach of coordinate transformation
+
+# a naive approach of coordinate transformation (should be replaced!!!)
 def coordinates_to_meters(lat, lng):
     N = (111132.954 * lat) / 2
     E = 2 * (111319.488 * np.cos(np.pi * lat / 180)) * lng
@@ -61,6 +58,101 @@ def meters_to_coordinates(N, E):
     lat = 2 * N / 111132.954 
     lng = E / (2 * 111319.488 * np.cos(np.pi * lat / 180))
     return [lat, lng]
+
+
+
+# pre-processing of the data for computation (# first part)
+# ! there seems to be some problems with the code of ArchPy, so we currently disable the automatic update !
+def initialize_data(data_dir="data"):
+
+    # load the data
+    poly_data = np.load(os.path.join(data_dir, "polygon_coord_3.npy"))  # the maximum extent of the zone
+    lay = pd.read_csv(os.path.join(data_dir, "Layer_all_free.csv"), error_bad_lines=False, sep=";", low_memory=False)
+    bhs = pd.read_csv(os.path.join(data_dir, "all_BH.csv"))
+
+    # initialize project
+    T1 = ArchPy.inputs.import_project("Aar_geomodel", ws=data_dir, 
+            import_bhs=False, import_grid=False, import_results=False)  # load the yaml file
+
+    # define zone
+    zone = MultiPolygon([Polygon(p) for p in poly_data])
+    
+    bhs_points = []
+    for i, (ix, iy) in enumerate(zip(bhs.BH_X_LV95, bhs.BH_Y_LV95)):
+        p = shapely.geometry.Point(ix, iy)
+        p.name = i
+        bhs_points.append(p)
+
+    # check intersection
+    l = [p.name for p in bhs_points if p.intersects(zone)]
+
+    # select zone
+    bhs_sel = bhs.loc[np.array(l)]
+    lay_sel = lay[lay["BH_GEOQUAT_ID"].isin(bhs_sel["BH_GEOQUAT_ID"])]
+
+    # import geological database 
+    db, list_bhs = load_bh_files(bhs_sel, lay_sel.reset_index(), lay_sel.reset_index(),
+        lbhs_bh_id_col="BH_GEOQUAT_ID", u_bh_id_col="BH_GEOQUAT_ID", fa_bh_id_col="BH_GEOQUAT_ID",
+        u_top_col = "LA_TOP_m",u_bot_col = "LA_BOT_m",u_ID = "LA_Lithostrati",
+        fa_top_col = "LA_TOP_m",fa_bot_col = "LA_BOT_m",fa_ID = "LA_USCS_IP_1",
+        bhx_col='BH_X_LV95', bhy_col='BH_Y_LV95', bhz_col='BH_Z_Alt_m', bh_depth_col='BH_TD_m',
+        dic_units_names = dic_s_names_grouped, dic_facies_names = dic_facies, altitude = False)
+
+    # adding boreholes
+    all_boreholes = extract_bhs(db, list_bhs, T1, 
+        units_to_ignore=('Keine Angaben', 'Raintal-Deltaschotter', 'Hani-Deltaschotter', 'Fels'),
+        facies_to_ignore=('Bedrock', 'asfd'))
+
+    # save for reuse in computation
+    with open(os.path.join(data_dir, "boreholes"), "wb") as f:
+        pickle.dump(all_boreholes, f)
+
+
+
+# pre-process the data and checks before starting computation
+def pre_process(coordinates, working_dir, data_dir="data"):
+
+    # load boreholes
+    with open(os.path.join(data_dir, "boreholes"), "rb") as f:
+        all_boreholes = pickle.load(f)
+
+    # convert coordinates
+    polygon = [coordinates_to_meters(cor["lat"], cor["lng"]) for cor in coordinates[0]]
+    poly = Polygon(np.array(polygon))
+
+    # convert boreholes
+    bhs_points = []
+    for i, ibh in enumerate(all_boreholes):
+        p = shapely.geometry.Point(ibh.x, ibh.y)
+        p.name = i
+        bhs_points.append(p)
+
+    #polygon = np.load("data/polygon_coord_6.npy") poly = Polygon(polygon[0])  # create a polygon object with shapely
+
+    # check intersection
+    l = np.array([p.name for p in bhs_points if p.intersects(poly)])
+    
+    # must have at least 3 boreholes
+    if len(l) >= 3:
+
+        # we can save our things into the working directory
+        if not os.path.exists(working_dir):
+            os.mkdir(working_dir)
+
+        boreholes_sel = np.array(all_boreholes)[np.array(l)]
+        with open(os.path.join(working_dir, "boreholes"), "wb") as f:
+            pickle.dump(boreholes_sel, f)
+
+
+        return True, "Valid Input"
+    else:
+        return False, "Only {} boreholes in selection".format(len(l))
+
+
+
+
+mnt="data/MNT25.tif"
+bdrck_path="data/BEM25-2021_crop_Aar.tif"
 
 
 # Analyze boreholes
@@ -99,105 +191,7 @@ def borehole_analysis(ArchTable, db, list_facies,
 
 
 
-class AareModel:
 
-    # Class variables
-    bhs_path="data/all_BH.csv"
-    all_layers="data/Layer_all_free.csv"
-    mnt="data/MNT25.tif"
-    bdrck_path="data/BEM25-2021_crop_Aar.tif"
-    ws="data"
-
-    def __init__(self, name, poly_data, spacing, select_files=False):
-        self.name = name
-
-        # get the data
-        self.select_data(poly_data)
-        
-        # get settings
-        sx, sy, sz = spacing
-        oz=450
-        z1=560
-        
-        xg = np.arange(self.polygon.bounds[0],self.polygon.bounds[2]+sx,sx)
-        nx = len(xg)-1
-        yg = np.arange(self.polygon.bounds[1],self.polygon.bounds[3]+sy,sy)
-        ny = len(yg)-1
-        zg = np.arange(oz,z1+sz,sz)
-        nz = len(zg)-1
-
-        self.dimensions = (nx, ny, nz)
-        self.spacing = (sx, sy, sz)
-        self.origin = (self.polygon.bounds[0], self.polygon.bounds[1], oz)
-
-
-    # loads the databased on selection
-    def select_data(self, poly_data):
-
-        # convert coordinates
-        poly_data = [[coordinates_to_meters(p["lat"], p["lng"]) for p in poly_data[0]]]
- 
-        # load data
-        lay = pd.read_csv(AareModel.all_layers, error_bad_lines=False, sep=";")
-        bhs = pd.read_csv(AareModel.bhs_path)
-        
-        # extract boreholes points
-        bhs_points = []
-        for i, (px, py) in enumerate(zip(bhs.BH_X_LV95, bhs.BH_Y_LV95)):
-            po = shapely.geometry.Point(px, py)
-            po.name = i
-            bhs_points.append(po)
-
-        # get polygon and check intersection with boreholes
-        self.polygon = MultiPolygon([Polygon(p) for p in poly_data])
-        selection = np.array([po.name for po in bhs_points if po.intersects(self.polygon)])
-
-        # select data
-        self.bhs_sel = bhs.loc[selection]
-        self.lay_sel = lay[lay["BH_GEOQUAT_ID"].isin(self.bhs_sel["BH_GEOQUAT_ID"])]
-
-
-    # checks if this is a valid model (-> before runing the model)
-    def is_valid(self):
-        # we might add more constraints 
-        if len(self.bhs_sel) > 0:
-            return True, len(self.bhs_sel)
-        else:
-            return False, "No boreholes in selection"
-
-
-    # runs the simulation model
-    def run(self, nreal_units=2, nreal_facies=2, nreal_prop=1):
-        T1 = ArchPy.inputs.import_project("Aar_geomodel", ws=AareModel.ws, import_bhs=False, import_grid=False, import_results=False)
-        list_facies = T1.get_all_facies()
-        T1.rem_all_facies_from_units()
-        T1.add_grid(self.dimensions, self.spacing, self.origin, polygon=self.polygon)
-
-        # import geological database 
-        db, list_bhs = load_bh_files(self.bhs_sel, self.lay_sel.reset_index(), self.lay_sel.reset_index(),
-                                      lbhs_bh_id_col="BH_GEOQUAT_ID", u_bh_id_col="BH_GEOQUAT_ID", fa_bh_id_col="BH_GEOQUAT_ID",
-                                      u_top_col="LA_TOP_m",u_bot_col="LA_BOT_m",u_ID="LA_Lithostrati",
-                                      fa_top_col="LA_TOP_m",fa_bot_col = "LA_BOT_m",fa_ID ="LA_USCS_IP_1",
-                                      bhx_col='BH_X_LV95', bhy_col='BH_Y_LV95', bhz_col='BH_Z_Alt_m', bh_depth_col='BH_TD_m',
-                                      dic_units_names = dic_s_names_grouped,
-                                      dic_facies_names = dic_facies, altitude = False)
-        
-        # borehole analysis and remove/add units/facies that appear in the data
-        borehole_analysis(T1, db, list_facies)
-        
-        # adding boreholes
-        all_boreholes = extract_bhs(db, list_bhs, T1, units_to_ignore=('Keine Angaben', 'Raintal-Deltaschotter', 'Hani-Deltaschotter', 'Fels'))
-        T1.add_bh(all_boreholes)
-     
-        # process_bhs
-        T1.reprocess()
-        
-        # simulations
-        T1.compute_surf(nreal_units)
-        T1.compute_facies(nreal_facies)
-        T1.compute_prop(nreal_prop)
-
-        return T1.get_units_domains_realizations()
 
 
 
