@@ -119,14 +119,6 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 
-# Callback functions
-def report_success(job, connection, result, *args, **kwargs):
-    print("success")
-
-def report_failure(job, connection, type, value, traceback):
-    print("failure")
-
-
 # submit job
 @app.route('/model', methods=['GET', 'POST'])
 @login_required # user needs to be logged in
@@ -139,51 +131,39 @@ def model():
         
         # mock values
         name = "Demo"
-        spacing = (25, 25, 5)
-        uid = uuid.uuid1() # unique identifier for job
-        working_dir = os.path.join("output", str(current_user.id), str(uid)) # saving directory
+        spacing = (50, 50, 25) # (25, 25, 5)
+        job_id = str(uuid.uuid1()) # unique identifier for job
+        working_dir = os.path.join("output", str(current_user.id), job_id) # saving directory
+
+        # check values before
+        if len(coordinates) == 0:
+            flash('Invalid inputs')
+            return url_for('index') + "#interactiveMapSection"
 
         # pre-process 
         valid, msg = pre_process(coordinates, working_dir)
+        valid=True
 
         if valid:
-            pass
-
-        else:
-            flash('Job could not be submited: {}'.format(msg))
-            return url_for('index') + "#interactiveMapSection"
-
-        #out_dir = os.path.join()
-
-
-        #pre_process(coordinates, "test")
-        
-        '''
-        # initialize model 
-        model = AareModel(name, coordinates, spacing)
-
-        # check validity
-        valid, msg = model.is_valid()
-        
-        if valid:
-            # maybe we should also check if we can actually submit the job -> connection to the backend
-
+            
             # get the job into queue 
-            job = Job.create(run_model, args=(current_user.id, name, poly_data, spacing), connection=app.redis, timeout=JOB_TIMEOUT)
-            rq_job = app.task_queue.enqueue_job(job) #on_success=report_success, on_failure=report_failure) #, on_stopped=report_stopped)
+            job = Job.create('tasks.run_model', args=(current_user.id, job_id, working_dir, name, spacing), id=job_id, connection=app.redis, timeout=JOB_TIMEOUT)
 
             # show in job submission
-            submission = Submission(id=rq_job.get_id(), name=name, user_id=current_user.id)
+            submission = Submission(id=job_id, name=name, user_id=current_user.id)
             db.session.add(submission)
             db.session.commit()
-            
 
-            flash('Job {} was submited'.format(submission.id))
+            # submit
+            rq_job = app.task_queue.enqueue_job(job) 
+
+
+            flash('Job {} was submited') #.format(submission.id))
             return url_for('submission')
-
         else:
-            
-        '''
+            flash('Job could not be submited: {}'.format(msg))
+            return url_for('index')  # + "#interactiveMapSection"
+
     else:
         flash('Could not submit model!')
         return url_for('index')

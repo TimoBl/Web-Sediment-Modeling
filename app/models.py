@@ -54,13 +54,15 @@ class Submission(db.Model):
 			return None
 		return rq_job
 
-	def get_status(self):
+	def get_progress(self):
+		'''
 
 		# the job is still in progress
 		if not self.complete:
 			
 			# so we want to get an update
 			job = self.get_rq_job()
+			print(job)
 			self.status = job.meta.get('status', 0) if job is not None else 0
 			self.complete = bool(job.meta.get('complete', False) if job is not None else False)
 	
@@ -71,12 +73,10 @@ class Submission(db.Model):
 
 			# update session
 			db.session.commit()
-		
-		return self.status, self.complete
+		'''
+		job = self.get_rq_job()
+		return job.meta.get('status', 0) if job is not None else 100
+
 
 	def __repr__(self):
-		self.get_status()
-		
-		# change this to include moment
-		#return '{}, {}, {}, {}'.format(self.name, self.timestamp.strftime("%m/%d/%Y, %H:%M"), self.status, self.complete)
 		return self

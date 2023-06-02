@@ -65,7 +65,7 @@ function submitPolygon(link) {
         url: link,
         data: {'coordinates': polygon},
         success: function(data, textStatus){
-            window.location = data; // redirects to submission page
+            window.location.href = data; // redirects to submission page
         }
     });
 }

@@ -11,7 +11,8 @@ from ArchPy.base import *
 import pandas as pd
 import shapely
 from shapely.geometry import Polygon, MultiPolygon, Point
-
+from app.models import Submission
+from app import db
 
 
 #dictionary of units
@@ -117,8 +118,8 @@ def pre_process(coordinates, working_dir, data_dir="data"):
         all_boreholes = pickle.load(f)
 
     # convert coordinates
-    polygon = [coordinates_to_meters(cor["lat"], cor["lng"]) for cor in coordinates[0]]
-    poly = Polygon(np.array(polygon))
+    polygon = np.array([coordinates_to_meters(cor["lat"], cor["lng"]) for cor in coordinates[0]])
+    poly = Polygon(polygon)
 
     # convert boreholes
     bhs_points = []
@@ -139,10 +140,14 @@ def pre_process(coordinates, working_dir, data_dir="data"):
         if not os.path.exists(working_dir):
             os.mkdir(working_dir)
 
+        # our borehole sample
         boreholes_sel = np.array(all_boreholes)[np.array(l)]
         with open(os.path.join(working_dir, "boreholes"), "wb") as f:
             pickle.dump(boreholes_sel, f)
 
+        # our polygon input
+        with open(os.path.join(working_dir, "polygon.npy"), "wb") as f:
+            np.save(f, polygon)
 
         return True, "Valid Input"
     else:
@@ -191,31 +196,29 @@ def borehole_analysis(ArchTable, db, list_facies,
 
 
 
-
-
-
-
-def run_model(user_id, name, poly_data, spacing):
+def run_model(user_id, working_dir, name, spacing):
 
     # beginning computation
-    job =_set_progress_status("running", False)
+    job =_set_progress_status("running", True)
+    print(job)
 
-    # create output dir
-    out_dir = os.path.join("output", str(user_id), str(job.id)) # maybe add output directory as global function
-    if not os.path.exists(out_dir):
-        os.mkdir(out_dir) # somehow archpy overwrite this when we give directory
+    '''
+    print(job)
 
     # initialize
     model = AareModel(name, poly_data, spacing)
 
+    print(model)
+
     # run the simulations
     try:
-        realizations = model.run()
+        #realizations = model.run()
     
         # the more efficient representation does not lead to better view
         #X, Y, Z = np.nonzero(realizations[0])
         #V = realizations[0, X, Y, Z]
         #realizations = np.array([X, Y, Z, V])
+        realizations = np.array([1, 2, 3])
 
         # save output
         np.save(os.path.join(out_dir, "realizations.npy"), realizations)
@@ -227,17 +230,27 @@ def run_model(user_id, name, poly_data, spacing):
 
         # finished
         job =_set_progress_status("failed", False)
-
+    '''
 
 # we set the status
-def _set_progress_status(status, complete):
+def _set_progress_status(job_id, status, complete):
     job = get_current_job()
+    #job = Job.fetch(job_id, connection=app.redis)
 
     if job:
         # set status
         job.meta['status'] = status
         job.meta['complete'] = complete
         job.save_meta()
+
+        # set submission
+        sub = Submission.query.get(job.get_id())
+        sub.status = status
+        sub.complete = complete
+        db.session.commit()
+
+        # the problem from the error comes probably from loading the db or something like this....
+
 
     return job
 
