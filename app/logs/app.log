@@ -78,3 +78,4 @@ jinja2.exceptions.UndefinedError: there is no parent block called 'scripts'.
 2023-06-01 10:16:01,123 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
 2023-06-01 10:16:15,106 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
 2023-06-02 10:04:58,688 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:46]
+2023-06-03 10:34:41,446 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:46]

@@ -19,7 +19,8 @@ from rq import Callback
 from scipy.interpolate import RegularGridInterpolator as rgi
 import json
 import pandas as pd
-from app.tasks import pre_process, run_model, meters_to_coordinates
+import app.tasks as tasks
+from app.tasks import pre_process, run_model, meters_to_coordinates, coordinates_to_meters
 import uuid
 
 
@@ -128,26 +129,29 @@ def model():
 
         # get the coordinates
         coordinates = json.loads(request.form['coordinates'])
+        coordinates = np.array([coordinates_to_meters(cor["lat"], cor["lng"]) for cor in coordinates[0]])
         
         # mock values
         name = "Demo"
-        spacing = (50, 50, 25) # (25, 25, 5)
+        spacing = (25, 25, 10) # (25, 25, 5)
+        depth = (450, 560) # origin to depth
         job_id = str(uuid.uuid1()) # unique identifier for job
         working_dir = os.path.join("output", str(current_user.id), job_id) # saving directory
+
+        coordinates = np.load("data/polygon_coord_6.npy")[0]
 
         # check values before
         if len(coordinates) == 0:
             flash('Invalid inputs')
-            return url_for('index') + "#interactiveMapSection"
+            return url_for('index') #+ "#interactiveMapSection"
 
         # pre-process 
         valid, msg = pre_process(coordinates, working_dir)
-        valid=True
 
         if valid:
             
             # get the job into queue 
-            job = Job.create('tasks.run_model', args=(current_user.id, job_id, working_dir, name, spacing), id=job_id, connection=app.redis, timeout=JOB_TIMEOUT)
+            job = Job.create("tasks.run_model", args=(current_user.id, job_id, working_dir, name, spacing, depth), id=job_id, connection=app.redis, timeout=JOB_TIMEOUT)
 
             # show in job submission
             submission = Submission(id=job_id, name=name, user_id=current_user.id)

@@ -10,9 +10,10 @@ import sys
 from ArchPy.base import *
 import pandas as pd
 import shapely
+import shutil
 from shapely.geometry import Polygon, MultiPolygon, Point
-from app.models import Submission
-from app import db
+#from app.models import Submission
+#from app import db
 
 
 #dictionary of units
@@ -72,7 +73,7 @@ def initialize_data(data_dir="data"):
     bhs = pd.read_csv(os.path.join(data_dir, "all_BH.csv"))
 
     # initialize project
-    T1 = ArchPy.inputs.import_project("Aar_geomodel", ws=data_dir, 
+    model = ArchPy.inputs.import_project("Aar_geomodel", ws=data_dir, 
             import_bhs=False, import_grid=False, import_results=False)  # load the yaml file
 
     # define zone
@@ -100,7 +101,7 @@ def initialize_data(data_dir="data"):
         dic_units_names = dic_s_names_grouped, dic_facies_names = dic_facies, altitude = False)
 
     # adding boreholes
-    all_boreholes = extract_bhs(db, list_bhs, T1, 
+    all_boreholes = extract_bhs(db, list_bhs, model, 
         units_to_ignore=('Keine Angaben', 'Raintal-Deltaschotter', 'Hani-Deltaschotter', 'Fels'),
         facies_to_ignore=('Bedrock', 'asfd'))
 
@@ -111,14 +112,13 @@ def initialize_data(data_dir="data"):
 
 
 # pre-process the data and checks before starting computation
-def pre_process(coordinates, working_dir, data_dir="data"):
+def pre_process(polygon, working_dir, data_dir="data"):
 
     # load boreholes
     with open(os.path.join(data_dir, "boreholes"), "rb") as f:
         all_boreholes = pickle.load(f)
 
     # convert coordinates
-    polygon = np.array([coordinates_to_meters(cor["lat"], cor["lng"]) for cor in coordinates[0]])
     poly = Polygon(polygon)
 
     # convert boreholes
@@ -146,20 +146,17 @@ def pre_process(coordinates, working_dir, data_dir="data"):
             pickle.dump(boreholes_sel, f)
 
         # our polygon input
-        with open(os.path.join(working_dir, "polygon.npy"), "wb") as f:
-            np.save(f, polygon)
+        np.save(os.path.join(working_dir, "polygon.npy"), polygon)
+
+        # currently we don't allow yaml changing, but we will copy a default file 
+        shutil.copyfile(os.path.join(data_dir, "Aar_geomodel.yaml"), os.path.join(working_dir, "settings.yaml"))
 
         return True, "Valid Input"
     else:
         return False, "Only {} boreholes in selection".format(len(l))
 
 
-
-
-mnt="data/MNT25.tif"
-bdrck_path="data/BEM25-2021_crop_Aar.tif"
-
-
+'''
 # Analyze boreholes
 def borehole_analysis(ArchTable, db, list_facies,
                      Strat_ID = "Strat_ID", Facies_ID = "Facies_ID",
@@ -193,44 +190,76 @@ def borehole_analysis(ArchTable, db, list_facies,
                 if idx == list_facies[i].name:
                     if ArchTable.get_unit(unit) is not None:
                         ArchTable.get_unit(unit).add_facies(list_facies[i])
+'''
 
 
+# Fixing this issue:
+#### Here I had a little problem with the instances of the units because the units objects in the boreholes are not the same that the one in the Arch_table (because they have been saved and loaded with pickle). This causes issue with ArchPy code so I had to remove all the units from the Arch_table and re-add them but with the instance of the boreholes
+def filter_units(model, boreholes_sel):
+    stratis_unique = []
+    for bh in boreholes_sel:
+        if bh.log_strati is not None:
+            for s in bh.get_list_stratis():
+                if s not in stratis_unique:
+                    stratis_unique.append(s)
+      
+    # fix the issue with the instance of the boreholes
+    for u in model.get_all_units():
+        model.get_pile_master().remove_unit(u)
+        
+    for unit in stratis_unique:
+        model.get_pile_master().add_unit(unit)
 
-def run_model(user_id, working_dir, name, spacing):
+
+def run_model(user_id, job_id, working_dir, name, spacing, depth, nreal_units=1, nreal_facies=1, nreal_prop=1):
 
     # beginning computation
-    job =_set_progress_status("running", True)
-    print(job)
+    job =_set_progress_status(job_id, "running", True)
 
-    '''
-    print(job)
-
-    # initialize
-    model = AareModel(name, poly_data, spacing)
-
-    print(model)
-
-    # run the simulations
     try:
-        #realizations = model.run()
-    
-        # the more efficient representation does not lead to better view
-        #X, Y, Z = np.nonzero(realizations[0])
-        #V = realizations[0, X, Y, Z]
-        #realizations = np.array([X, Y, Z, V])
-        realizations = np.array([1, 2, 3])
+        # load data
+        polygon = Polygon(np.load(os.path.join(working_dir, "polygon.npy")))
+        with open(os.path.join(working_dir, "boreholes"), "rb") as f:
+            boreholes = pickle.load(f)
+
+        # create model
+        model = ArchPy.inputs.import_project("settings", ws=working_dir, import_bhs=False, import_grid=False, import_results=False)  # load the yaml file
+        filter_units(model, boreholes)
+
+        # create grid
+        (sx, sy, sz) = spacing
+        (oz, z1) = depth 
+        origin = (polygon.bounds[0], polygon.bounds[1], oz)
+        dimensions = (  len(np.arange(polygon.bounds[0], polygon.bounds[2]+sx, sx)) - 1,
+                        len(np.arange(polygon.bounds[1], polygon.bounds[3]+sy, sy)) - 1,
+                        len(np.arange(oz, z1+sz, sz)) - 1   )
+        model.add_grid(dimensions, spacing, origin, polygon=polygon, top="data/MNT25.tif", bot="data/BEM25-2021_crop_Aar.tif")
+
+        # add boreholes
+        model.add_bh(boreholes)
+
+        # process
+        model.process_bhs()
+        model.compute_surf(nreal_units)
+        model.compute_facies(nreal_facies)
+        model.compute_prop(nreal_prop)
+
+        #realizations = np.array([1, 2, 3])
 
         # save output
-        np.save(os.path.join(out_dir, "realizations.npy"), realizations)
+        realizations = model.get_units_domains_realizations()
+        np.save(os.path.join(working_dir, "realizations.npy"), realizations)
 
         # finished
-        job =_set_progress_status("finished", True)
+        job =_set_progress_status(job_id, "finished", True)
 
-    except:
+    except Exception as e:
 
         # finished
-        job =_set_progress_status("failed", False)
-    '''
+        job =_set_progress_status(job_id, "failed", False)
+
+        print(e)
+    
 
 # we set the status
 def _set_progress_status(job_id, status, complete):
@@ -244,14 +273,11 @@ def _set_progress_status(job_id, status, complete):
         job.save_meta()
 
         # set submission
-        sub = Submission.query.get(job.get_id())
-        sub.status = status
-        sub.complete = complete
-        db.session.commit()
-
-        # the problem from the error comes probably from loading the db or something like this....
+        #sub = Submission.query.get(job.get_id())
+        #sub.status = status
+        #sub.complete = complete
+        #db.session.commit()
 
 
     return job
-
 
