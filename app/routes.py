@@ -20,7 +20,7 @@ from scipy.interpolate import RegularGridInterpolator as rgi
 import json
 import pandas as pd
 import app.tasks as tasks
-from app.tasks import pre_process, run_model, meters_to_coordinates, coordinates_to_meters
+from app.tasks import run_model, meters_to_coordinates, coordinates_to_meters
 import uuid
 
 
@@ -43,6 +43,11 @@ def index():
 @login_required # user needs to be logged in
 def submission():
     submissions = current_user.get_submissions().all()
+
+    # get update -> change this
+    for submission in submissions:
+        submission.get_progress()
+
     return render_template('submission.html', title='Home', submissions=submissions)
 
 
@@ -131,6 +136,9 @@ def model():
         coordinates = json.loads(request.form['coordinates'])
         coordinates = np.array([coordinates_to_meters(cor["lat"], cor["lng"]) for cor in coordinates[0]])
         
+        # coordinates = np.load("data/polygon_coord_6.npy")[0]
+        print(coordinates)
+
         # mock values
         name = "Demo"
         spacing = (25, 25, 10) # (25, 25, 5)
@@ -138,20 +146,19 @@ def model():
         job_id = str(uuid.uuid1()) # unique identifier for job
         working_dir = os.path.join("output", str(current_user.id), job_id) # saving directory
 
-        coordinates = np.load("data/polygon_coord_6.npy")[0]
-
         # check values before
         if len(coordinates) == 0:
             flash('Invalid inputs')
             return url_for('index') #+ "#interactiveMapSection"
 
         # pre-process 
-        valid, msg = pre_process(coordinates, working_dir)
+        #valid, msg = pre_process(coordinates, working_dir)
 
+        valid, msg = True, "Test"
         if valid:
             
             # get the job into queue 
-            job = Job.create("tasks.run_model", args=(current_user.id, job_id, working_dir, name, spacing, depth), id=job_id, connection=app.redis, timeout=JOB_TIMEOUT)
+            job = Job.create("tasks.run_model", args=(job_id, working_dir, coordinates, spacing, depth), id=job_id, connection=app.redis, timeout=JOB_TIMEOUT)
 
             # show in job submission
             submission = Submission(id=job_id, name=name, user_id=current_user.id)

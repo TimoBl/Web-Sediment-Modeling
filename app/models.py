@@ -55,17 +55,15 @@ class Submission(db.Model):
 		return rq_job
 
 	def get_progress(self):
-		'''
 
 		# the job is still in progress
 		if not self.complete:
 			
 			# so we want to get an update
 			job = self.get_rq_job()
-			print(job)
 			self.status = job.meta.get('status', 0) if job is not None else 0
 			self.complete = bool(job.meta.get('complete', False) if job is not None else False)
-	
+
 			# check if job was completed
 			if self.complete:
 				# we could notify the user
@@ -73,10 +71,12 @@ class Submission(db.Model):
 
 			# update session
 			db.session.commit()
-		'''
-		job = self.get_rq_job()
-		return job.meta.get('status', 0) if job is not None else 100
+		
+		#job = self.get_rq_job()
+		#return job.meta.get('status', 0) if job is not None else 100
+		return self.status, self.complete
 
 
 	def __repr__(self):
+		self.get_progress()
 		return self
