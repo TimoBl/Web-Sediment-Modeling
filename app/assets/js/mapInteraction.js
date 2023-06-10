@@ -1,13 +1,18 @@
 var map = L.map('mapid', {
     crs: L.CRS.EPSG2056,
     preferCanvas: true // use this for adding markers
-}).setView([46.859588, 7.529822], 13);
+}).setView([46.859588, 7.529822], 16);
 
-
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+/*L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
-}).addTo(map);
+}).addTo(map);*/
+
+L.tileLayer.swiss({
+    layer: 'ch.swisstopo.swissimage',
+    //maxNativeZoom: 28
+}).addTo(map)
+
 
 var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
@@ -52,14 +57,21 @@ show_markers(myRenderer)
 
 function submitPolygon(link) {
     var latlngs = [];
+
     drawnItems.eachLayer(function (layer) {
         if (layer instanceof L.Polygon) {
-            latlngs.push(layer.getLatLngs()[0]);
+            var poly = []
+            for (const latlng of layer.getLatLngs()[0]){
+                var l = L.CRS.EPSG2056.project(latlng);
+                poly.push([l["x"], l["y"]]) // convert to LV95
+            }
+            latlngs.push(poly)
         }
     });
 
-
     // we should add additionnal tests here before submission!
+    // maybe only allow one polygon submission -> we are either way taking the first polygon in submission
+    
     var polygon = JSON.stringify(latlngs);
     $.ajax({
         type: 'POST',

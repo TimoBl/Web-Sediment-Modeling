@@ -165,7 +165,9 @@ def AareModel(poly_data, spacing, depth, nreal_units=1, nreal_facies=1, nreal_pr
     #print(poly_data)
 
     # create multipolygon shapely
-    p1 = MultiPolygon([Polygon(p) for p in [poly_data]])
+    p1 = MultiPolygon([Polygon(p) for p in poly_data])
+
+    print(p1)
 
     # Extract bhs points
     bhs_points = []
@@ -176,6 +178,8 @@ def AareModel(poly_data, spacing, depth, nreal_units=1, nreal_facies=1, nreal_pr
 
     #check position, only keep points inside polygon
     l = np.array([po.name for po in bhs_points if po.intersects(p1)])
+
+    print(l)
 
     #select bhs in zone
     bhs_sel = bhs.loc[l]
@@ -195,7 +199,6 @@ def AareModel(poly_data, spacing, depth, nreal_units=1, nreal_facies=1, nreal_pr
     nz = len(zg)-1
 
     dimensions = (nx, ny, nz)
-    #spacing = (sx, sy, sz)
     origin = (p1.bounds[0], p1.bounds[1], oz)
     
     # load pile from existing pile (why does he load this from the working directory??)

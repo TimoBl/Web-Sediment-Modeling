@@ -102,7 +102,7 @@
             </div>
 
             <div class="col">
-              <input type="string" class="form-control" placeholder="Name">
+              <input type="string" class="form-control" placeholder="name">
             </div>
             <div class="col">
               <input type="number" class="form-control" placeholder="oz">
@@ -124,7 +124,7 @@
           function show_markers(myRenderer){
             {% for marker in boreholes %}
 
-              L.marker([{{ marker[0] }}, {{ marker[1] }}], {
+              L.marker(L.CRS.EPSG2056.unproject(L.point([{{ marker[0] }}, {{ marker[1] }}])), {
                 renderer: myRenderer
               }).addTo(map)
 

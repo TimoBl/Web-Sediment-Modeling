@@ -34,7 +34,11 @@ def index():
 
     # display the boreholes
     boreholes = pd.read_csv('data/all_BH.csv') # change this to our borehole selection 
-    coordinates = [meters_to_coordinates(x, y) for x, y in zip(boreholes["BH_X_LV95"], boreholes["BH_Y_LV95"])]
+    #coordinates = [meters_to_coordinates(x, y) for x, y in zip(boreholes["BH_X_LV95"], boreholes["BH_Y_LV95"])]
+
+    #coordinates = [(x, y) for x, y in zip(boreholes["BH_X_LV95"], boreholes["BH_Y_LV95"])]
+
+    coordinates = list(zip(boreholes["BH_X_LV95"], boreholes["BH_Y_LV95"]))
 
     return render_template('index.html', title='Home', boreholes=coordinates)
 
@@ -134,14 +138,14 @@ def model():
 
         # get the coordinates
         coordinates = json.loads(request.form['coordinates'])
-        coordinates = np.array([coordinates_to_meters(cor["lat"], cor["lng"]) for cor in coordinates[0]])
+        #coordinates = np.array([coordinates_to_meters(cor["lat"], cor["lng"]) for cor in coordinates[0]])
         
         # coordinates = np.load("data/polygon_coord_6.npy")[0]
         print(coordinates)
 
         # mock values
         name = "Demo"
-        spacing = (25, 25, 10) # (25, 25, 5)
+        spacing = (25, 25, 1) # (25, 25, 5)
         depth = (450, 560) # origin to depth
         job_id = str(uuid.uuid1()) # unique identifier for job
         working_dir = os.path.join("output", str(current_user.id), job_id) # saving directory
@@ -169,7 +173,7 @@ def model():
             rq_job = app.task_queue.enqueue_job(job) 
 
 
-            flash('Job {} was submited') #.format(submission.id))
+            flash('Job {} was submited'.format(submission.id))
             return url_for('submission')
         else:
             flash('Job could not be submited: {}'.format(msg))
