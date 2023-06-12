@@ -49,7 +49,8 @@ dic_facies = {
            'FELS':"Bedrock"}
 
 
-
+'''
+-> we changed the coordinate system
 # a naive approach of coordinate transformation (should be replaced!!!)
 def coordinates_to_meters(lat, lng):
     N = (111132.954 * lat) / 2
@@ -60,7 +61,7 @@ def meters_to_coordinates(N, E):
     lat = 2 * N / 111132.954 
     lng = E / (2 * 111319.488 * np.cos(np.pi * lat / 180))
     return [lat, lng]
-
+'''
 
 '''
 # pre-processing of the data for computation (# first part)
@@ -147,7 +148,7 @@ def borehole_analysis(ArchTable, db, list_facies,
 
 
 
-def AareModel(poly_data, spacing, depth, nreal_units=1, nreal_facies=1, nreal_prop=1, ws="data"):
+def AareModel(poly_data, spacing, depth, realizations, ws="data"):
     
     # paths
     bhs_path=os.path.join(ws, "all_BH.csv")
@@ -155,19 +156,16 @@ def AareModel(poly_data, spacing, depth, nreal_units=1, nreal_facies=1, nreal_pr
     mnt=os.path.join(ws, "MNT25.tif")
     bdrck_path=os.path.join(ws, "BEM25-2021_crop_Aar.tif")
 
+    # realizations 
+    (nreal_units, nreal_facies, nreal_prop) = realizations
+
     # load files
     lay = pd.read_csv(all_layers, error_bad_lines=False, sep=";", low_memory=False)
     bhs = pd.read_csv(bhs_path)
     
-    # mock coordinates
-    print(poly_data, type(poly_data))
-    #poly_data = np.load("data/polygon_coord_6.npy") 
-    #print(poly_data)
-
     # create multipolygon shapely
+    #print(poly_data, type(poly_data))
     p1 = MultiPolygon([Polygon(p) for p in poly_data])
-
-    print(p1)
 
     # Extract bhs points
     bhs_points = []
@@ -178,8 +176,6 @@ def AareModel(poly_data, spacing, depth, nreal_units=1, nreal_facies=1, nreal_pr
 
     #check position, only keep points inside polygon
     l = np.array([po.name for po in bhs_points if po.intersects(p1)])
-
-    print(l)
 
     #select bhs in zone
     bhs_sel = bhs.loc[l]
@@ -237,7 +233,7 @@ def AareModel(poly_data, spacing, depth, nreal_units=1, nreal_facies=1, nreal_pr
     return T1.get_units_domains_realizations()
 
 
-def run_model(job_id, working_dir, poly_data, spacing, depth, nreal_units=1, nreal_facies=2, nreal_prop=1):
+def run_model(job_id, working_dir, poly_data, spacing, depth, realizations):
 
     # beginning computation
     job =_set_progress_status(job_id, "running", True)
@@ -248,7 +244,7 @@ def run_model(job_id, working_dir, poly_data, spacing, depth, nreal_units=1, nre
         print(working_dir)
 
     # run model
-    realizations = AareModel(poly_data, spacing, depth, nreal_units=nreal_units, nreal_facies=nreal_facies, nreal_prop=nreal_prop)
+    realizations = AareModel(poly_data, spacing, depth, realizations)
 
     # save model
     np.save(os.path.join(working_dir, "realizations.npy"), realizations)

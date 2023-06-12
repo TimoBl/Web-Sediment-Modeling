@@ -1,26 +1,22 @@
 from flask import render_template, flash, redirect, url_for, send_file
 from app import app, db
 from app.models import User, Submission
-from app.forms import LoginForm, RegistrationForm, JobSubmissionForm
+from app.forms import LoginForm, RegistrationForm #, JobSubmissionForm
 from flask import request
 from werkzeug.urls import url_parse
 from flask_login import current_user, login_user, logout_user, login_required
 import os
 from rq.job import Job
 from flask_bootstrap import Bootstrap
-
-# for developpemnt only -> we will have to clean up
 import numpy as np
 import shutil
 import plotly
 import plotly.graph_objects as go
 import plotly.express as px
-from rq import Callback
-from scipy.interpolate import RegularGridInterpolator as rgi
 import json
 import pandas as pd
 import app.tasks as tasks
-from app.tasks import run_model, meters_to_coordinates, coordinates_to_meters
+from app.tasks import run_model
 import uuid
 
 
@@ -129,6 +125,32 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 
+def get_model_request(request):
+    coordinates = json.loads(request.form['coordinates'])
+    #coordinates = np.array([coordinates_to_meters(cor["lat"], cor["lng"]) for cor in coordinates[0]])
+
+    name = request.form["name"] 
+    name = name if name != "NaN" else "Test"
+
+    sx, sy, sz = request.form["sx"], request.form["sy"], request.form["sz"]
+    spacing = (
+        int(sy) if sx != "NaN" else 25,
+        int(sy) if sy != "NaN" else 25,
+        int(sz) if sz != "NaN" else 1,
+    )
+
+    oz, z1 = request.form["oz"], request.form["z1"]
+    depth = (
+        int(oz) if oz != "NaN" else 450,
+        int(z1) if z1 != "NaN" else 560,
+    )
+
+    #nreal_units, nreal_facies, nreal_prop = request.form["nreal_units"], request.form["nreal_units"], request.form["nreal_prop"] 
+    realizations = (1, 1, 1)
+
+    return coordinates, name, spacing, depth, realizations
+
+
 # submit job
 @app.route('/model', methods=['GET', 'POST'])
 @login_required # user needs to be logged in
@@ -136,17 +158,12 @@ def model():
 
     if request.method=="POST":
 
-        # get the coordinates
-        coordinates = json.loads(request.form['coordinates'])
-        #coordinates = np.array([coordinates_to_meters(cor["lat"], cor["lng"]) for cor in coordinates[0]])
-        
-        # coordinates = np.load("data/polygon_coord_6.npy")[0]
+        # get data
+        coordinates, name, spacing, depth, realizations = get_model_request(request)
+        #coordinates = np.load("data/polygon_coord_6.npy")
         print(coordinates)
 
-        # mock values
-        name = "Demo"
-        spacing = (25, 25, 1) # (25, 25, 5)
-        depth = (450, 560) # origin to depth
+        # values for job
         job_id = str(uuid.uuid1()) # unique identifier for job
         working_dir = os.path.join("output", str(current_user.id), job_id) # saving directory
 
@@ -162,7 +179,7 @@ def model():
         if valid:
             
             # get the job into queue 
-            job = Job.create("tasks.run_model", args=(job_id, working_dir, coordinates, spacing, depth), id=job_id, connection=app.redis, timeout=JOB_TIMEOUT)
+            job = Job.create("tasks.run_model", args=(job_id, working_dir, coordinates, spacing, depth, realizations), id=job_id, connection=app.redis, timeout=JOB_TIMEOUT)
 
             # show in job submission
             submission = Submission(id=job_id, name=name, user_id=current_user.id)

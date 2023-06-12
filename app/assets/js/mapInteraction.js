@@ -76,7 +76,15 @@ function submitPolygon(link) {
     $.ajax({
         type: 'POST',
         url: link,
-        data: {'coordinates': polygon},
+        data: {
+            'coordinates': polygon,
+            'name': $("#filter-name").val(),
+            'sx': parseInt($("#filter-x-resolution").val()),
+            'sy': parseInt($("#filter-y-resolution").val()),
+            'sz': parseInt($("#filter-z-resolution").val()),
+            'oz': parseInt($("#filter-origin").val()),
+            'z1': parseInt($("#filter-depth").val())
+        },
         success: function(data, textStatus){
             window.location.href = data; // redirects to submission page
         }

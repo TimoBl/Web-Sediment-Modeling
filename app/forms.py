@@ -32,7 +32,7 @@ class RegistrationForm(FlaskForm):
         if user is not None:
             raise ValidationError('Please use a different email address')
 
-
+'''
 # for simulation submission 
 class JobSubmissionForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()], default="Demo")
@@ -45,4 +45,4 @@ class JobSubmissionForm(FlaskForm):
     sh =  FloatField("Spacing y", validators=[DataRequired()], default=25)
     sd =  FloatField("Spacing z", validators=[DataRequired()], default=1)
 
-    submit = SubmitField('run')
+    submit = SubmitField('run')'''
