@@ -79,4 +79,5 @@ class Submission(db.Model):
 
 	def __repr__(self):
 		self.get_progress()
+		#return self
 		return self

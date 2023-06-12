@@ -2,6 +2,86 @@
 
 {% block content %}
 
+{% block javascript %}
+<!-- Leaflet Files (https://leaflet-tilelayer-swiss.karavia.ch/) -->
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+<script src="https://cdn.jsdelivr.net/npm/leaflet-tilelayer-swiss@2.3.0/dist/Leaflet.TileLayer.Swiss.umd.js"
+      crossorigin integrity="sha384-M4p8VfZ8RG6qNiPYA3vOCApQXAlLtnJXVPdydMYPAsvvIDsWp2dqqzF2OEeWWNhy">
+</script>
+{% endblock %}
+
+<!-- ======= Interactive Map Section-->
+<section id="interactiveMapSection" class="interactiveMapSection">
+  <div class="container" data-aos="fade-up">
+
+    <div class="section-title">
+      <h2>Interactive map</h2>
+      <p>To enter a zone that you wish to visualize, click on the polygon icon in the map area, and click on the map each corner of the zone you wish to visualize. To close the polygon, click again on the first point you made. If you wish, you are able to filter some information for your output, such as the depth or the voxel resolution. Once your choice done, you can press the visualize button to see your output model. </p>
+    </div>
+    <i class="filterButton bi bi-filter"></i>
+    <br>
+    <form id="filter" class="filter" style="display: none">
+      <div class="row content">
+        <div class="col">
+          <input id="filter-name" type="string" class="form-control" placeholder="name">
+        </div>
+        <div class="col">
+          <input id="filter-origin" type="number" class="form-control" placeholder="origin">
+        </div>
+        <div class="col">
+          <input id="filter-depth" type="number" class="form-control" placeholder="depth">
+        </div>
+      </div>
+
+      <div class="row content">
+        <div class="col">
+          <input id="filter-x-resolution "type="number" class="form-control" placeholder="x resolution">
+        </div>
+        <div class="col">
+          <input id="filter-y-resolution" type="number" class="form-control" placeholder="y resolution">
+        </div>
+        <div class="col">
+          <input id="filter-z-resolution" type="number" class="form-control" placeholder="z resolution">
+        </div>
+      </div>
+
+      <div class="row content">
+        <div class="col">
+          <input id="" type="number" class="form-control" placeholder="nreal_units">
+        </div>
+        <div class="col">
+          <input id="" type="number" class="form-control" placeholder="nreal_facies">
+        </div>
+        <div class="col">
+          <input id="" type="number" class="form-control" placeholder="nreal_prop">
+        </div>
+      </div>
+
+    </form>
+
+    <br>
+    <div id="mapid" style="border:0; width: 100%; height: 600px;"></div>
+    <a class="submitBtn" onclick="submitPolygon('{{ url_for('model') }}')">Visualize my data</a>
+    
+    <script>
+      function show_markers(myRenderer){
+        {% for marker in boreholes %}
+          L.marker(L.CRS.EPSG2056.unproject(L.point([{{ marker[0] }}, {{ marker[1] }}])), {
+            renderer: myRenderer
+          }).addTo(map)
+        {% endfor %}
+      }
+    </script>
+
+  </div>
+</section>
+<!-- End of Interactive Map -->
+
+
  <!-- ======= Submission section ======= -->
   <section id="submission" class="su">
       <div class="container">
@@ -10,55 +90,80 @@
           <h2>Submission</h2>
         </div>
 
+
+        
         <div class="row content">
           <div class="col-lg-6">
-            {% if not current_user.is_anonymous %}
-                <p>
-                    {% if submissions|length > 0 %}
-                        <table>
-
-                            <tr> <th>Name</th> <th>Date</th> <th>Time</th> <th>Satus</th> <th>View</th> <th>Delete</th> </tr>
-                            
-                            {% for submission in submissions %}
-                                <tr>
-                                    <td> {{ submission.name }} </td>
-                                    <td> {{ moment(submission.timestamp).format('MMMM Do YYYY') }} </td>
-                                    <td> {{ moment(submission.timestamp).format('hh:mm') }} </td>
-                                    <td> {{ submission.status }} </td>
-
-                                    <td><a href="{{ url_for('view', id=submission.id) }}">view</a></td>
-                                    <td><a href="{{ url_for('delete', id=submission.id) }}">delete</a></td>
-
-                                    {% if submission.complete %}
-                                        <td>complete</td>
-                                    {% endif %}
-
-                                </tr>
-                            {% endfor %}
-                            
-                        </table>
-                    {% else %}
-                        <i> No jobs were submitted </i>
-                    {% endif %}
-                </p>
-
-                <!--<p>
-                    You can submit jobs <a href="{{ url_for('index') }}">here</a>.
-                </p>-->
-
-                <p>
-                    
-                </p>
-
+            {% if submissions|length > 0 %}
+                <table>
+                    <tr> <th>Name</th> <th>Date</th> <th>Time</th> <th>Satus</th> <th>View</th> <th>Delete</th> </tr>
+                    {% for submission in submissions %}
+                        <tr>
+                            <td> {{ submission.name }} </td>
+                            <td> {{ moment(submission.timestamp).format('MMMM Do YYYY') }} </td>
+                            <td> {{ moment(submission.timestamp).format('hh:mm') }} </td>
+                            <td> {{ submission.status }} </td>
+                            <td><a href="{{ url_for('view', id=submission.id) }}">view</a></td>
+                            <td><a href="{{ url_for('delete', id=submission.id) }}">delete</a></td>
+                            {% if submission.complete %}
+                                <td>complete</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </table>
             {% else %}
-                <p>
-                    Please <a href="{{ url_for('login') }}">login</a> or <a href="{{ url_for('register') }}">register</a> to be able to submit models.
-                </p>
+                <i> No jobs were submitted </i>
             {% endif %}
           </div>
         </div>
+
+        <!--
+       
+
+
+        <div class="row content">
+          <div class="col-lg-6">
+            {% if submissions|length > 0 %}
+                <table></table>
+                <thead>
+                    <tr> <th>Name</th> <th>Date</th> <th>Time</th> <th>Satus</th> <th>View</th> <th>Delete</th> </tr>
+                </thead>
+                <div id="tbody"></div>
+
+                <script>
+                    $(function() {
+                        setInterval(function() {
+                            $("#tbody").empty();
+                            console.log("update")
+
+                            $.ajax('{{ url_for('notifications') }}').done(
+                                function(notifications) {
+                                    $.each(notifications, function(i, r) {
+                                        $("#tbody").append(
+                                            "<tr>" +
+                                            "<td>" + r.name + "</td>" +
+                                            "<td>" + r.time + "</td>" +
+                                            "<td>" + r.status + "</td>" +
+                                            "<td>" + r.complete + "</td>" +
+                                            "</tr>"
+                                        )
+                                    });
+                                }
+                            );
+                        }, 10000);
+                    });
+                </script>
+            {% else %}
+                <i> No jobs were submitted </i>
+            {% endif %}
+          </div>
+        </div>
+         -->
+
   </section>
   <!-- End Submission -->
 
+<!-- Leaflet map drawing -->
+<script type="text/javascript" src="assets/js/mapInteraction.js"></script>
 
 {% endblock %}

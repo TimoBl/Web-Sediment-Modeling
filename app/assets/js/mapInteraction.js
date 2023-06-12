@@ -1,7 +1,7 @@
 var map = L.map('mapid', {
     crs: L.CRS.EPSG2056,
     preferCanvas: true // use this for adding markers
-}).setView([46.859588, 7.529822], 16);
+}).setView([46.859588, 7.529822], 17);
 
 /*L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,

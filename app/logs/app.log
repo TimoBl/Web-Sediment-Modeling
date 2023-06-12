@@ -16,3 +16,4 @@ Traceback (most recent call last):
     fid = stack.enter_context(open(os_fspath(file), "rb"))
 FileNotFoundError: [Errno 2] No such file or directory: 'output/2/2ba3904e-0904-11ee-9840-a45e60d3a055/realizations.npy'
 2023-06-12 11:51:42,137 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:46]
+2023-06-12 19:52:53,991 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:46]

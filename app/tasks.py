@@ -244,22 +244,20 @@ def run_model(job_id, working_dir, poly_data, spacing, depth, realizations):
         print(working_dir)
 
     # run model
-    realizations = AareModel(poly_data, spacing, depth, realizations)
+    try:
+        realizations = AareModel(poly_data, spacing, depth, realizations)
 
-    # save model
-    np.save(os.path.join(working_dir, "realizations.npy"), realizations)
+        # save model
+        np.save(os.path.join(working_dir, "realizations.npy"), realizations)
 
-    # finished
-    job =_set_progress_status(job_id, "finished", True)
+        # finished
+        job =_set_progress_status(job_id, "finished", True)
 
-    '''
     except Exception as e:
 
         # finished
         job =_set_progress_status(job_id, "failed", False)
 
-        print(e)
-    '''
 
 # we set the status
 def _set_progress_status(job_id, status, complete):

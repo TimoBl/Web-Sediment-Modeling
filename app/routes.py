@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, send_file
+from flask import render_template, flash, redirect, url_for, send_file, jsonify
 from app import app, db
 from app.models import User, Submission
 from app.forms import LoginForm, RegistrationForm #, JobSubmissionForm
@@ -27,28 +27,37 @@ JOB_TIMEOUT = 10*60 # maximum of 10 minutes for job to complete
 @app.route('/')
 @app.route('/index')
 def index():
+    return render_template('index.html', title='Home')
 
-    # display the boreholes
-    boreholes = pd.read_csv('data/all_BH.csv') # change this to our borehole selection 
-    #coordinates = [meters_to_coordinates(x, y) for x, y in zip(boreholes["BH_X_LV95"], boreholes["BH_Y_LV95"])]
 
-    #coordinates = [(x, y) for x, y in zip(boreholes["BH_X_LV95"], boreholes["BH_Y_LV95"])]
+@app.route('/notifications')
+@login_required
+def notifications():
+    # submissions
+    submissions = current_user.get_submissions().all()
 
-    coordinates = list(zip(boreholes["BH_X_LV95"], boreholes["BH_Y_LV95"]))
+    # get update -> change this
+    # for submission in submissions:
+    #    submission.get_progress()
 
-    return render_template('index.html', title='Home', boreholes=coordinates)
-
+    return [{'name': sub.name, 'time': sub.timestamp, 'status': sub.status, 'complete': sub.complete} for sub in submissions]
 
 @app.route('/submission', methods=['GET', 'POST'])
 @login_required # user needs to be logged in
 def submission():
+
+    # display the boreholes
+    boreholes = pd.read_csv('data/all_BH.csv') # change this to our borehole selection 
+    boreholes = list(zip(boreholes["BH_X_LV95"], boreholes["BH_Y_LV95"]))
+
+    # submissions
     submissions = current_user.get_submissions().all()
 
     # get update -> change this
     for submission in submissions:
         submission.get_progress()
 
-    return render_template('submission.html', title='Home', submissions=submissions)
+    return render_template('submission.html', title='Home', boreholes=boreholes, submissions=submissions)
 
 
 @app.route('/login', methods=['GET', 'POST']) 

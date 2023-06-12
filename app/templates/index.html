@@ -79,78 +79,6 @@
     </section><!-- End Why Us Section -->
 
 
-    <!-- ======= Interactive Map Section-->
-    <section id="interactiveMapSection" class="interactiveMapSection">
-      <div class="container" data-aos="fade-up">
-
-        <div class="section-title">
-          <h2>Interactive map</h2>
-          <p>To enter a zone that you wish to visualize, click on the polygon icon in the map area, and click on the map each corner of the zone you wish to visualize. To close the polygon, click again on the first point you made. If you wish, you are able to filter some information for your output, such as the depth or the voxel resolution. Once your choice done, you can press the visualize button to see your output model. </p>
-        </div>
-        <i class="filterButton bi bi-filter"></i>
-        <br>
-        <form id="filter" class="filter" style="display: none">
-          <div class="row content">
-            <div class="col">
-              <input id="filter-name" type="string" class="form-control" placeholder="name">
-            </div>
-            <div class="col">
-              <input id="filter-origin" type="number" class="form-control" placeholder="origin">
-            </div>
-            <div class="col">
-              <input id="filter-depth" type="number" class="form-control" placeholder="depth">
-            </div>
-          </div>
-
-          <div class="row content">
-            <div class="col">
-              <input id="filter-x-resolution "type="number" class="form-control" placeholder="x resolution">
-            </div>
-            <div class="col">
-              <input id="filter-y-resolution" type="number" class="form-control" placeholder="y resolution">
-            </div>
-            <div class="col">
-              <input id="filter-z-resolution" type="number" class="form-control" placeholder="z resolution">
-            </div>
-          </div>
-
-          <div class="row content">
-            <div class="col">
-              <input id="" type="number" class="form-control" placeholder="nreal_units">
-            </div>
-            <div class="col">
-              <input id="" type="number" class="form-control" placeholder="nreal_facies">
-            </div>
-            <div class="col">
-              <input id="" type="number" class="form-control" placeholder="nreal_prop">
-            </div>
-          </div>
-
-        </form>
-        <br>
-
-        <div id="mapid" style="border:0; width: 100%; height: 500px;"></div>
-        <a class="submitBtn" onclick="submitPolygon('{{ url_for('model') }}')">Visualize my data</a>
-        <div>You can view submissions here <a href="{{ url_for('submission') }}">here</a></div>
-
-        
-        <script>
-          function show_markers(myRenderer){
-            {% for marker in boreholes %}
-
-              L.marker(L.CRS.EPSG2056.unproject(L.point([{{ marker[0] }}, {{ marker[1] }}])), {
-                renderer: myRenderer
-              }).addTo(map)
-
-            {% endfor %}
-          }
-        </script>
-
-      </div>
-    </section>
-    <!-- End of Interactive Map -->
-
-
     <!-- ======= About Us Section ======= -->
     <section id="about" class="about">
       <div class="container" data-aos="fade-up">
@@ -184,8 +112,17 @@
       </div>
     </section><!-- End About Us Section -->
 
+    <!--
+      {% if not current_user.is_anonymous %}
+          <p>
+            {% else %}
+          <p>
+              Please <a href="{{ url_for('login') }}">login</a> or <a href="{{ url_for('register') }}">register</a> to be able to submit models.
+          </p>
+      {% endif %}
+    -->
 
-        <!-- ======= Frequently Asked Questions Section ======= -->
+     <!-- ======= Frequently Asked Questions Section ======= -->
     <section id="faq" class="faq section-bg">
       <div class="container" data-aos="fade-up">
 
