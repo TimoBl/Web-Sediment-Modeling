@@ -38,8 +38,20 @@ rq worker submission-tasks
 
 ```
 redis-server
-``
+```
+
+# Docker
+
+```
+docker build --platform linux/amd64 -t timobl/archpy .
+docker run -p 8888:5000 timobl/archpy
+```
+
+```
+http://localhost:8888
+```
 
 # Ressources
 
 * https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iii-web-forms
+* https://blog.abbasmj.com/implementing-redis-task-queues-and-deploying-on-docker-compose

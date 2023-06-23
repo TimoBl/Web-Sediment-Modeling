@@ -49,69 +49,6 @@ dic_facies = {
            'FELS':"Bedrock"}
 
 
-'''
--> we changed the coordinate system
-# a naive approach of coordinate transformation (should be replaced!!!)
-def coordinates_to_meters(lat, lng):
-    N = (111132.954 * lat) / 2
-    E = 2 * (111319.488 * np.cos(np.pi * lat / 180)) * lng
-    return [N, E]
-
-def meters_to_coordinates(N, E):
-    lat = 2 * N / 111132.954 
-    lng = E / (2 * 111319.488 * np.cos(np.pi * lat / 180))
-    return [lat, lng]
-'''
-
-'''
-# pre-processing of the data for computation (# first part)
-# ! there seems to be some problems with the code of ArchPy, so we currently disable the automatic update !
-def initialize_data(data_dir="data"):
-
-    # load the data
-    poly_data = np.load(os.path.join(data_dir, "polygon_coord_3.npy"))  # the maximum extent of the zone
-    lay = pd.read_csv(os.path.join(data_dir, "Layer_all_free.csv"), error_bad_lines=False, sep=";", low_memory=False)
-    bhs = pd.read_csv(os.path.join(data_dir, "all_BH.csv"))
-
-    # initialize project
-    model = ArchPy.inputs.import_project("Aar_geomodel", ws=data_dir, 
-            import_bhs=False, import_grid=False, import_results=False)  # load the yaml file
-
-    # define zone
-    zone = MultiPolygon([Polygon(p) for p in poly_data])
-    
-    bhs_points = []
-    for i, (ix, iy) in enumerate(zip(bhs.BH_X_LV95, bhs.BH_Y_LV95)):
-        p = shapely.geometry.Point(ix, iy)
-        p.name = i
-        bhs_points.append(p)
-
-    # check intersection
-    l = [p.name for p in bhs_points if p.intersects(zone)]
-
-    # select zone
-    bhs_sel = bhs.loc[np.array(l)]
-    lay_sel = lay[lay["BH_GEOQUAT_ID"].isin(bhs_sel["BH_GEOQUAT_ID"])]
-
-    # import geological database 
-    db, list_bhs = load_bh_files(bhs_sel, lay_sel.reset_index(), lay_sel.reset_index(),
-        lbhs_bh_id_col="BH_GEOQUAT_ID", u_bh_id_col="BH_GEOQUAT_ID", fa_bh_id_col="BH_GEOQUAT_ID",
-        u_top_col = "LA_TOP_m",u_bot_col = "LA_BOT_m",u_ID = "LA_Lithostrati",
-        fa_top_col = "LA_TOP_m",fa_bot_col = "LA_BOT_m",fa_ID = "LA_USCS_IP_1",
-        bhx_col='BH_X_LV95', bhy_col='BH_Y_LV95', bhz_col='BH_Z_Alt_m', bh_depth_col='BH_TD_m',
-        dic_units_names = dic_s_names_grouped, dic_facies_names = dic_facies, altitude = False)
-
-    # adding boreholes
-    all_boreholes = extract_bhs(db, list_bhs, model, 
-        units_to_ignore=('Keine Angaben', 'Raintal-Deltaschotter', 'Hani-Deltaschotter', 'Fels'),
-        facies_to_ignore=('Bedrock', 'asfd'))
-
-    # save for reuse in computation
-    with open(os.path.join(data_dir, "boreholes"), "wb") as f:
-        pickle.dump(all_boreholes, f)
-'''
-
-
 # Analyze boreholes
 def borehole_analysis(ArchTable, db, list_facies,
                      Strat_ID = "Strat_ID", Facies_ID = "Facies_ID",
@@ -148,7 +85,7 @@ def borehole_analysis(ArchTable, db, list_facies,
 
 
 
-def AareModel(poly_data, spacing, depth, realizations, ws="data"):
+def AareModel(poly_data, spacing, depth, realizations, ws="app/data"):
     
     # paths
     bhs_path=os.path.join(ws, "all_BH.csv")

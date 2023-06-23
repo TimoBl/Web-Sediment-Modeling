@@ -36,7 +36,7 @@ moment = Moment(app)
 if not app.debug:
 
     # the roating file handler limits the number of logs we see
-    file_handler = RotatingFileHandler('logs/app.log', maxBytes=10240, backupCount=30)
+    file_handler = RotatingFileHandler('app/logs/app.log', maxBytes=10240, backupCount=30)
     file_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
     file_handler.setLevel(logging.INFO)
     
@@ -47,3 +47,7 @@ if not app.debug:
 
 # sudo service redis-server stop 
 from app import models, errors, routes
+
+# run app
+if __name__ == "__main__":
+    app.run(debug=True)

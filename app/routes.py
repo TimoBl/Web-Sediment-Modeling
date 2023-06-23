@@ -47,7 +47,7 @@ def notifications():
 def submission():
 
     # display the boreholes
-    boreholes = pd.read_csv('data/all_BH.csv') # change this to our borehole selection 
+    boreholes = pd.read_csv('app/data/all_BH.csv') # change this to our borehole selection 
     boreholes = list(zip(boreholes["BH_X_LV95"], boreholes["BH_Y_LV95"]))
 
     # submissions
@@ -170,7 +170,6 @@ def model():
         # get data
         coordinates, name, spacing, depth, realizations = get_model_request(request)
         #coordinates = np.load("data/polygon_coord_6.npy")
-        print(coordinates)
 
         # values for job
         job_id = str(uuid.uuid1()) # unique identifier for job
@@ -213,7 +212,7 @@ def model():
 # views the result of a job
 @app.route('/view', methods=['GET'])
 @login_required # user needs to be logged in
-def view():
+def view(volume="app/output"):
 
     # get the submission id
     submission_id = request.args.get('id', None)
@@ -228,7 +227,7 @@ def view():
     if submission is not None and submission.user_id==current_user.id: #and submission.complete:
 
         # we can view the results
-        out_dir = os.path.join("output", str(current_user.id), str(submission.id), "realizations.npy") 
+        out_dir = os.path.join(volume, str(current_user.id), str(submission.id), "realizations.npy") 
         realizations = np.load(out_dir)
 
         # choose realizations
@@ -268,7 +267,7 @@ def view():
 # download realization
 @app.route('/download', methods=['GET'])
 @login_required # user needs to be logged in
-def download():
+def download(volume="app/output"):
 
     # get the submission id
     submission_id = request.args.get('id', None)
@@ -280,7 +279,7 @@ def download():
     if submission is not None and submission.user_id==current_user.id and submission.complete:
 
         # we can view the results
-        path = os.path.join("output", str(current_user.id), str(submission.id), "realizations.npy") 
+        path = os.path.join(volume, str(current_user.id), str(submission.id), "realizations.npy") 
         return send_file(path, as_attachment=True)
 
     else:
@@ -294,7 +293,7 @@ def download():
 # deletes a submission
 @app.route('/delete', methods=['GET'])
 @login_required # user needs to be logged in
-def delete():
+def delete(volume="app/output"):
 
     # get the submission id
     submission_id = request.args.get('id', None)
@@ -310,7 +309,7 @@ def delete():
         db.session.commit()
 
         # delete output directory
-        out_dir = os.path.join("output", str(current_user.id), str(submission.id))
+        out_dir = os.path.join(volume, str(current_user.id), str(submission.id))
         if os.path.exists(out_dir):
             shutil.rmtree(out_dir)
 
