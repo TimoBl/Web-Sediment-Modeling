@@ -90,13 +90,19 @@
           <h2>Submission</h2>
         </div>
 
-
-        
         <div class="row content">
           <div class="col-lg-6">
             {% if submissions|length > 0 %}
-                <table>
-                    <tr> <th>Name</th> <th>Date</th> <th>Time</th> <th>Satus</th> <th>View</th> <th>Delete</th> </tr>
+                <table class="table">
+                    <tr>
+                      <th scope="col">Name</th>
+                      <th scope="col">Date</th>
+                      <th scope="col">Time</th>
+                      <th scope="col">Satus</th>
+                      <th scope="col">View</th>
+                      <th scope="col">Delete</th>
+                    </tr>
+
                     {% for submission in submissions %}
                         <tr>
                             <td> {{ submission.name }} </td>
@@ -116,49 +122,6 @@
             {% endif %}
           </div>
         </div>
-
-        <!--
-       
-
-
-        <div class="row content">
-          <div class="col-lg-6">
-            {% if submissions|length > 0 %}
-                <table></table>
-                <thead>
-                    <tr> <th>Name</th> <th>Date</th> <th>Time</th> <th>Satus</th> <th>View</th> <th>Delete</th> </tr>
-                </thead>
-                <div id="tbody"></div>
-
-                <script>
-                    $(function() {
-                        setInterval(function() {
-                            $("#tbody").empty();
-                            console.log("update")
-
-                            $.ajax('{{ url_for('notifications') }}').done(
-                                function(notifications) {
-                                    $.each(notifications, function(i, r) {
-                                        $("#tbody").append(
-                                            "<tr>" +
-                                            "<td>" + r.name + "</td>" +
-                                            "<td>" + r.time + "</td>" +
-                                            "<td>" + r.status + "</td>" +
-                                            "<td>" + r.complete + "</td>" +
-                                            "</tr>"
-                                        )
-                                    });
-                                }
-                            );
-                        }, 10000);
-                    });
-                </script>
-            {% else %}
-                <i> No jobs were submitted </i>
-            {% endif %}
-          </div>
-        </div>
-         -->
 
   </section>
   <!-- End Submission -->

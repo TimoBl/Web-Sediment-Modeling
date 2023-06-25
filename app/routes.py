@@ -20,10 +20,7 @@ from app.tasks import run_model
 import uuid
 
 
-# global variables
-JOB_TIMEOUT = 10*60 # maximum of 10 minutes for job to complete
-
-
+# our start page
 @app.route('/')
 @app.route('/index')
 def index():
@@ -136,7 +133,6 @@ def register():
 
 def get_model_request(request):
     coordinates = json.loads(request.form['coordinates'])
-    #coordinates = np.array([coordinates_to_meters(cor["lat"], cor["lng"]) for cor in coordinates[0]])
 
     name = request.form["name"] 
     name = name if name != "NaN" else "Test"
@@ -173,21 +169,19 @@ def model():
 
         # values for job
         job_id = str(uuid.uuid1()) # unique identifier for job
-        working_dir = os.path.join("output", str(current_user.id), job_id) # saving directory
+        working_dir = os.path.join(app.config["OUTPUT_DIR"], str(current_user.id), job_id) # saving directory
 
         # check values before
         if len(coordinates) == 0:
             flash('Invalid inputs')
             return url_for('index') #+ "#interactiveMapSection"
 
-        # pre-process 
-        #valid, msg = pre_process(coordinates, working_dir)
-
+        # we assume checks were passed
         valid, msg = True, "Test"
         if valid:
             
             # get the job into queue 
-            job = Job.create("tasks.run_model", args=(job_id, working_dir, coordinates, spacing, depth, realizations), id=job_id, connection=app.redis, timeout=JOB_TIMEOUT)
+            job = Job.create("app.tasks.run_model", id=job_id, args=(job_id, working_dir, coordinates, spacing, depth, realizations), connection=app.redis, timeout=app.config["JOB_TIMEOUT"])
 
             # show in job submission
             submission = Submission(id=job_id, name=name, user_id=current_user.id)
@@ -195,8 +189,7 @@ def model():
             db.session.commit()
 
             # submit
-            rq_job = app.task_queue.enqueue_job(job) 
-
+            rq_job = app.task_queue.enqueue_job(job)
 
             flash('Job {} was submited'.format(submission.id))
             return url_for('submission')
@@ -212,7 +205,7 @@ def model():
 # views the result of a job
 @app.route('/view', methods=['GET'])
 @login_required # user needs to be logged in
-def view(volume="app/output"):
+def view():
 
     # get the submission id
     submission_id = request.args.get('id', None)
@@ -227,7 +220,7 @@ def view(volume="app/output"):
     if submission is not None and submission.user_id==current_user.id: #and submission.complete:
 
         # we can view the results
-        out_dir = os.path.join(volume, str(current_user.id), str(submission.id), "realizations.npy") 
+        out_dir = os.path.join(app.config["OUTPUT_DIR"], str(current_user.id), str(submission.id), "realizations.npy") 
         realizations = np.load(out_dir)
 
         # choose realizations
@@ -267,7 +260,7 @@ def view(volume="app/output"):
 # download realization
 @app.route('/download', methods=['GET'])
 @login_required # user needs to be logged in
-def download(volume="app/output"):
+def download():
 
     # get the submission id
     submission_id = request.args.get('id', None)
@@ -279,7 +272,7 @@ def download(volume="app/output"):
     if submission is not None and submission.user_id==current_user.id and submission.complete:
 
         # we can view the results
-        path = os.path.join(volume, str(current_user.id), str(submission.id), "realizations.npy") 
+        path = os.path.join(app.config["OUTPUT_DIR"], str(current_user.id), str(submission.id), "realizations.npy") 
         return send_file(path, as_attachment=True)
 
     else:
@@ -293,7 +286,7 @@ def download(volume="app/output"):
 # deletes a submission
 @app.route('/delete', methods=['GET'])
 @login_required # user needs to be logged in
-def delete(volume="app/output"):
+def delete():
 
     # get the submission id
     submission_id = request.args.get('id', None)
@@ -309,7 +302,7 @@ def delete(volume="app/output"):
         db.session.commit()
 
         # delete output directory
-        out_dir = os.path.join(volume, str(current_user.id), str(submission.id))
+        out_dir = os.path.join(app.config["OUTPUT_DIR"], str(current_user.id), str(submission.id))
         if os.path.exists(out_dir):
             shutil.rmtree(out_dir)
 

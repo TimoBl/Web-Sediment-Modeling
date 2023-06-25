@@ -1,7 +1,4 @@
-# alpine linux is a lighter version than linux
-# FROM debian
-
-# we can specify the version
+# we can specify the python version
 FROM python:3.8
 
 # set a directory for the app
@@ -20,8 +17,10 @@ RUN cd geone && pip install .
 COPY ArchPy ArchPy
 RUN cd ArchPy && pip install .
 
-# needed for geone...
+# hotfix for issues
 RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
+# RUN pip uninstall -y click
+# RUN pip install click==7.1.2
 
 # update app
 COPY app app

@@ -1,4 +1,5 @@
 # ArchPy
+
 This is the folder for our R&D project
 
 # App Installation
@@ -46,12 +47,28 @@ redis-server
 docker build --platform linux/amd64 -t timobl/archpy .
 docker run -p 8888:5000 timobl/archpy
 ```
+You can view the application at [localhost:8888](http://localhost:8888).
 
+
+# Docker Compose
+
+Building the compose
 ```
-http://localhost:8888
+docker-compose build
+```
+
+Running the containers
+```
+docker-compose up -d
+```
+
+Stopping the contains 
+```
+docker-compose down
 ```
 
 # Ressources
 
 * https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iii-web-forms
+* https://testdriven.io/blog/asynchronous-tasks-with-flask-and-redis-queue/
 * https://blog.abbasmj.com/implementing-redis-task-queues-and-deploying-on-docker-compose

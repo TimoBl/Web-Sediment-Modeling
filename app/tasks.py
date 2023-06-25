@@ -12,8 +12,6 @@ import pandas as pd
 import shapely
 import shutil
 from shapely.geometry import Polygon, MultiPolygon, Point
-#from app.models import Submission
-#from app import db
 
 
 #dictionary of units
@@ -172,12 +170,14 @@ def AareModel(poly_data, spacing, depth, realizations, ws="app/data"):
 
 def run_model(job_id, working_dir, poly_data, spacing, depth, realizations):
 
+    print("starting")
+
     # beginning computation
     job =_set_progress_status(job_id, "running", True)
 
     #create working dir
     if not os.path.exists(working_dir):
-        os.mkdir(working_dir)
+        os.makedirs(working_dir)
         print(working_dir)
 
     # run model
@@ -206,13 +206,6 @@ def _set_progress_status(job_id, status, complete):
         job.meta['status'] = status
         job.meta['complete'] = complete
         job.save_meta()
-
-        # set submission
-        #sub = Submission.query.get(job.get_id())
-        #sub.status = status
-        #sub.complete = complete
-        #db.session.commit()
-
 
     return job
 
