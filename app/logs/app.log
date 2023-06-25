@@ -93,3 +93,5 @@ jinja2.exceptions.TemplateSyntaxError: Encountered unknown tag 'endblock'. You p
 2023-06-25 16:33:06,944 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
 2023-06-25 16:34:40,809 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
 2023-06-25 16:35:14,957 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
+2023-06-25 19:10:39,526 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
+2023-06-25 19:11:02,717 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]

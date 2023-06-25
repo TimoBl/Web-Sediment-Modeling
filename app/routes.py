@@ -242,7 +242,7 @@ def view():
         X, Y, Z, values = X.flatten(), Y.flatten(), Z.flatten(), values.flatten()
 
         # identify colorscale for the figures, goes from rane 0 to 1, as 0 is not going to be shown, the color doesn't matter but it is nice to point it out
-        colorscales = [[0,'white'],[0.1, 'red'], [0.2,'blue'],[0.3,'green'],[0.4,'darkgoldenrod'], [0.5, 'lightgreen'], [0.6,'yellow'],[0.7,'black']]
+        colorscales = [[0,'black'], [0.2,'yellow'], [0.4,'lightgreen'] , [0.6,'darkgoldenrod'], [0.8,'green'],[1,'blue']]
 
         #[X, Y, Z, values] = realizations
         # maybe add a display size
@@ -255,12 +255,13 @@ def view():
             z=-X,
             value=values,
             isomin=1,  # indicate range min of "color scale" so 0 value not taken in account
-            isomax=7, # indicate range max of "color scale"
+            isomax=6, # indicate range max of "color scale"
             opacity=0.3, # needs to be small to see through all surfaces
             colorscale=colorscales, # assign color scale with the custom one
             opacityscale=[[0, 0], [1/13, 1], [1, 1]], #input range to remove the 0 as colorization , redundancy with isomin, but safety measure
-            caps=dict(x_show=False, y_show=False) # remove the color coded surfaces on the sides of the visualisation domain for clearer visualization
+            caps=dict(x_show=False, y_show=False), # remove the color coded surfaces on the sides of the visualisation domain for clearer visualization
             #surface_count=5, # needs to be a large number for good volume rendering -> we reduced to get better performance
+            showscale=False #remove colorbar
             ))
 
         fig.update_layout(autosize=True, margin=dict(l=20, r=20, t=20, b=20))
@@ -273,10 +274,11 @@ def view():
         fig0 = go.Figure(frames=[go.Frame(data=go.Surface(
             z=(k) * np.ones(values[:,:,k].shape),   # create surface based on k-th element of z slice, because animation or slider based
             surfacecolor=values[:,:,k],     #create color code surface based on k-th element of z slice, because animation or slider based
-            cmin=1, cmax=7,     #for surface, indicate the minimum color and maximum, like iso for volume
+            cmin=1, cmax=6,     #for surface, indicate the minimum color and maximum, like iso for volume
             colorscale=colorscales, # assign color scale with the custom one
             opacityscale=[[0, 0], [1/13, 1], [1, 1]]),  #input range to remove the 0 as colorization , redundancy with isomin, but safety measure
-            name=str(k) # you need to name the frame for the animation to behave properly
+            name=str(k), # you need to name the frame for the animation to behave properly
+            showscale=False #remove colorbar
             )
             for k in range(nb_frames0)])
 
@@ -285,8 +287,9 @@ def view():
             z=0 * np.ones(values[:,:,0].shape), # create surface based on first element of z slice
             surfacecolor=values[:,:,0], #create color code surface based on first element of z slice
             colorscale=colorscales, # assign color scale with the custom one
-            cmin=1, cmax=7,    #for surface, indicate the minimum color and maximum, like iso for volume
+            cmin=1, cmax=6,    #for surface, indicate the minimum color and maximum, like iso for volume
             #colorbar=dict(thickness=20, ticklen=4)
+            showscale=False #remove colorbar
             ))
 
         # define the animation transition, will also be used for the second slider
@@ -367,10 +370,11 @@ def view():
         fig1 = go.Figure(frames=[go.Frame(data=go.Surface(
             z=(k) * np.ones(values[:,k,:].shape),   # create surface based on k-th element of y slice, because animation or slider based
             surfacecolor=values[:,k,:],         #create color code surface based on k-th element of y slice, because animation or slider based
-            cmin=1, cmax=7,     #for surface, indicate the minimum color and maximum, like iso for volume
+            cmin=1, cmax=6,     #for surface, indicate the minimum color and maximum, like iso for volume
             colorscale=colorscales, # assign color scale with the custom one
             opacityscale=[[0, 0], [1/13, 1], [1, 1]]),  #input range to remove the 0 as colorization , redundancy with isomin, but safety measure
-            name=str(k) # you need to name the frame for the animation to behave properly
+            name=str(k), # you need to name the frame for the animation to behave properly
+            showscale=False #remove colorbar
             )
             for k in range(nb_frames)])
 
@@ -379,8 +383,9 @@ def view():
             z=0 * np.ones(values[:,0,:].shape), # create surface based on first element of y slice
             surfacecolor=values[:,0,:],  #create color code surface based on first element of y slice
             colorscale=colorscales, # assign color scale with the custom one
-            cmin=1, cmax=7,    #for surface, indicate the minimum color and maximum, like iso for volume
+            cmin=1, cmax=6,    #for surface, indicate the minimum color and maximum, like iso for volume
             #colorbar=dict(thickness=20, ticklen=4)
+            showscale=False #remove colorbar
             ))
 
         # create slider for figure 1

@@ -11,18 +11,49 @@ values = np.load("realizations.npy")[0]
 nb_frames = values.shape[2]
 
 
+def discrete_colorscale(bvals, colors):
+    """
+    bvals - list of values bounding intervals/ranges of interest
+    colors - list of rgb or hex colorcodes for values in [bvals[k], bvals[k+1]],0<=k < len(bvals)-1
+    returns the plotly  discrete colorscale
+    """
+    if len(bvals) != len(colors)+1:
+        raise ValueError('len(boundary values) should be equal to  len(colors)+1')
+    bvals = sorted(bvals)
+    nvals = [(v-bvals[0])/(bvals[-1]-bvals[0]) for v in bvals]  #normalized values
+
+    dcolorscale = [] #discrete colorscale
+    for k in range(len(colors)):
+        dcolorscale.extend([[nvals[k], colors[k]], [nvals[k+1], colors[k]]])
+    return dcolorscale
+
+#bvals = [1, 2, 3, 4, 5, 6]
+
+#colors = ['black', 'yellow', 'lightgreen' , 'darkgoldenrod', 'green','blue']
+colors = [[0,'black'], [0.2,'yellow'], [0.4,'lightgreen'] , [0.6,'darkgoldenrod'], [0.8,'green'],[1,'blue']]
+#dcolorsc = discrete_colorscale(bvals, colors)
+
+#tickvals = [np.mean(bvals[k:k+2]) for k in range(len(bvals)-1)]
+#ticktext = ["others", "sand", "gravel", "clayey sand", "clayey gravel", "clay and silt"]
+
 fig = go.Figure(data=go.Isosurface(
     x=X.flatten(),
     y=Y.flatten(),
     z=Z.flatten(),
     value=values.flatten(),
     isomin=1,
-    isomax=12,
+    isomax=6,
+    colorbar_nticks=6,
     opacity=0.5,
+    colorscale=colors,
+    showscale=False,
+    #colorbar=dict(ticktext=ticktext),
     # needs to be small to see through all surfaces
     #surface_count=21,  # needs to be a large number for good volume rendering
     caps=dict(x_show=False, y_show=False),
     ))
+
+
 
 
 # Initialize figure with 2 3D subplots
