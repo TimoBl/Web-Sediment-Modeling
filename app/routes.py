@@ -258,8 +258,8 @@ def view():
             isomax=7, # indicate range max of "color scale"
             opacity=0.3, # needs to be small to see through all surfaces
             colorscale=colorscales, # assign color scale with the custom one
-            opacityscale=[[0, 0], [1/13, 1], [1, 1]]), #input range to remove the 0 as colorization , redundancy with isomin, but safety measure
-            caps=dict(x_show=False, y_show=False), # remove the color coded surfaces on the sides of the visualisation domain for clearer visualization
+            opacityscale=[[0, 0], [1/13, 1], [1, 1]], #input range to remove the 0 as colorization , redundancy with isomin, but safety measure
+            caps=dict(x_show=False, y_show=False) # remove the color coded surfaces on the sides of the visualisation domain for clearer visualization
             #surface_count=5, # needs to be a large number for good volume rendering -> we reduced to get better performance
             ))
 

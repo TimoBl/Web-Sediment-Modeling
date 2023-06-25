@@ -22,3 +22,6 @@ FileNotFoundError: [Errno 2] No such file or directory: 'output/2/2ba3904e-0904-
 2023-06-25 09:14:59,104 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
 2023-06-25 09:15:20,841 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
 2023-06-25 09:17:56,275 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
+2023-06-25 13:25:51,054 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
+2023-06-25 13:26:57,906 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
+2023-06-25 13:28:46,692 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
