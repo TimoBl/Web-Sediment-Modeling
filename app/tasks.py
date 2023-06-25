@@ -12,6 +12,9 @@ import pandas as pd
 import shapely
 import shutil
 from shapely.geometry import Polygon, MultiPolygon, Point
+import plotly
+import plotly.graph_objects as go
+import plotly.express as px
 
 
 #dictionary of units
@@ -45,6 +48,220 @@ dic_facies = {
            "G":"Gravel","G-GM":"Gravel","GW-GM":"Gravel","GP-GM":"Gravel","GP":"Gravel","GW":"Gravel","GP-GC":"Gravel","G-GC":"Gravel","GP-gM":"Gravel","GW-GC":"Gravel",
            "ML" : "Clay and silt", "CL-ML":"Clay and silt","CL":"Clay and silt","CM":"Clay and silt","CH":"Clay and silt",
            'FELS':"Bedrock"}
+
+
+def generate_visualization(volume):
+    # convert to arrays
+    (x, y, z) = volume.shape
+    X, Y, Z = np.mgrid[0:x, 0:y, 0:z]
+    X, Y, Z = X.flatten(), Y.flatten(), Z.flatten()
+
+    # identify colorscale for the figures, goes from rane 0 to 1, as 0 is not going to be shown, the color doesn't matter but it is nice to point it out
+    colorscales = [[0,'white'],[0.1, 'red'], [0.2,'blue'],[0.3,'green'],[0.4,'darkgoldenrod'], [0.5, 'lightgreen'], [0.6,'yellow'],[0.7,'black']]
+
+    # computation for whole figure, iso surface can plot contour of volume
+    fig = go.Figure(data=go.Isosurface(
+        x=Z,
+        y=Y,
+        z=-X,
+        value=volume.flatten(),
+        isomin=1,  # indicate range min of "color scale" so 0 value not taken in account
+        isomax=7, # indicate range max of "color scale"
+        opacity=0.3, # needs to be small to see through all surfaces
+        colorscale=colorscales, # assign color scale with the custom one
+        #opacityscale=[[0, 0], [1/13, 1], [1, 1]]
+        ), #input range to remove the 0 as colorization , redundancy with isomin, but safety measure
+        #caps=dict(x_show=False, y_show=False), # remove the color coded surfaces on the sides of the visualisation domain for clearer visualization
+        #surface_count=5, # needs to be a large number for good volume rendering -> we reduced to get better performance
+        )
+    fig.update_layout(autosize=True, margin=dict(l=20, r=20, t=20, b=20))
+
+    # creating slices for z axis
+    nb_frames0 = volume.shape[2]
+
+    fig0 = go.Figure(frames=[go.Frame(data=go.Surface(
+        z=(k) * np.ones(volume[:,:,k].shape),   # create surface based on k-th element of z slice, because animation or slider based
+        surfacecolor=volume[:,:,k],     #create color code surface based on k-th element of z slice, because animation or slider based
+        cmin=1, cmax=7,     #for surface, indicate the minimum color and maximum, like iso for volume
+        colorscale=colorscales, # assign color scale with the custom one
+        #opacityscale=[[0, 0], [1/13, 1], [1, 1]]
+        ),  #input range to remove the 0 as colorization , redundancy with isomin, but safety measure
+        name=str(k) # you need to name the frame for the animation to behave properly
+        )
+        for k in range(nb_frames0)])
+
+    # Add data to be displayed before animation starts
+    fig0.add_trace(go.Surface(
+        z=0 * np.ones(volume[:,:,0].shape), # create surface based on first element of z slice
+        surfacecolor=volume[:,:,0], #create color code surface based on first element of z slice
+        colorscale=colorscales, # assign color scale with the custom one
+        cmin=1, cmax=7,    #for surface, indicate the minimum color and maximum, like iso for volume
+        #colorbar=dict(thickness=20, ticklen=4)
+        ))
+
+    # define the animation transition, will also be used for the second slider
+    def frame_args(duration):
+        return {
+                "frame": {"duration": duration},
+                "mode": "immediate",
+                "fromcurrent": True,
+                "transition": {"duration": duration, "easing": "linear"},
+            }
+
+    #create slider
+    sliders = [
+                {
+                    "pad": {"b": 10, "t": 20},
+                    "len": 0.9,
+                    "x": 0.1,
+                    "y": 0,
+                    "currentvalue": {           # put current value as number above the slider force color font
+                            "offset": 20,
+                            "xanchor": "center",
+                            "font": {
+                              "color": '#888',
+                              "size": 15
+                            }
+                          },
+                    "font": {"color": 'white'}, # remove ticks because too many labels, put is same as the background
+                    "steps": [
+                        {
+                            "args": [[f.name], frame_args(0)],
+                            "label": str(k),
+                            "method": "animate",
+                        }
+                        for k, f in enumerate(fig0.frames)
+                    ],
+                }
+            ]
+
+    # Layout
+    fig0.update_layout(
+             title="slice z",
+             scene = dict(
+                aspectratio=dict(x=1, y=1, z=1),    # make the 3 axis of same ratio and step aspect
+                xaxis = dict(visible=False),    # remove grid and axis label of x
+                yaxis = dict(visible=False),    # remove grid and axis label of y
+                zaxis=dict(visible=False),      # remove grid and axis label of z
+                camera = dict(      # set camera layout to top view to better read the frame, rotate based on y to have the good orientation
+                    eye=dict(x=0, y=0.5, z=2.0)
+                )
+             ),
+             updatemenus = [
+                {
+                    "buttons": [
+                        {
+                            "args": [None, frame_args(50)],
+                            "label": "&#9654;", # play symbol
+                            "method": "animate",
+                        },
+                        {
+                            "args": [[None], frame_args(0)],
+                            "label": "&#9724;", # pause symbol
+                            "method": "animate",
+                        },
+                    ],
+                    "direction": "left",
+                    "pad": {"r": 10, "t": 70},
+                    "type": "buttons",
+                    "x": 0.1,
+                    "y": 0,
+                }
+             ],
+             sliders=sliders
+    )
+
+    # creating slice for y axis
+    nb_frames = volume.shape[1]
+
+    fig1 = go.Figure(frames=[go.Frame(data=go.Surface(
+        z=(k) * np.ones(volume[:,k,:].shape),   # create surface based on k-th element of y slice, because animation or slider based
+        surfacecolor=volume[:,k,:],         #create color code surface based on k-th element of y slice, because animation or slider based
+        cmin=1, cmax=7,     #for surface, indicate the minimum color and maximum, like iso for volume
+        colorscale=colorscales, # assign color scale with the custom one
+        #opacityscale=[[0, 0], [1/13, 1], [1, 1]]
+        ),  #input range to remove the 0 as colorization , redundancy with isomin, but safety measure
+        name=str(k) # you need to name the frame for the animation to behave properly
+        )
+        for k in range(nb_frames)])
+
+    # Add data to be displayed before animation starts
+    fig1.add_trace(go.Surface(
+        z=0 * np.ones(volume[:,0,:].shape), # create surface based on first element of y slice
+        surfacecolor=volume[:,0,:],  #create color code surface based on first element of y slice
+        colorscale=colorscales, # assign color scale with the custom one
+        cmin=1, cmax=7,    #for surface, indicate the minimum color and maximum, like iso for volume
+        #colorbar=dict(thickness=20, ticklen=4)
+        ))
+
+    # create slider for figure 1
+    sliders = [
+                {
+                    "pad": {"b": 10, "t": 20},
+                    "len": 1.0,
+                    "x": 0.1,
+                    "y": 0,
+                    "currentvalue": {           # put current value as number above the slider force color font
+                            "offset": 20,
+                            "xanchor": "center",
+                            "font": {
+                              "color": '#888',
+                              "size": 15
+                            }
+                          },
+                    "font": {"color": 'white'}, # remove ticks because too many labels, put is same as the background
+                    "steps": [
+                        {
+                            "args": [[f.name], frame_args(0)],
+                            "label": str(k),
+                            "method": "animate",
+                        }
+                        for k, f in enumerate(fig1.frames)
+                    ],
+                }
+            ]
+
+    # Layout for figure 1
+    fig1.update_layout(
+             title="slice y",
+             scene = dict(
+                aspectratio=dict(x=1, y=1, z=1),    # make the 3 axis of same ratio and step aspect
+                xaxis = dict(visible=False),    # remove grid and axis label of x
+                yaxis = dict(visible=False),    # remove grid and axis label of y
+                zaxis=dict(visible=False),      # remove grid and axis label of z
+                camera = dict(      # set camera layout to top view to better read the frame, rotate based on y to have the good orientation
+                    eye=dict(x=0, y=0.5, z=2.0)
+                )
+             ),
+             updatemenus = [
+                {
+                    "buttons": [
+                        {
+                            "args": [None, frame_args(50)],
+                            "label": "&#9654;", # play symbol
+                            "method": "animate",
+                        },
+                        {
+                            "args": [[None], frame_args(0)],
+                            "label": "&#9724;", # pause symbol
+                            "method": "animate",
+                        },
+                    ],
+                    "direction": "left",
+                    "pad": {"r": 10, "t": 70},
+                    "type": "buttons",
+                    "x": 0.1,
+                    "y": 0,
+                }
+             ],
+             sliders=sliders
+    )
+
+    html = plotly.io.to_html(fig, include_plotlyjs='cnd', full_html=True)
+    html += plotly.io.to_html(fig0, include_plotlyjs='cnd', full_html=True)
+    html += plotly.io.to_html(fig1, include_plotlyjs='cnd', full_html=True)
+
+    return html
 
 
 # Analyze boreholes
