@@ -14,6 +14,7 @@ import shutil
 from shapely.geometry import Polygon, MultiPolygon, Point
 import plotly
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 import plotly.express as px
 import app
 
@@ -54,51 +55,56 @@ DATA_DIR = "app/data" # where our data is stored
 
 def generate_visualization(volume):
     # convert to arrays
+    values = volume
     (x, y, z) = volume.shape
     X, Y, Z = np.mgrid[0:x, 0:y, 0:z]
     X, Y, Z = X.flatten(), Y.flatten(), Z.flatten()
 
     # identify colorscale for the figures, goes from rane 0 to 1, as 0 is not going to be shown, the color doesn't matter but it is nice to point it out
-    colorscales = [[0,'white'],[0.1, 'red'], [0.2,'blue'],[0.3,'green'],[0.4,'darkgoldenrod'], [0.5, 'lightgreen'], [0.6,'yellow'],[0.7,'black']]
+    colorscales = [[0,'black'], [0.2,'yellow'], [0.4,'lightgreen'] , [0.6,'darkgoldenrod'], [0.8,'green'], [1,'blue']]
 
-    # computation for whole figure, iso surface can plot contour of volume
+    ####### computation for whole figure, iso surface can plot contour of volume
     fig = go.Figure(data=go.Isosurface(
-        x=Z,
-        y=Y,
-        z=-X,
-        value=volume.flatten(),
-        isomin=1,  # indicate range min of "color scale" so 0 value not taken in account
-        isomax=7, # indicate range max of "color scale"
-        opacity=0.3, # needs to be small to see through all surfaces
-        colorscale=colorscales, # assign color scale with the custom one
-        #opacityscale=[[0, 0], [1/13, 1], [1, 1]]
-        ), #input range to remove the 0 as colorization , redundancy with isomin, but safety measure
-        #caps=dict(x_show=False, y_show=False), # remove the color coded surfaces on the sides of the visualisation domain for clearer visualization
-        #surface_count=5, # needs to be a large number for good volume rendering -> we reduced to get better performance
-        )
+            x=Z,
+            y=Y,
+            z=-X,
+            value=values.flatten(),
+            isomin=1,  # indicate range min of "color scale" so 0 value not taken in account
+            isomax=6, # indicate range max of "color scale"
+            opacity=0.3, # needs to be small to see through all surfaces
+            colorscale=colorscales, # assign color scale with the custom one
+            #opacityscale=[[0, 0], [1/13, 1], [1, 1]], #input range to remove the 0 as colorization , redundancy with isomin, but safety measure
+            caps=dict(x_show=False, y_show=False), # remove the color coded surfaces on the sides of the visualisation domain for clearer visualization
+            #surface_count=5, # needs to be a large number for good volume rendering -> we reduced to get better performance
+            showscale=False #remove colorbar
+            ))
+
     fig.update_layout(autosize=True, margin=dict(l=20, r=20, t=20, b=20))
 
-    # creating slices for z axis
-    nb_frames0 = volume.shape[2]
+
+    ####### creating slices for z axis
+    nb_frames0 = values.shape[2]
 
     fig0 = go.Figure(frames=[go.Frame(data=go.Surface(
-        z=(k) * np.ones(volume[:,:,k].shape),   # create surface based on k-th element of z slice, because animation or slider based
-        surfacecolor=volume[:,:,k],     #create color code surface based on k-th element of z slice, because animation or slider based
-        cmin=1, cmax=7,     #for surface, indicate the minimum color and maximum, like iso for volume
+        z=(k) * np.ones(values[:,:,k].shape),   # create surface based on k-th element of z slice, because animation or slider based
+        surfacecolor=values[:,:,k],     #create color code surface based on k-th element of z slice, because animation or slider based
+        cmin=1, cmax=6,     #for surface, indicate the minimum color and maximum, like iso for volume
         colorscale=colorscales, # assign color scale with the custom one
-        #opacityscale=[[0, 0], [1/13, 1], [1, 1]]
-        ),  #input range to remove the 0 as colorization , redundancy with isomin, but safety measure
-        name=str(k) # you need to name the frame for the animation to behave properly
+        opacityscale=[[0, 0], [1/13, 1], [1, 1]], #input range to remove the 0 as colorization , redundancy with isomin, but safety measure
+        ),  
+        name=str(k), # you need to name the frame for the animation to behave properly
+        #showscale=False #remove colorbar
         )
         for k in range(nb_frames0)])
 
     # Add data to be displayed before animation starts
     fig0.add_trace(go.Surface(
-        z=0 * np.ones(volume[:,:,0].shape), # create surface based on first element of z slice
-        surfacecolor=volume[:,:,0], #create color code surface based on first element of z slice
+        z=0 * np.ones(values[:,:,0].shape), # create surface based on first element of z slice
+        surfacecolor=values[:,:,0], #create color code surface based on first element of z slice
         colorscale=colorscales, # assign color scale with the custom one
-        cmin=1, cmax=7,    #for surface, indicate the minimum color and maximum, like iso for volume
+        cmin=1, cmax=6,    #for surface, indicate the minimum color and maximum, like iso for volume
         #colorbar=dict(thickness=20, ticklen=4)
+        showscale=False #remove colorbar
         ))
 
     # define the animation transition, will also be used for the second slider
@@ -109,7 +115,6 @@ def generate_visualization(volume):
                 "fromcurrent": True,
                 "transition": {"duration": duration, "easing": "linear"},
             }
-
     #create slider
     sliders = [
                 {
@@ -173,27 +178,30 @@ def generate_visualization(volume):
              sliders=sliders
     )
 
-    # creating slice for y axis
-    nb_frames = volume.shape[1]
+    ####### creating slice for y axis
+
+    nb_frames = values.shape[1]
 
     fig1 = go.Figure(frames=[go.Frame(data=go.Surface(
-        z=(k) * np.ones(volume[:,k,:].shape),   # create surface based on k-th element of y slice, because animation or slider based
-        surfacecolor=volume[:,k,:],         #create color code surface based on k-th element of y slice, because animation or slider based
-        cmin=1, cmax=7,     #for surface, indicate the minimum color and maximum, like iso for volume
+        z=(k) * np.ones(values[:,k,:].shape),   # create surface based on k-th element of y slice, because animation or slider based
+        surfacecolor=values[:,k,:],         #create color code surface based on k-th element of y slice, because animation or slider based
+        cmin=1, cmax=6,     #for surface, indicate the minimum color and maximum, like iso for volume
         colorscale=colorscales, # assign color scale with the custom one
-        #opacityscale=[[0, 0], [1/13, 1], [1, 1]]
-        ),  #input range to remove the 0 as colorization , redundancy with isomin, but safety measure
-        name=str(k) # you need to name the frame for the animation to behave properly
+        opacityscale=[[0, 0], [1/13, 1], [1, 1]],  #input range to remove the 0 as colorization , redundancy with isomin, but safety measure
+        ),
+        name=str(k), # you need to name the frame for the animation to behave properly
+        #showscale=False #remove colorbar
         )
         for k in range(nb_frames)])
 
     # Add data to be displayed before animation starts
     fig1.add_trace(go.Surface(
-        z=0 * np.ones(volume[:,0,:].shape), # create surface based on first element of y slice
-        surfacecolor=volume[:,0,:],  #create color code surface based on first element of y slice
+        z=0 * np.ones(values[:,0,:].shape), # create surface based on first element of y slice
+        surfacecolor=values[:,0,:],  #create color code surface based on first element of y slice
         colorscale=colorscales, # assign color scale with the custom one
-        cmin=1, cmax=7,    #for surface, indicate the minimum color and maximum, like iso for volume
+        cmin=1, cmax=6,    #for surface, indicate the minimum color and maximum, like iso for volume
         #colorbar=dict(thickness=20, ticklen=4)
+        showscale=False #remove colorbar
         ))
 
     # create slider for figure 1

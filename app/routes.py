@@ -104,17 +104,20 @@ def register():
         user = User(username=form.username.data, email=form.email.data)
         user.set_password(form.password.data)
         db.session.add(user)
-        db.session.commit()
 
         # create output directory for user (this)
         try:
-            os.mkdir(os.path.join("output", str(user.id))) 
+            os.mkdir(os.path.join(app.config["OUTPUT_DIR"], str(user.id))) 
         except Exception as e:
             print("Could not create directory for user {}!".format(d))
             print(e)
 
+        # we can commit
+        db.session.commit()
+
         # we can log the user in
         login_user(user, remember=False)
+        
         return redirect(url_for('index')) # we should log him 
 
     # otherwise send registration form

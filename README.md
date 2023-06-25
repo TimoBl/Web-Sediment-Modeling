@@ -45,7 +45,7 @@ redis-server
 
 ```
 docker build --platform linux/amd64 -t timobl/archpy .
-docker run -p 8888:5000 timobl/archpy
+docker run -v simulations:/usr/src/app/simulations -p 8888:5000 timobl/archpy
 ```
 You can view the application at [localhost:8888](http://localhost:8888).
 
