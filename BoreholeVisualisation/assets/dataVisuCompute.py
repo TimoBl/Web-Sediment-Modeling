@@ -8,7 +8,7 @@ X, Y, Z = np.mgrid[-1:1:30j, -1:1:30j, -1:1:30j]
 #values = np.cos(np.pi * X) * np.cos(np.pi * Z) * np.sin(np.pi * Y)
 
 values = np.load("realizations.npy")[0]
-nb_frames = volume.shape[2]
+nb_frames = values.shape[2]
 
 
 fig = go.Figure(data=go.Isosurface(
@@ -18,54 +18,12 @@ fig = go.Figure(data=go.Isosurface(
     value=values.flatten(),
     isomin=1,
     isomax=12,
-    opacity=0.1,  # needs to be small to see through all surfaces
+    opacity=0.5,
+    # needs to be small to see through all surfaces
     #surface_count=21,  # needs to be a large number for good volume rendering
     caps=dict(x_show=False, y_show=False),
-    slices_z=dict(show=True, locations=[k,k]),
     ))
 
-
-sliders = [
-            {
-                "pad": {"b": 10, "t": 60},
-                "len": 0.9,
-                "x": 0.1,
-                "y": 0,
-                "steps": [
-                    {
-                        "args": [[f.name], frame_args(0)],
-                        "label": str(k),
-                        "method": "animate",
-                    }
-                    for k, f in enumerate(fig.frames)
-                ],
-            }
-        ]
-
-fig.update_layout(
-         updatemenus = [
-            {
-                "buttons": [
-                    {
-                        "args": [None, frame_args(50)],
-                        "label": "&#9654;", # play symbol
-                        "method": "animate",
-                    },
-                    {
-                        "args": [[None], frame_args(0)],
-                        "label": "&#9724;", # pause symbol
-                        "method": "animate",
-                    },
-                ],
-                "direction": "left",
-                "pad": {"r": 10, "t": 70},
-                "type": "buttons",
-                "x": 0.1,
-                "y": 0,
-            }
-         ],
-         sliders=sliders
-)
 
 # Initialize figure with 2 3D subplots
 #fig = make_subplots(

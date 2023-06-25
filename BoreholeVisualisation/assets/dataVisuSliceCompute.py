@@ -108,7 +108,7 @@ fig0.update_layout(
 
 nb_frames = volume.shape[1]
 
-fig = go.Figure(frames=[go.Frame(data=go.Surface(
+fig1 = go.Figure(frames=[go.Frame(data=go.Surface(
 
     z=(k) * np.ones(volume[:,k,:].shape),
     surfacecolor=volume[:,k,:],
@@ -120,7 +120,7 @@ fig = go.Figure(frames=[go.Frame(data=go.Surface(
     for k in range(nb_frames)])
 
 # Add data to be displayed before animation starts
-fig.add_trace(go.Surface(
+fig1.add_trace(go.Surface(
     z=0 * np.ones(volume[:,0,:].shape),
     surfacecolor=volume[:,0,:],
     colorscale=colorscales,
@@ -157,13 +157,13 @@ sliders = [
                         "label": str(k),
                         "method": "animate",
                     }
-                    for k, f in enumerate(fig.frames)
+                    for k, f in enumerate(fig1.frames)
                 ],
             }
         ]
 
 # Layout
-fig.update_layout(
+fig1.update_layout(
          title="slice y",
          scene = dict(
             aspectratio=dict(x=1, y=1, z=1),
@@ -201,4 +201,4 @@ fig.update_layout(
 # store in the html 2 separated figures in a row (not as subplot)
 with open('dataVisualization.html', 'w', encoding="utf-8") as f:
     f.writelines(io.to_html(fig0, include_plotlyjs='cnd', full_html=True))
-    f.writelines(io.to_html(fig, include_plotlyjs='cnd', full_html=True))
+    f.writelines(io.to_html(fig1, include_plotlyjs='cnd', full_html=True))
