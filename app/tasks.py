@@ -192,6 +192,8 @@ def run_model(job_id, working_dir, poly_data, spacing, depth, realizations):
 
     except Exception as e:
 
+        print("Exception: " + str(e))
+
         # finished
         job =_set_progress_status(job_id, "failed", False)
 

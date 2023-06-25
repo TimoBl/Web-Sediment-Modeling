@@ -3,6 +3,12 @@ var map = L.map('mapid', {
     preferCanvas: true // use this for adding markers
 }).setView([46.859588, 7.529822], 17);
 
+// var marker
+var marker_circle = L.divIcon({
+    className: 'marker_circle',
+    iconSize: [6, 6], 
+})
+
 /*L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'

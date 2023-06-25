@@ -70,9 +70,10 @@
     <script>
       function show_markers(myRenderer){
         {% for marker in boreholes %}
-          L.marker(L.CRS.EPSG2056.unproject(L.point([{{ marker[0] }}, {{ marker[1] }}])), {
-            renderer: myRenderer
-          }).addTo(map)
+          L.marker(L.CRS.EPSG2056.unproject(L.point([{{ marker[0] }}, {{ marker[1] }}])), 
+            {icon: marker_circle},
+            {renderer: myRenderer}
+          ).addTo(map)
         {% endfor %}
       }
     </script>
@@ -91,36 +92,42 @@
         </div>
 
         <div class="row content">
-          <div class="col-lg-6">
-            {% if submissions|length > 0 %}
-                <table class="table">
-                    <tr>
-                      <th scope="col">Name</th>
-                      <th scope="col">Date</th>
-                      <th scope="col">Time</th>
-                      <th scope="col">Satus</th>
-                      <th scope="col">View</th>
-                      <th scope="col">Delete</th>
-                    </tr>
+          <center>
+            <p>
+              Here you can visualize previously submitted models as well as delete the ones you have no use anymore.
+            </p>
+            <br>
+            <div class="col-lg-6">
+              {% if submissions|length > 0 %}
+                  <table class="table">
+                      <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Time</th>
+                        <th scope="col">Satus</th>
+                        <th scope="col">View</th>
+                        <th scope="col">Delete</th>
+                      </tr>
 
-                    {% for submission in submissions %}
-                        <tr>
-                            <td> {{ submission.name }} </td>
-                            <td> {{ moment(submission.timestamp).format('MMMM Do YYYY') }} </td>
-                            <td> {{ moment(submission.timestamp).format('hh:mm') }} </td>
-                            <td> {{ submission.status }} </td>
-                            <td><a href="{{ url_for('view', id=submission.id) }}">view</a></td>
-                            <td><a href="{{ url_for('delete', id=submission.id) }}">delete</a></td>
-                            {% if submission.complete %}
-                                <td>complete</td>
-                            {% endif %}
-                        </tr>
-                    {% endfor %}
-                </table>
-            {% else %}
-                <i> No jobs were submitted </i>
-            {% endif %}
-          </div>
+                      {% for submission in submissions %}
+                          <tr>
+                              <td> {{ submission.name }} </td>
+                              <td> {{ moment(submission.timestamp).format('MMMM Do YYYY') }} </td>
+                              <td> {{ moment(submission.timestamp).format('hh:mm') }} </td>
+                              <td> {{ submission.status }} </td>
+                              <td><a href="{{ url_for('view', id=submission.id) }}">view</a></td>
+                              <td><a href="{{ url_for('delete', id=submission.id) }}">delete</a></td>
+                              {% if submission.complete %}
+                                  <td>complete</td>
+                              {% endif %}
+                          </tr>
+                      {% endfor %}
+                  </table>
+              {% else %}
+                  <i> No jobs were submitted </i>
+              {% endif %}
+            </div>
+          </center>
         </div>
 
   </section>
