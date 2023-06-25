@@ -15,6 +15,7 @@ from shapely.geometry import Polygon, MultiPolygon, Point
 import plotly
 import plotly.graph_objects as go
 import plotly.express as px
+import app
 
 
 #dictionary of units
@@ -39,7 +40,6 @@ dic_s_names_grouped = {'"Alte Seetone"':"Alte Seetone",
               'Vorstossschotter der Letzten Vergletscherung (vorwiegend Münsingen- u. Karlsruhe-Schotter)':"Munsingen",
               'Rückzugsschotter der Vorletzten Vergletscherung, Kies-Sand-Komplex von Kleinhöchstetten':"Altmorane"}
 
-
 dic_facies = {
            "OH":"others","OL":"others",'kunst':"others",'Pt':"others", 'Bl':"others","st":"others","St-Bl":"others","KA":"others",
            "S-SM":"Sand","S": "Sand","SP-SM":"Sand","SP":"Sand","SW":"Sand","S-SC":"Sand","SP-SC":"Sand","SW-SM":"Sand",
@@ -48,6 +48,8 @@ dic_facies = {
            "G":"Gravel","G-GM":"Gravel","GW-GM":"Gravel","GP-GM":"Gravel","GP":"Gravel","GW":"Gravel","GP-GC":"Gravel","G-GC":"Gravel","GP-gM":"Gravel","GW-GC":"Gravel",
            "ML" : "Clay and silt", "CL-ML":"Clay and silt","CL":"Clay and silt","CM":"Clay and silt","CH":"Clay and silt",
            'FELS':"Bedrock"}
+
+DATA_DIR = "app/data" # where our data is stored
 
 
 def generate_visualization(volume):
@@ -264,59 +266,26 @@ def generate_visualization(volume):
     return html
 
 
-# Analyze boreholes
-def borehole_analysis(ArchTable, db, list_facies,
-                     Strat_ID = "Strat_ID", Facies_ID = "Facies_ID",
-                     top_col = "top", bot_col = "bot", facies_thresh=0.05, plot=True, plot_dir=None):
-                     
-    """
-    Function to analyse geological database (db) and link facies to units
-    """
-    
-    t = db.copy()
-    
-    # Units
-    # only keep units that appears in db
-    for unit in ArchTable.get_all_units():
-        if unit.name not in db.Strat_ID.unique():
-            for pile in ArchTable.get_piles():
-                pile.remove_unit(unit)
+def preprocess_data():
 
-    # Facies
-    t["thickness"] = t[top_col] - t[bot_col]
-    threshold = facies_thresh # proportion threshold to accept a facies in a unit
-
-    for unit in t[Strat_ID].unique():
-        print("\n\n###" +unit+"####\n")
-        df = pd.DataFrame(t.groupby([Strat_ID, Facies_ID])["thickness"].sum()).loc[unit] #facies prop in unit
-        df = (df / df.sum(0)).round(2)
-        df.sort_values(ascending=False,by="thickness",inplace=True)
-
-        for idx in df[df["thickness"]>threshold].index:
-            for i in range(len(list_facies)):
-                if idx == list_facies[i].name:
-                    if ArchTable.get_unit(unit) is not None:
-                        ArchTable.get_unit(unit).add_facies(list_facies[i])
-
-
-
-def AareModel(poly_data, spacing, depth, realizations, ws="app/data"):
-    
     # paths
-    bhs_path=os.path.join(ws, "all_BH.csv")
-    all_layers=os.path.join(ws, "Layer_all_free.csv")
-    mnt=os.path.join(ws, "MNT25.tif")
-    bdrck_path=os.path.join(ws, "BEM25-2021_crop_Aar.tif")
-
-    # realizations 
-    (nreal_units, nreal_facies, nreal_prop) = realizations
+    ws = DATA_DIR
+    bhs_path = os.path.join(ws, "all_BH.csv")
+    all_layers = os.path.join(ws, "Layer_all_free.csv")
+    mnt = os.path.join(ws, "MNT25.tif")
+    bdrck_path = os.path.join(ws, "BEM25-2021_crop_Aar.tif")
 
     # load files
+    poly_data = np.load(os.path.join(ws, "polygon_coord_3.npy"))  # the maximum extent
     lay = pd.read_csv(all_layers, error_bad_lines=False, sep=";", low_memory=False)
     bhs = pd.read_csv(bhs_path)
-    
+
+    # reload Arch_table
+    T1 = ArchPy.inputs.import_project("Aar_geomodel", ws="working_dir", 
+                                import_bhs=False, import_grid=False, import_results=False)  # load the yaml file
+    # we have to add a working directory because archpy uses: if self.ws not in os.listdir(): os.mkdir(self.ws) instead of os.path.exists() -> bad practice...
+
     # create multipolygon shapely
-    #print(poly_data, type(poly_data))
     p1 = MultiPolygon([Polygon(p) for p in poly_data])
 
     # Extract bhs points
@@ -326,62 +295,101 @@ def AareModel(poly_data, spacing, depth, realizations, ws="app/data"):
         po.name = i  # set cell id as names to grid cells
         bhs_points.append(po)
 
-    #check position, only keep points inside polygon
+    # check position, only keep points inside polygon
     l = np.array([po.name for po in bhs_points if po.intersects(p1)])
 
     #select bhs in zone
-    bhs_sel = bhs.loc[l]
-    
+    bhs_sel = bhs.loc[np.array(l)]
+
     #select layers in zone
     lay_sel = lay[lay["BH_GEOQUAT_ID"].isin(bhs_sel["BH_GEOQUAT_ID"])] # layers selection
+
+    # import geological database 
+    db, list_bhs = load_bh_files(bhs_sel, lay_sel.reset_index(), lay_sel.reset_index(),
+                              lbhs_bh_id_col="BH_GEOQUAT_ID", u_bh_id_col="BH_GEOQUAT_ID", fa_bh_id_col="BH_GEOQUAT_ID",
+                              u_top_col = "LA_TOP_m",u_bot_col = "LA_BOT_m",u_ID = "LA_Lithostrati",
+                              fa_top_col = "LA_TOP_m",fa_bot_col = "LA_BOT_m",fa_ID = "LA_USCS_IP_1",
+                              bhx_col='BH_X_LV95', bhy_col='BH_Y_LV95', bhz_col='BH_Z_Alt_m', bh_depth_col='BH_TD_m',
+                              dic_units_names = dic_s_names_grouped,
+                              dic_facies_names = dic_facies, altitude = False)
+
+    #adding boreholes
+    all_boreholes = extract_bhs(db, list_bhs, T1, 
+                            units_to_ignore=('Keine Angaben', 'Raintal-Deltaschotter', 'Hani-Deltaschotter', 'Fels'),
+                            facies_to_ignore=('Bedrock', 'asfd'))
+
+    # save boreholes for use
+    with open(os.path.join(ws, "boreholes"), "wb") as f:
+        pickle.dump(all_boreholes, f)
+
+
+def AareModel(poly_data, spacing, depth, realizations):
+
+    # paths
+    ws = DATA_DIR
+    bhs_path = os.path.join(ws, "all_BH.csv")
+    all_layers = os.path.join(ws, "Layer_all_free.csv")
+    mnt = os.path.join(ws, "MNT25.tif")
+    bdrck_path = os.path.join(ws, "BEM25-2021_crop_Aar.tif")
+    
+    # reload Arch_table
+    T1 = ArchPy.inputs.import_project("Aar_geomodel", ws="working_dir", 
+                                import_bhs=False, import_grid=False, import_results=False)  # load the yaml file
+    # we have to add a working directory because archpy uses: if self.ws not in os.listdir(): os.mkdir(self.ws) instead of os.path.exists() -> bad practice...
+
+    # reload boreholes
+    with open(os.path.join(ws, "boreholes"), "rb") as f:
+        all_boreholes = pickle.load(f)
+
+    # polygon
+    p1 = MultiPolygon([Polygon(p) for p in poly_data])
 
     #grid 
     sx, sy, sz = spacing
     oz, z1 = depth
-    
     xg = np.arange(p1.bounds[0],p1.bounds[2]+sx,sx)
     nx = len(xg)-1
     yg = np.arange(p1.bounds[1],p1.bounds[3]+sy,sy)
     ny = len(yg)-1
     zg = np.arange(oz,z1+sz,sz)
     nz = len(zg)-1
-
     dimensions = (nx, ny, nz)
     origin = (p1.bounds[0], p1.bounds[1], oz)
-    
-    # load pile from existing pile (why does he load this from the working directory??)
-    # we should change this to be the same directory as we have for the realizations
-    T1 = ArchPy.inputs.import_project("Aar_geomodel", ws=ws, 
-                                      import_bhs=False, import_grid=False, import_results=False)
+    (nreal_units, nreal_facies, nreal_prop) = realizations
 
-    list_facies = T1.get_all_facies()
-    T1.rem_all_facies_from_units()
-    T1.add_grid(dimensions, spacing, origin, polygon=p1) #, top=mnt, bot=bdrck_path)
+    # Extract bhs points
+    bhs_points = []
+    for i, ibh in enumerate(all_boreholes):
+        po = shapely.geometry.Point(ibh.x, ibh.y)
+        po.name = i
+        bhs_points.append(po) 
 
-    # import geological database 
-    db, list_bhs = load_bh_files(bhs_sel, lay_sel.reset_index(), lay_sel.reset_index(),
-                                  lbhs_bh_id_col="BH_GEOQUAT_ID", u_bh_id_col="BH_GEOQUAT_ID", fa_bh_id_col="BH_GEOQUAT_ID",
-                                  u_top_col = "LA_TOP_m",u_bot_col = "LA_BOT_m",u_ID = "LA_Lithostrati",
-                                  fa_top_col = "LA_TOP_m",fa_bot_col = "LA_BOT_m",fa_ID = "LA_USCS_IP_1",
-                                  bhx_col='BH_X_LV95', bhy_col='BH_Y_LV95', bhz_col='BH_Z_Alt_m', bh_depth_col='BH_TD_m',
-                                  dic_units_names = dic_s_names_grouped,
-                                  dic_facies_names = dic_facies, altitude = False)
-    
-    # borehole analysis and remove/add units/facies that appear in the data
-    borehole_analysis(T1, db, list_facies)
-    
-    # adding boreholes
-    all_boreholes = extract_bhs(db, list_bhs, T1, units_to_ignore=('Keine Angaben', 'Raintal-Deltaschotter', 'Hani-Deltaschotter', 'Fels'))
-    T1.add_bh(all_boreholes)
- 
-    # process_bhs
-    T1.reprocess()
-    
-    # simulations
+    #check position, only keep points inside polygon
+    l = np.array([po.name for po in bhs_points if po.intersects(p1)])
+    boreholes_sel = np.array(all_boreholes)[np.array(l)]
+
+    ### remove units that doesn't appear in the data
+    stratis_unique = []
+    for bh in boreholes_sel:
+        if bh.log_strati is not None:
+            for s in bh.get_list_stratis():
+                if s not in stratis_unique:
+                    stratis_unique.append(s)
+      
+    # fix the issue with the instance of the boreholes
+    for u in T1.get_all_units():
+        T1.get_pile_master().remove_unit(u)
+    for unit in stratis_unique:
+        T1.get_pile_master().add_unit(unit)
+
+    # create grid
+    T1.add_grid(dimensions, spacing, origin, polygon=p1, top=mnt, bot=bdrck_path)
+    T1.add_bh(boreholes_sel)
+
+    # process
+    T1.process_bhs()
     T1.compute_surf(nreal_units)
-    T1.compute_facies(nreal_facies)
-    T1.compute_prop(nreal_prop)
-        
+
     return T1.get_units_domains_realizations()
 
 
@@ -395,7 +403,6 @@ def run_model(job_id, working_dir, poly_data, spacing, depth, realizations):
     #create working dir
     if not os.path.exists(working_dir):
         os.makedirs(working_dir)
-        print(working_dir)
 
     # run model
     try:
@@ -412,7 +419,7 @@ def run_model(job_id, working_dir, poly_data, spacing, depth, realizations):
         print("Exception: " + str(e))
 
         # finished
-        job =_set_progress_status(job_id, "failed", False)
+        job =_set_progress_status(job_id, "failed", True)
 
 
 # we set the status

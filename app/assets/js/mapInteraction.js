@@ -77,8 +77,8 @@ function submitPolygon(link) {
 
     // we should add additionnal tests here before submission!
     // maybe only allow one polygon submission -> we are either way taking the first polygon in submission
-    
     var polygon = JSON.stringify(latlngs);
+    
     $.ajax({
         type: 'POST',
         url: link,
@@ -89,7 +89,10 @@ function submitPolygon(link) {
             'sy': parseInt($("#filter-y-resolution").val()),
             'sz': parseInt($("#filter-z-resolution").val()),
             'oz': parseInt($("#filter-origin").val()),
-            'z1': parseInt($("#filter-depth").val())
+            'z1': parseInt($("#filter-depth").val()),
+            'nu': parseInt($("#nreal_units").val()),
+            'nf': parseInt($("#nreal_facies").val()),
+            'np': parseInt($("#nreal_prop").val()),
         },
         success: function(data, textStatus){
             window.location.href = data; // redirects to submission page

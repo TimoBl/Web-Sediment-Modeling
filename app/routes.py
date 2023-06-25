@@ -19,7 +19,7 @@ import uuid
 
 # if we ever wanted to populate remote tree
 #from distutils.dir_util import copy_tree
-#copy_tree("app/simulations2/", "simulations/")
+#copy_tree("simulations/", "simulations/")
 
 
 # our start page
@@ -28,18 +28,6 @@ import uuid
 def index():
     return render_template('index.html', title='Home')
 
-
-@app.route('/notifications')
-@login_required
-def notifications():
-    # submissions
-    submissions = current_user.get_submissions().all()
-
-    # get update -> change this
-    # for submission in submissions:
-    #    submission.get_progress()
-
-    return [{'name': sub.name, 'time': sub.timestamp, 'status': sub.status, 'complete': sub.complete} for sub in submissions]
 
 @app.route('/submission', methods=['GET', 'POST'])
 @login_required # user needs to be logged in
@@ -136,31 +124,18 @@ def register():
 def get_model_request(request):
     coordinates = json.loads(request.form['coordinates'])
 
-    name = request.form["name"] 
-    name = name if name != "NaN" else "Test"
+    name = request.form["name"]
 
-    sx, sy, sz = request.form["sx"], request.form["sy"], request.form["sz"]
-    spacing = (
-        int(sy) if sx != "NaN" else 25,
-        int(sy) if sy != "NaN" else 25,
-        int(sz) if sz != "NaN" else 1,
-    )
+    spacing = (int(request.form["sx"]), 
+                int(request.form["sy"]), 
+                int(request.form["sz"]) )
 
-    oz, z1 = request.form["oz"], request.form["z1"]
-    depth = (
-        int(oz) if oz != "NaN" else 450,
-        int(z1) if z1 != "NaN" else 600,
-    )
+    depth = (int(request.form["oz"]), 
+            int(request.form["z1"]) )
 
-    '''
-    nreal_units, nreal_facies, nreal_prop = request.form["nreal_units"], request.form["nreal_facies"], request.form["nreal_prop"] 
-    realizations = (
-        int(nreal_units) if nreal_units != "NaN" else 1,
-        int(nreal_facies) if nreal_facies != "NaN" else 1,
-        int(nreal_prop) if nreal_prop != "NaN" else 1,
-    )'''
-
-    realizations = (1, 1, 1)
+    realizations = (int(request.form["nu"]), 
+                    int(request.form["nf"]), 
+                    int(request.form["np"]))
 
     return coordinates, name, spacing, depth, realizations
 
@@ -174,19 +149,20 @@ def model():
 
         # get data
         coordinates, name, spacing, depth, realizations = get_model_request(request)
-        #coordinates = np.load("data/polygon_coord_6.npy")
 
         # values for job
         job_id = str(uuid.uuid1()) # unique identifier for job
         working_dir = os.path.join(app.config["OUTPUT_DIR"], str(current_user.id), job_id) # saving directory
 
         # check values before
+        valid, msg = False, ""
         if len(coordinates) == 0:
             flash('Invalid inputs')
-            return url_for('index') #+ "#interactiveMapSection"
+            return url_for('submission')
+        else: 
+            valid = True
 
-        # we assume checks were passed
-        valid, msg = True, "Test"
+        # we submit the job
         if valid:
             
             # get the job into queue 
@@ -203,6 +179,7 @@ def model():
             flash('Job {} was submited'.format(submission.id))
             return url_for('submission')
         else:
+            msg = "Input error"
             flash('Job could not be submited: {}'.format(msg))
             return url_for('index')  # + "#interactiveMapSection"
 

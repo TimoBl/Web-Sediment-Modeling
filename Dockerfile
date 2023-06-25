@@ -24,6 +24,7 @@ RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
 
 # update app
 COPY app app
+COPY working_dir working_dir
 
 # tell the port number the container should expose
 EXPOSE 5000
