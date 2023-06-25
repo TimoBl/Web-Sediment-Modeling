@@ -2,7 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/ArchPy" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/app/ArchPy" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/app/geone" vcs="Git" />
   </component>
 </project>

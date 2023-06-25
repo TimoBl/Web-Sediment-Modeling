@@ -268,11 +268,11 @@ def view():
 
         ####### creating slices for z axis
 
-        nb_frames0 = volume.shape[2]
+        nb_frames0 = values.shape[2]
 
         fig0 = go.Figure(frames=[go.Frame(data=go.Surface(
-            z=(k) * np.ones(volume[:,:,k].shape),   # create surface based on k-th element of z slice, because animation or slider based
-            surfacecolor=volume[:,:,k],     #create color code surface based on k-th element of z slice, because animation or slider based
+            z=(k) * np.ones(values[:,:,k].shape),   # create surface based on k-th element of z slice, because animation or slider based
+            surfacecolor=values[:,:,k],     #create color code surface based on k-th element of z slice, because animation or slider based
             cmin=1, cmax=7,     #for surface, indicate the minimum color and maximum, like iso for volume
             colorscale=colorscales, # assign color scale with the custom one
             opacityscale=[[0, 0], [1/13, 1], [1, 1]]),  #input range to remove the 0 as colorization , redundancy with isomin, but safety measure
@@ -282,8 +282,8 @@ def view():
 
         # Add data to be displayed before animation starts
         fig0.add_trace(go.Surface(
-            z=0 * np.ones(volume[:,:,0].shape), # create surface based on first element of z slice
-            surfacecolor=volume[:,:,0], #create color code surface based on first element of z slice
+            z=0 * np.ones(values[:,:,0].shape), # create surface based on first element of z slice
+            surfacecolor=values[:,:,0], #create color code surface based on first element of z slice
             colorscale=colorscales, # assign color scale with the custom one
             cmin=1, cmax=7,    #for surface, indicate the minimum color and maximum, like iso for volume
             #colorbar=dict(thickness=20, ticklen=4)
@@ -362,11 +362,11 @@ def view():
 
         ####### creating slice for y axis
 
-        nb_frames = volume.shape[1]
+        nb_frames = values.shape[1]
 
         fig1 = go.Figure(frames=[go.Frame(data=go.Surface(
-            z=(k) * np.ones(volume[:,k,:].shape),   # create surface based on k-th element of y slice, because animation or slider based
-            surfacecolor=volume[:,k,:],         #create color code surface based on k-th element of y slice, because animation or slider based
+            z=(k) * np.ones(values[:,k,:].shape),   # create surface based on k-th element of y slice, because animation or slider based
+            surfacecolor=values[:,k,:],         #create color code surface based on k-th element of y slice, because animation or slider based
             cmin=1, cmax=7,     #for surface, indicate the minimum color and maximum, like iso for volume
             colorscale=colorscales, # assign color scale with the custom one
             opacityscale=[[0, 0], [1/13, 1], [1, 1]]),  #input range to remove the 0 as colorization , redundancy with isomin, but safety measure
@@ -376,8 +376,8 @@ def view():
 
         # Add data to be displayed before animation starts
         fig1.add_trace(go.Surface(
-            z=0 * np.ones(volume[:,0,:].shape), # create surface based on first element of y slice
-            surfacecolor=volume[:,0,:],  #create color code surface based on first element of y slice
+            z=0 * np.ones(values[:,0,:].shape), # create surface based on first element of y slice
+            surfacecolor=values[:,0,:],  #create color code surface based on first element of y slice
             colorscale=colorscales, # assign color scale with the custom one
             cmin=1, cmax=7,    #for surface, indicate the minimum color and maximum, like iso for volume
             #colorbar=dict(thickness=20, ticklen=4)
