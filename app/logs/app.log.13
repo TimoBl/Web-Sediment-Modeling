@@ -1,4 +1,4 @@
-2023-05-08 10:16:25,406 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+2023-05-08 11:36:25,614 ERROR: Exception on /view [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -10,20 +10,25 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 135, in model
-    rq_job = app.task_queue.enqueue_job(job, on_success=test, on_failure=test)
-TypeError: Queue.enqueue_job() got an unexpected keyword argument 'on_success'
-2023-05-08 10:17:09,260 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-08 10:23:56,345 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-08 10:31:08,350 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-08 10:38:06,326 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-08 10:38:42,276 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-08 10:39:30,681 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-08 10:40:28,721 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-08 10:43:00,215 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-08 10:50:16,983 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-08 10:52:12,670 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-08 10:54:18,788 ERROR: Exception on /view [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+  File "/home/timo/Documents/Prototype/app/routes.py", line 173, in view
+    realizations = zoom(realizations, (0.5, 0.5, 0.5))
+  File "/home/timo/.local/lib/python3.10/site-packages/scipy/ndimage/_interpolation.py", line 770, in zoom
+    zoom = _ni_support._normalize_sequence(zoom, input.ndim)
+  File "/home/timo/.local/lib/python3.10/site-packages/scipy/ndimage/_ni_support.py", line 67, in _normalize_sequence
+    raise RuntimeError(err)
+RuntimeError: sequence argument must have length equal to input rank
+2023-05-08 11:38:06,723 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-08 11:38:37,764 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-08 11:45:41,582 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-08 11:46:49,567 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-08 11:53:00,834 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-08 11:54:38,774 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-08 11:56:13,390 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-08 11:58:03,670 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-08 11:58:10,872 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-08 11:59:14,874 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-08 12:11:42,555 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-08 12:11:47,928 ERROR: Exception on /view [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -35,17 +40,68 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 162, in view
+  File "/home/timo/Documents/Prototype/app/routes.py", line 191, in view
+    return render_template('view2.html', plot=html, submission=submission)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/templating.py", line 146, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/templating.py", line 62, in get_source
+    return self._get_source_fast(environment, template)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/templating.py", line 98, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: view2.html
+2023-05-08 12:11:57,327 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-08 12:12:07,752 ERROR: Exception on /download [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/home/timo/Documents/Prototype/app/routes.py", line 216, in download
+    return send_file(path, as_attachment=True)
+NameError: name 'send_file' is not defined
+2023-05-08 12:12:29,994 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-08 12:12:58,586 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-08 12:16:56,897 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-08 12:18:31,729 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-08 12:18:59,667 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-08 12:20:00,459 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-08 12:20:44,839 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-11 08:51:00,659 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-11 08:54:06,653 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-11 09:01:45,032 ERROR: Exception on /view [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/home/timo/Documents/Prototype/app/routes.py", line 168, in view
     realizations = np.load(out_dir)
   File "/home/timo/.local/lib/python3.10/site-packages/numpy/lib/npyio.py", line 405, in load
     fid = stack.enter_context(open(os_fspath(file), "rb"))
-FileNotFoundError: [Errno 2] No such file or directory: 'output/2/d66b2ae3-1e60-49a5-b5ae-3792018704e6/realizations.npy'
-2023-05-08 10:55:18,517 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-08 11:13:44,779 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-08 11:15:53,461 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-08 11:16:11,482 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-08 11:16:30,358 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-08 11:16:31,838 ERROR: Exception on /view [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+FileNotFoundError: [Errno 2] No such file or directory: 'output/1/6619a892-4b5d-4b7f-9a5b-f1abc66b96fe/realizations.npy'
+2023-05-11 09:13:50,900 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-11 09:18:57,850 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+2023-05-11 09:19:12,730 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -57,50 +113,7 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 187, in view
-    print(x)
-NameError: name 'x' is not defined
-2023-05-08 11:16:42,893 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-08 11:19:38,042 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-08 11:20:23,269 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-08 11:22:01,605 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-08 11:22:31,256 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-08 11:23:23,211 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-08 11:23:48,159 ERROR: Exception on /view [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
-Traceback (most recent call last):
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 195, in view
-    y=realizations[1],
-IndexError: index 1 is out of bounds for axis 0 with size 1
-2023-05-08 11:24:00,854 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-08 11:24:42,504 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-08 11:25:54,465 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-08 11:26:33,317 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-08 11:26:55,678 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-08 11:30:11,245 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-08 11:31:31,014 ERROR: Exception on /view [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
-Traceback (most recent call last):
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 177, in view
-    x=X.flatten()[i],
-NameError: name 'i' is not defined
-2023-05-08 11:31:49,559 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
-2023-05-08 11:36:13,137 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]
+  File "/home/timo/Documents/Prototype/app/routes.py", line 129, in model
+    console.log(data)
+NameError: name 'console' is not defined
+2023-05-11 09:21:30,327 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:42]

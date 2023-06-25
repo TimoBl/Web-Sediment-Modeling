@@ -1,4 +1,4 @@
-2023-05-25 15:18:12,803 ERROR: Exception on /submission [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+2023-06-12 11:36:13,006 ERROR: Exception on /view [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -10,108 +10,91 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 36, in submission
-    return render_template('submission.html', title='Home', submissions=submissions)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/templating.py", line 147, in render_template
-    return _render(app, template, context)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/templating.py", line 130, in _render
-    rv = template.render(context)
-  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 1301, in render
-    self.environment.handle_exception()
-  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 936, in handle_exception
-    raise rewrite_traceback_stack(source=source)
-  File "/home/timo/Documents/Prototype/app/templates/submission.html", line 1, in top-level template code
-    {% extends "base.html" %}
-  File "/home/timo/Documents/Prototype/app/templates/base.html", line 126, in top-level template code
-    {% block content %}
-  File "/home/timo/Documents/Prototype/app/templates/submission.html", line 24, in block 'content'
-    <td> {{ submission }} </td>
-TypeError: __str__ returned non-string (type Submission)
-2023-05-25 15:18:36,678 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
-2023-05-25 15:22:31,932 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
-2023-05-25 15:22:34,659 ERROR: Exception on /submission [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
-Traceback (most recent call last):
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 36, in submission
-    return render_template('submission.html', title='Home', submissions=submissions)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/templating.py", line 147, in render_template
-    return _render(app, template, context)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/templating.py", line 130, in _render
-    rv = template.render(context)
-  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 1301, in render
-    self.environment.handle_exception()
-  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 936, in handle_exception
-    raise rewrite_traceback_stack(source=source)
-  File "/home/timo/Documents/Prototype/app/templates/submission.html", line 1, in top-level template code
-    {% extends "base.html" %}
-  File "/home/timo/Documents/Prototype/app/templates/base.html", line 39, in top-level template code
-    {% block scripts %}
-  File "/home/timo/Documents/Prototype/app/templates/base.html", line 40, in block 'scripts'
-    {{ super() }}
-  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/utils.py", line 83, in from_obj
-    if hasattr(obj, "jinja_pass_arg"):
-jinja2.exceptions.UndefinedError: there is no parent block called 'scripts'.
-2023-05-25 15:23:58,539 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
-2023-05-25 15:26:19,901 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
-2023-05-25 15:26:39,914 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
-2023-05-25 15:37:33,978 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
-2023-05-25 15:38:10,832 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
-2023-05-25 15:38:24,441 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
-2023-05-25 15:50:27,615 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
-2023-05-25 15:52:34,186 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
-2023-05-25 15:55:27,979 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
-2023-05-25 15:58:01,016 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
-2023-05-25 15:59:25,293 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
-2023-05-25 16:01:12,838 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
-2023-05-25 16:02:42,577 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
-2023-05-25 16:05:28,162 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:48]
-2023-05-29 14:33:26,527 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
-2023-06-01 10:16:01,123 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
-2023-06-01 10:16:15,106 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:47]
-2023-06-02 10:04:58,688 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:46]
-2023-06-03 10:34:41,446 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:46]
-2023-06-09 10:41:58,801 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:46]
-2023-06-09 10:42:18,357 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:46]
-2023-06-09 10:44:12,265 ERROR: Exception on /view [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
-Traceback (most recent call last):
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 196, in view
-    realizations = np.load(out_dir)
+  File "/home/timo/Documents/Prototype/app/routes.py", line 206, in view
+    realization_id = min(realization_id, d-1)
   File "/home/timo/.local/lib/python3.10/site-packages/numpy/lib/npyio.py", line 405, in load
     fid = stack.enter_context(open(os_fspath(file), "rb"))
-FileNotFoundError: [Errno 2] No such file or directory: 'output/2/ce65f8c3-ce5f-4382-9dba-22350a2377e8/realizations.npy'
-2023-06-09 10:46:55,382 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:46]
-2023-06-09 10:47:04,949 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+FileNotFoundError: [Errno 2] No such file or directory: 'output/2/2ba3904e-0904-11ee-9840-a45e60d3a055/realizations.npy'
+2023-06-12 11:51:42,137 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:46]
+2023-06-12 19:52:53,991 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:46]
+2023-06-25 09:13:52,070 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
+2023-06-25 09:14:08,647 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
+2023-06-25 09:14:59,104 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
+2023-06-25 09:15:20,841 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
+2023-06-25 09:17:56,275 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
+2023-06-25 13:25:51,054 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
+2023-06-25 13:26:57,906 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
+2023-06-25 13:28:46,692 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
+2023-06-25 13:30:30,573 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
+2023-06-25 13:56:34,073 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
+2023-06-25 13:59:25,041 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
+2023-06-25 14:04:24,391 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
+2023-06-25 14:07:56,167 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
+2023-06-25 14:16:22,827 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
+2023-06-25 14:18:08,345 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
+2023-06-25 14:28:44,270 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
+2023-06-25 14:31:59,535 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
+2023-06-25 14:39:11,199 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
+2023-06-25 14:41:23,693 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
+2023-06-25 14:51:40,848 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
+2023-06-25 14:55:01,144 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
+2023-06-25 15:28:14,070 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]
+2023-06-25 15:28:26,315 ERROR: Exception on /register [GET] [in C:\Users\kcost\AppData\Local\Programs\Python\Python37\lib\site-packages\flask\app.py:1745]
 Traceback (most recent call last):
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
+  File "C:\Users\kcost\AppData\Local\Programs\Python\Python37\lib\site-packages\flask\app.py", line 2529, in wsgi_app
     response = self.full_dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
+  File "C:\Users\kcost\AppData\Local\Programs\Python\Python37\lib\site-packages\flask\app.py", line 1825, in full_dispatch_request
     rv = self.handle_user_exception(e)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
+  File "C:\Users\kcost\AppData\Local\Programs\Python\Python37\lib\site-packages\flask\app.py", line 1823, in full_dispatch_request
     rv = self.dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
+  File "C:\Users\kcost\AppData\Local\Programs\Python\Python37\lib\site-packages\flask\app.py", line 1799, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 132, in model
-    coordinates = np.array([coordinates_to_meters(cor["lat"], cor["lng"]) for cor in coordinates[0]])
-IndexError: list index out of range
-2023-06-12 11:31:46,921 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:46]
+  File "C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\routes.py", line 134, in register
+    return render_template('register.html', title='Register', form=form)
+  File "C:\Users\kcost\AppData\Local\Programs\Python\Python37\lib\site-packages\flask\templating.py", line 146, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+  File "C:\Users\kcost\AppData\Local\Programs\Python\Python37\lib\site-packages\jinja2\environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "C:\Users\kcost\AppData\Local\Programs\Python\Python37\lib\site-packages\jinja2\environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+  File "C:\Users\kcost\AppData\Local\Programs\Python\Python37\lib\site-packages\jinja2\environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "C:\Users\kcost\AppData\Local\Programs\Python\Python37\lib\site-packages\jinja2\loaders.py", line 138, in load
+    code = environment.compile(source, name, filename)
+  File "C:\Users\kcost\AppData\Local\Programs\Python\Python37\lib\site-packages\jinja2\environment.py", line 768, in compile
+    self.handle_exception(source=source_hint)
+  File "C:\Users\kcost\AppData\Local\Programs\Python\Python37\lib\site-packages\jinja2\environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\templates\register.html", line 55, in template
+    {% endblock %}
+jinja2.exceptions.TemplateSyntaxError: Encountered unknown tag 'endblock'. You probably made a nesting mistake. Jinja is expecting this tag, but currently looking for 'endfor' or 'else'. The innermost block that needs to be closed is 'for'.
+2023-06-25 15:28:42,405 ERROR: Exception on /register [GET] [in C:\Users\kcost\AppData\Local\Programs\Python\Python37\lib\site-packages\flask\app.py:1745]
+Traceback (most recent call last):
+  File "C:\Users\kcost\AppData\Local\Programs\Python\Python37\lib\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\kcost\AppData\Local\Programs\Python\Python37\lib\site-packages\flask\app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\kcost\AppData\Local\Programs\Python\Python37\lib\site-packages\flask\app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\kcost\AppData\Local\Programs\Python\Python37\lib\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\routes.py", line 134, in register
+    return render_template('register.html', title='Register', form=form)
+  File "C:\Users\kcost\AppData\Local\Programs\Python\Python37\lib\site-packages\flask\templating.py", line 146, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+  File "C:\Users\kcost\AppData\Local\Programs\Python\Python37\lib\site-packages\jinja2\environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "C:\Users\kcost\AppData\Local\Programs\Python\Python37\lib\site-packages\jinja2\environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+  File "C:\Users\kcost\AppData\Local\Programs\Python\Python37\lib\site-packages\jinja2\environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "C:\Users\kcost\AppData\Local\Programs\Python\Python37\lib\site-packages\jinja2\loaders.py", line 138, in load
+    code = environment.compile(source, name, filename)
+  File "C:\Users\kcost\AppData\Local\Programs\Python\Python37\lib\site-packages\jinja2\environment.py", line 768, in compile
+    self.handle_exception(source=source_hint)
+  File "C:\Users\kcost\AppData\Local\Programs\Python\Python37\lib\site-packages\jinja2\environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\templates\register.html", line 55, in template
+    {% endblock %}
+jinja2.exceptions.TemplateSyntaxError: Encountered unknown tag 'endblock'. You probably made a nesting mistake. Jinja is expecting this tag, but currently looking for 'endfor' or 'else'. The innermost block that needs to be closed is 'for'.
+2023-06-25 15:29:16,757 INFO: Application [in C:\Users\kcost\Documents\Master\Cours\R_DWorkShop\ArchPy\app\__init__.py:46]

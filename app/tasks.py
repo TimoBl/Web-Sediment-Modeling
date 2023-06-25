@@ -1,7 +1,7 @@
 # this file will handle async computations
 from rq import get_current_job
 import os
-import ArchPy 
+import ArchPy
 import numpy as np
 import geone
 import geone.covModel as gcm

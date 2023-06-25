@@ -1,28 +1,4 @@
-2023-04-29 15:10:43,782 ERROR: Exception on /view [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
-Traceback (most recent call last):
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1826, in full_dispatch_request
-    return self.finalize_request(rv)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1845, in finalize_request
-    response = self.make_response(rv)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2173, in make_response
-    raise TypeError(
-TypeError: The view function did not return a valid response. The return type must be a string, dict, list, tuple with headers or status, Response instance, or WSGI callable, but it was a ndarray.
-2023-04-29 15:10:57,090 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-29 15:14:53,795 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-29 17:45:15,729 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-29 18:19:53,035 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-29 18:29:00,293 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-29 19:00:16,813 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:39]
-2023-04-29 19:08:13,237 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:39]
-2023-04-29 19:11:27,803 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:39]
-2023-04-29 19:12:17,843 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:39]
-2023-05-04 10:55:34,486 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:39]
-2023-05-04 10:56:19,990 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:39]
-2023-05-04 10:56:23,474 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:39]
-2023-05-04 10:58:30,398 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:39]
-2023-05-04 10:58:33,814 ERROR: Exception on /index2 [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+2023-05-04 14:41:11,707 ERROR: Exception on /view [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -32,8 +8,32 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 32, in index2
-    return render_template('../../BoreholeVisualisation/index.html', title='Home')
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/home/timo/Documents/Prototype/app/routes.py", line 170, in view
+    return render_template(fig.write_html("dataVisualization.html"))
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/templating.py", line 146, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 1084, in get_or_select_template
+    return self.select_template(template_name_or_list, parent, globals)
+  File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 1051, in select_template
+    raise TemplatesNotFound(
+jinja2.exceptions.TemplatesNotFound: Tried to select from an empty list of templates.
+2023-05-04 14:41:32,994 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 14:41:37,218 ERROR: Exception on /view [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/home/timo/Documents/Prototype/app/routes.py", line 170, in view
+    return render_template("dataVisualization.html")
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/templating.py", line 146, in render_template
     template = app.jinja_env.get_or_select_template(template_name_or_list)
   File "/home/timo/.local/lib/python3.10/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
@@ -48,46 +48,63 @@ Traceback (most recent call last):
     return self._get_source_fast(environment, template)
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/templating.py", line 98, in _get_source_fast
     raise TemplateNotFound(template)
-jinja2.exceptions.TemplateNotFound: ../../BoreholeVisualisation/index.html
-2023-05-04 11:00:32,239 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:39]
-2023-05-04 11:06:55,297 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:39]
-2023-05-04 11:14:08,420 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
-2023-05-04 11:15:05,186 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
-2023-05-04 11:18:26,001 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
-2023-05-04 11:18:34,193 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
-2023-05-04 11:22:43,080 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
-2023-05-04 11:31:36,289 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
-2023-05-04 11:32:21,915 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
-2023-05-04 11:37:37,908 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
-2023-05-04 11:43:56,599 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
-2023-05-04 11:45:28,054 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
-2023-05-04 11:52:11,402 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
-2023-05-04 11:56:04,891 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
-2023-05-04 11:58:15,388 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
-2023-05-04 11:58:40,038 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
-2023-05-04 12:07:29,049 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
-2023-05-04 12:08:08,417 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
-2023-05-04 12:09:33,592 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
-2023-05-04 12:14:53,472 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
-2023-05-04 12:23:06,516 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
-2023-05-04 12:24:03,041 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
-2023-05-04 12:29:51,399 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
-2023-05-04 14:15:53,214 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
-2023-05-04 14:17:19,367 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
-2023-05-04 14:18:26,121 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
-2023-05-04 14:18:28,495 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
-2023-05-04 14:26:35,642 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
-2023-05-04 14:39:02,161 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
-2023-05-04 14:39:33,852 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
-2023-05-04 14:39:40,977 ERROR: Exception on /view [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+jinja2.exceptions.TemplateNotFound: dataVisualization.html
+2023-05-04 14:42:10,232 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 14:43:37,097 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 14:52:21,023 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 14:56:14,268 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 14:56:18,910 ERROR: Exception on /view [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1826, in full_dispatch_request
-    return self.finalize_request(rv)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1845, in finalize_request
-    response = self.make_response(rv)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2137, in make_response
-    raise TypeError(
-TypeError: The view function for 'view' did not return a valid response. The function either returned None or ended without a return statement.
-2023-05-04 14:41:06,846 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/home/timo/Documents/Prototype/app/routes.py", line 170, in view
+    return plotly.io.to_html(fig)
+NameError: name 'plotly' is not defined
+2023-05-04 14:56:35,253 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 14:57:21,504 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:00:22,924 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:01:06,609 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:01:42,932 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:02:16,014 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:02:36,806 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:05:18,089 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:06:40,316 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:07:15,781 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:08:07,702 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:16:31,081 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:17:25,963 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:18:54,016 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:20:41,305 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:22:25,905 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:24:21,316 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:24:25,337 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:28:18,541 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:28:41,369 ERROR: Exception on /view [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/home/timo/Documents/Prototype/app/routes.py", line 173, in view
+    graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+NameError: name 'json' is not defined
+2023-05-04 15:28:58,030 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:31:57,470 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:32:45,192 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:32:53,387 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:33:18,500 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]
+2023-05-04 15:34:01,314 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:41]

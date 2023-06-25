@@ -1,4 +1,13 @@
-2023-04-24 16:53:32,741 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+2023-04-29 12:38:16,697 ERROR: Exception on /index [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 748, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: submission.complete
+
+The above exception was the direct cause of the following exception:
+
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -8,21 +17,46 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 118, in model
-    rq_job = app.task_queue.enqueue(job)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/queue.py", line 877, in enqueue
-    return self.enqueue_call(
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/queue.py", line 649, in enqueue_call
-    job = self.create_job(
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/queue.py", line 519, in create_job
-    job = self.job_class.create(
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 232, in create
-    raise TypeError('Expected a callable or a string, but got: {0}'.format(func))
-TypeError: Expected a callable or a string, but got: <Job a8e2c0b4-6a2e-4699-aebf-a6d64e0dce05: tasks.run_geo_model('Demo', (50, 50, 50), (1.0, 1.0, 0.1))>
-2023-04-24 16:54:07,994 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 16:54:13,272 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+  File "/home/timo/Documents/Prototype/app/routes.py", line 20, in index
+    submissions = current_user.get_submissions().all()
+  File "/home/timo/Documents/Prototype/app/models.py", line 27, in get_submissions
+    own = Submission.query.filter_by(user_id=self.id).all() # we search for submissions with our id
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/query.py", line 2697, in all
+    return self._iter().all()  # type: ignore
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/query.py", line 2855, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2229, in execute
+    return self._execute_internal(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2124, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/orm/context.py", line 253, in orm_execute_statement
+    result = conn.execute(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1414, in execute
+    return meth(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 486, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1638, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1842, in _execute_context
+    return self._exec_single_context(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1983, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2326, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 748, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: submission.complete
+[SQL: SELECT submission.id AS submission_id, submission.name AS submission_name, submission.timestamp AS submission_timestamp, submission.user_id AS submission_user_id, submission.status AS submission_status, submission.complete AS submission_complete 
+FROM submission 
+WHERE submission.user_id = ?]
+[parameters: (2,)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2023-04-29 12:38:41,890 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-29 12:38:47,932 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-29 12:38:51,100 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+2023-04-29 12:38:53,279 ERROR: Exception on /index [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -32,32 +66,12 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 118, in model
-    rq_job = app.task_queue.enqueue(job)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/queue.py", line 877, in enqueue
-    return self.enqueue_call(
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/queue.py", line 649, in enqueue_call
-    job = self.create_job(
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/queue.py", line 519, in create_job
-    job = self.job_class.create(
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/rq/job.py", line 232, in create
-    raise TypeError('Expected a callable or a string, but got: {0}'.format(func))
-TypeError: Expected a callable or a string, but got: <Job fee4e2c5-8d39-4c5d-a63c-c7390f94feb6: tasks.run_geo_model('Demo', (50, 50, 50), (1.0, 1.0, 0.1))>
-2023-04-24 16:54:48,910 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 20:03:02,244 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 20:06:50,376 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 20:13:13,552 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 20:28:32,714 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 20:30:09,903 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 20:32:35,451 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 20:37:39,290 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-24 20:38:09,151 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-29 11:57:34,614 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-29 12:00:33,048 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-29 12:01:05,425 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-29 12:01:20,768 ERROR: Exception on /model [POST] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+  File "/home/timo/Documents/Prototype/app/routes.py", line 20, in index
+    submissions = current_user.get_submissions().all()
+  File "/home/timo/Documents/Prototype/app/models.py", line 28, in get_submissions
+    return own.order_by(Submission.timestamp.desc()) # and return the newest first
+AttributeError: 'list' object has no attribute 'order_by'
+2023-04-29 12:38:54,265 ERROR: Exception on /index [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
 Traceback (most recent call last):
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
     response = self.full_dispatch_request()
@@ -67,14 +81,39 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/home/timo/Documents/Prototype/app/routes.py", line 125, in model
-    rq_job = app.task_queue.enqueue_job(job, on_success=Callback(success_job), on_failure=Callback(failure_job))
-NameError: name 'Callback' is not defined
-2023-04-29 12:30:50,314 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-29 12:32:02,091 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-29 12:32:16,833 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-29 12:33:24,953 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-29 12:37:58,130 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
-2023-04-29 12:38:07,870 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
+  File "/home/timo/Documents/Prototype/app/routes.py", line 20, in index
+    submissions = current_user.get_submissions().all()
+  File "/home/timo/Documents/Prototype/app/models.py", line 28, in get_submissions
+    return own.order_by(Submission.timestamp.desc()) # and return the newest first
+AttributeError: 'list' object has no attribute 'order_by'
+2023-04-29 12:38:55,296 ERROR: Exception on /index [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/timo/Documents/Prototype/app/routes.py", line 20, in index
+    submissions = current_user.get_submissions().all()
+  File "/home/timo/Documents/Prototype/app/models.py", line 28, in get_submissions
+    return own.order_by(Submission.timestamp.desc()) # and return the newest first
+AttributeError: 'list' object has no attribute 'order_by'
+2023-04-29 12:38:55,434 ERROR: Exception on /index [GET] [in /home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py:1744]
+Traceback (most recent call last):
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/timo/miniconda3/envs/archpy_env/lib/python3.10/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/timo/Documents/Prototype/app/routes.py", line 20, in index
+    submissions = current_user.get_submissions().all()
+  File "/home/timo/Documents/Prototype/app/models.py", line 28, in get_submissions
+    return own.order_by(Submission.timestamp.desc()) # and return the newest first
+AttributeError: 'list' object has no attribute 'order_by'
+2023-04-29 12:39:24,645 INFO: Application [in /home/timo/Documents/Prototype/app/__init__.py:37]
