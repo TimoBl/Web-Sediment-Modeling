@@ -2,7 +2,7 @@
 
 This is a proof of feasibility application for a web-accessible geological modeling tool for the [CHYN](https://www.unine.ch/chyn).
 
-![Screenshot](app/assets/img/screenshot.png)
+![Screenshot](app/assets/img/screenshot.jpg)
 
 
 # Installation
