@@ -67,7 +67,7 @@ def generate_visualization(volume):
     fig = go.Figure(data=go.Isosurface(
             x=Z,
             y=Y,
-            z=-X,
+            z=X,
             value=values.flatten(),
             isomin=1,  # indicate range min of "color scale" so 0 value not taken in account
             isomax=6, # indicate range max of "color scale"

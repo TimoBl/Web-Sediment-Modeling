@@ -9,18 +9,14 @@ COPY req.txt req.txt
 COPY run.py run.py
 RUN pip install -r req.txt
 
-# Geone
-COPY geone geone
-RUN cd geone && pip install .
+# Geone, downloads the latest version (be careful -> no versioning)
+RUN git clone https://github.com/randlab/geone.git && cd geone && pip install .
 
-# Archyp
-COPY ArchPy ArchPy
-RUN cd ArchPy && pip install .
+# Archyp, downloads the latest version (be careful -> no versioning)
+RUN git clone https://github.com/randlab/ArchPy.git && cd ArchPy && pip install .
 
 # hotfix for issues
 RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
-# RUN pip uninstall -y click
-# RUN pip install click==7.1.2
 
 # update app
 COPY app app

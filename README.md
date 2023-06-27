@@ -1,74 +1,53 @@
-# ArchPy
+# Web Sediment Modeling Demo
 
-This is the folder for our R&D project
+This is a proof of feasibility application for a web-accessible geological modeling tool for the [CHYN](https://www.unine.ch/chyn).
 
-# App Installation
+![Screenshot](app/assets/screenshot.png)
 
-We first have to install the dependencies with the command
+
+# Installation
+
 ```
-conda env create -f env_linux.yml
-```
-Then we also have to install Geone 
-```
-git clone https://github.com/randlab/geone.git
-cd geone
-pip install .
-```
-And ArchPy
-```
-git clone https://github.com/randlab/ArchPy.git
-cd ArchPy
-pip install .
+git clone https://github.com/TimoBl/Web-Sediment-Modeling.git
+cd Web-Sediment-Modeling
 ```
 
-# Runining the project
 
-To run the application, we simply need to go in the app directory, activate the environment and then run.
+# Local 
+
+If you want to run the flask application locally (without computing) create an environement.
 ```
-cd app
+conda env create -n archpy_env -f req.txt
 conda activate archpy_env
+```
+Then install [geone](https://github.com/randlab/geone.git) and [ArchPy](https://github.com/randlab/ArchPy.git). The application can than be run with:
+```
 export FLASK_APP=main.py
 flask run
 ```
 
-```
-cd app
-conda activate archpy_env
-rq worker submission-tasks
-```
-
-```
-redis-server
-```
 
 # Docker
 
+The preferred way to run it is to install and build the app with Docker which takes care of all the dependencies
 ```
-docker build --platform linux/amd64 -t timobl/archpy .
-docker run -v simulations:/usr/src/app/simulations -p 8888:5000 timobl/archpy
-```
-You can view the application at [localhost:8888](http://localhost:8888).
-
-
-# Docker Compose
-
-Building the compose
-```
-docker-compose build
-```
-
-Running the containers
-```
+docker-compose build 
 docker-compose up -d
 ```
-
-Stopping the contains 
+Stopping the containers 
 ```
 docker-compose down
 ```
 
+
 # Ressources
+
+## Useful links
 
 * https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iii-web-forms
 * https://testdriven.io/blog/asynchronous-tasks-with-flask-and-redis-queue/
 * https://blog.abbasmj.com/implementing-redis-task-queues-and-deploying-on-docker-compose
+
+## Credits
+
+* Frontend: [Kimmy Costa](https://github.com/kimmyCosta)

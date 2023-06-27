@@ -31,18 +31,3 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Please use a different email address')
-
-'''
-# for simulation submission 
-class JobSubmissionForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired()], default="Demo")
-
-    width =  IntegerField("Width", validators=[DataRequired()], default=50)
-    height =  IntegerField("Height", validators=[DataRequired()], default=50)
-    depth =  IntegerField("Depth", validators=[DataRequired()], default=50)
-
-    sw =  FloatField("Spacing x", validators=[DataRequired()], default=25)
-    sh =  FloatField("Spacing y", validators=[DataRequired()], default=25)
-    sd =  FloatField("Spacing z", validators=[DataRequired()], default=1)
-
-    submit = SubmitField('run')'''
