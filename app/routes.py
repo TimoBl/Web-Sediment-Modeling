@@ -17,11 +17,6 @@ from app.tasks import run_model, generate_visualization
 import uuid
 
 
-# if we ever wanted to populate remote tree
-#from distutils.dir_util import copy_tree
-#copy_tree("simulations/", "simulations/")
-
-
 # our start page
 @app.route('/')
 @app.route('/index')

@@ -9,14 +9,14 @@ from redis import Redis
 import rq
 from flask_moment import Moment
 import os
-from app.tasks import preprocess_data
-
+from app.tasks import preprocess_data 
 
 # app
 app = Flask(__name__,
             static_folder='assets', # for our static assets
             template_folder='templates') # for our html templates
 app.config.from_object(Config)
+
 
 # database
 db = SQLAlchemy(app)
@@ -51,6 +51,12 @@ if not app.debug:
 # preprocess_data()
 
 from app import models, errors, routes
+from app.models import User, Submission
+
+with app.app_context():
+    db.create_all()
+    db.session.commit()
+
 
 # run app
 if __name__ == "__main__":
